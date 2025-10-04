@@ -103,6 +103,16 @@ class HandlerMethod
         return $this->handler->{$this->name}(...$resolved);
     }
 
+    public function getHandler(): object
+    {
+        return $this->handler;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
     /**
      * @param list<mixed> $arguments
      * @return mixed[]
