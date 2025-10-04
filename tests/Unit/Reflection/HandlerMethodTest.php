@@ -8,6 +8,7 @@ use Pathway\Reflection\HandlerMethod;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
+use ReflectionClass;
 use LogicException;
 
 final class HandlerMethodTest extends TestCase
@@ -22,7 +23,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'add');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'add');
 
         $result = $method(['a' => 1, 'b' => 2]);
 
@@ -39,7 +42,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'increment');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'increment');
 
         $result = $method([]);
 
@@ -56,7 +61,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'add');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'add');
 
         $result = $method(['a' => 3]);
 
@@ -73,7 +80,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'add');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'add');
 
         $this->assertSame(3, $method(['a' => 1, 'b' => 2]));
         $this->assertSame(7, $method(['a' => 3, 'b' => 4]));
@@ -90,7 +99,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'increment');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'increment');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('missing-argument');
@@ -107,10 +118,12 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
+        $reflectionClass = new ReflectionClass($handler);
+
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('~must be public and non-static~');
 
-        new HandlerMethod($handler, 'bad');
+        new HandlerMethod($reflectionClass, $handler, 'bad');
     }
 
     #[Test]
@@ -122,10 +135,12 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
+        $reflectionClass = new ReflectionClass($handler);
+
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('~must be public and non-static~');
 
-        new HandlerMethod($handler, 'secret');
+        new HandlerMethod($reflectionClass, $handler, 'secret');
     }
 
     #[Test]
@@ -137,10 +152,12 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
+        $reflectionClass = new ReflectionClass($handler);
+
         $this->expectException(LogicException::class);
         $this->expectExceptionMessageMatches('~must be public and non-static~');
 
-        new HandlerMethod($handler, 'secret');
+        new HandlerMethod($reflectionClass, $handler, 'secret');
     }
 
     #[Test]
@@ -152,10 +169,12 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
+        $reflectionClass = new ReflectionClass($handler);
+
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('method does not exist.');
 
-        new HandlerMethod($handler, 'fakeMethod');
+        new HandlerMethod($reflectionClass, $handler, 'fakeMethod');
     }
 
     #[Test]
@@ -171,7 +190,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
         $this->assertSame(['one', 'two'], $method(['one', 'two']));
     }
 
@@ -184,7 +205,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('missing-argument');
@@ -201,7 +224,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('too-many-args');
@@ -222,7 +247,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
         $this->assertSame(['one', 'default'], $method(['one']));
     }
 
@@ -239,7 +266,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
         $this->assertSame(['one', 'two', 'three'], $method(['one', 'two', 'three']));
     }
 
@@ -256,7 +285,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
         $this->assertSame(['one'], $method(['one']));
     }
 
@@ -273,7 +304,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
         $this->assertSame(['one', 'two', 'three', 'four'], $method(['one', 'two', 'three', 'four']));
         $this->assertSame(['one', 'default'], $method(['one']));
@@ -289,7 +322,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
         $this->assertSame('ok', $method([]));
     }
 
@@ -306,7 +341,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'handle');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
         $this->assertSame([], $method([]));
         $this->assertSame(['a', 'b'], $method(['a', 'b']));
@@ -322,7 +359,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'run');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'run');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('invalid-arguments');
@@ -340,7 +379,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'mix');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'mix');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('invalid-arguments');
@@ -358,7 +399,9 @@ final class HandlerMethodTest extends TestCase
             }
         };
 
-        $method = new HandlerMethod($handler, 'add');
+        $reflectionClass = new ReflectionClass($handler);
+
+        $method = new HandlerMethod($reflectionClass, $handler, 'add');
 
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('too-many-args');

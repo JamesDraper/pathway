@@ -67,13 +67,12 @@ class HandlerMethod
     }
 
     /**
+     * @param ReflectionClass<THandler> $reflectionClass
      * @param THandler $handler
      */
-    public function __construct(object $handler, string $methodName)
+    public function __construct(ReflectionClass $reflectionClass, object $handler, string $methodName)
     {
-        $class = new ReflectionClass($handler);
-
-        $method = $this->getMethod($class, $methodName);
+        $method = $this->getMethod($reflectionClass, $methodName);
         $this->assertMethodIsPublicAndNonStatic($method);
 
         $this->handler = $handler;
