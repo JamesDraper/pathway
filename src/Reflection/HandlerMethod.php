@@ -64,11 +64,11 @@ class HandlerMethod
      */
     public function __invoke(array $arguments): mixed
     {
-        $arguments = array_is_list($arguments)
+        $resolved = array_is_list($arguments)
             ? $this->resolvePositionalArguments($arguments)
             : $this->resolveNamedArguments($arguments); // @phpstan-ignore argument.type
 
-        return $this->handler->{$this->name}(...$arguments);
+        return $this->handler->{$this->name}(...$resolved);
     }
 
     /**
