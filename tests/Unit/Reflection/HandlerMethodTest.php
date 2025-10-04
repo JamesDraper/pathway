@@ -84,7 +84,7 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenArgumentMissingAndNoDefault(): void
     {
         $handler = new class {
-            public function increment(int $num): string
+            public function increment(int $num): int
             {
                 return $num + 1;
             }
@@ -128,7 +128,7 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenMethodIsPrivate(): void
     {
         $handler = new class {
-            private function secret(): void {}
+            private function secret(): void {} // @phpstan-ignore method.unused
         };
 
         $this->expectException(LogicException::class);
@@ -154,6 +154,9 @@ final class HandlerMethodTest extends TestCase
     public function itCanBeInvokedWithBasicPositionalArguments(): void
     {
         $handler = new class {
+            /**
+             * @return array{string, string}
+             */
             public function handle(string $a, string $b): array
             {
                 return [$a, $b];
@@ -198,6 +201,9 @@ final class HandlerMethodTest extends TestCase
     public function itUsesDefaultWhenPositionalArgumentMissing(): void
     {
         $handler = new class {
+            /**
+             * @return array{string, string}
+             */
             public function handle(string $a, string $b = 'default'): array
             {
                 return [$a, $b];
@@ -212,6 +218,9 @@ final class HandlerMethodTest extends TestCase
     public function itCanBeInvokedWithVariadicPositionalArguments(): void
     {
         $handler = new class {
+            /**
+             * @return string[]
+             */
             public function handle(string $a, string ...$rest): array
             {
                 return array_merge([$a], $rest);
@@ -226,6 +235,9 @@ final class HandlerMethodTest extends TestCase
     public function itCanBeInvokedWithEmptyVariadicPositionalArguments(): void
     {
         $handler = new class {
+            /**
+             * @return string[]
+             */
             public function handle(string $a, string ...$rest): array
             {
                 return array_merge([$a], $rest);
@@ -240,6 +252,9 @@ final class HandlerMethodTest extends TestCase
     public function itCanBeInvokedWithDefaultAndVariadicCombination(): void
     {
         $handler = new class {
+            /**
+             * @return string[]
+             */
             public function handle(string $a, string $b = 'default', string ...$rest): array
             {
                 return array_merge([$a, $b], $rest);
@@ -270,6 +285,9 @@ final class HandlerMethodTest extends TestCase
     public function itCanBeInvokedWithOnlyVariadicParameters(): void
     {
         $handler = new class {
+            /**
+             * @return string[]
+             */
             public function handle(string ...$args): array
             {
                 return $args;

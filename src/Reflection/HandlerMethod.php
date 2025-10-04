@@ -16,20 +16,36 @@ use function array_map;
 
 /**
  * @internal
+ * @template THandler of object
+ * @phpstan-type Parameter array{
+ *     name: string,
+ *     is_variadic: bool,
+ *     has_default: bool,
+ *     default: mixed,
+ * }
  */
 class HandlerMethod
 {
-    private const int PARAM_NAME = 0;
-    private const int PARAM_IS_VARIADIC = 1;
-    private const int PARAM_HAS_DEFAULT = 2;
-    private const int PARAM_DEFAULT = 3;
+    private const string PARAM_NAME = 'name';
+    private const string PARAM_IS_VARIADIC = 'is_variadic';
+    private const string PARAM_HAS_DEFAULT = 'has_default';
+    private const string PARAM_DEFAULT = 'default';
 
+    /**
+     * @var THandler
+     */
     private readonly object $handler;
 
     private readonly string $name;
 
+    /**
+     * @var Parameter[]
+     */
     private readonly array $parameters;
 
+    /**
+     * @param THandler $handler
+     */
     public function __construct(object $handler, string $methodName)
     {
         $class = new ReflectionClass($handler);
@@ -42,15 +58,23 @@ class HandlerMethod
         $this->parameters = $this->buildParameters($method->getParameters());
     }
 
+    /**
+     * @param array<string, mixed>|list<mixed> $arguments
+     * @return mixed
+     */
     public function __invoke(array $arguments): mixed
     {
         $arguments = array_is_list($arguments)
             ? $this->resolvePositionalArguments($arguments)
-            : $this->resolveNamedArguments($arguments);
+            : $this->resolveNamedArguments($arguments); // @phpstan-ignore argument.type
 
         return $this->handler->{$this->name}(...$arguments);
     }
 
+    /**
+     * @param list<mixed> $arguments
+     * @return mixed[]
+     */
     private function resolvePositionalArguments(array $arguments): array
     {
         $resolved = [];
@@ -85,6 +109,10 @@ class HandlerMethod
         return $resolved;
     }
 
+    /**
+     * @param array<string, mixed> $arguments
+     * @return mixed[]
+     */
     private function resolveNamedArguments(array $arguments): array
     {
         $resolved = [];
@@ -108,6 +136,9 @@ class HandlerMethod
         return $resolved;
     }
 
+    /**
+     * @param ReflectionClass<THandler> $class
+     */
     private function getMethod(ReflectionClass $class, string $method): ReflectionMethod
     {
         try {
@@ -130,6 +161,7 @@ class HandlerMethod
 
     /**
      * @param ReflectionParameter[] $parameters
+     * @return Parameter[]
      */
     private function buildParameters(array $parameters): array
     {
@@ -139,20 +171,20 @@ class HandlerMethod
         );
     }
 
+    /**
+     * @return Parameter
+     */
     private function buildParameter(ReflectionParameter $parameter): array
     {
         $hasDefault = $parameter->isDefaultValueAvailable();
 
-        $parameterData = [
+        return [
             self::PARAM_NAME => $parameter->getName(),
             self::PARAM_IS_VARIADIC => $parameter->isVariadic(),
             self::PARAM_HAS_DEFAULT => $hasDefault,
+            self::PARAM_DEFAULT => $hasDefault
+                ? $parameter->getDefaultValue()
+                : null,
         ];
-
-        if ($hasDefault) {
-            $parameterData[self::PARAM_DEFAULT] = $parameter->getDefaultValue();
-        }
-
-        return $parameterData;
     }
 }
