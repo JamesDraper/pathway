@@ -13,6 +13,7 @@ use LogicException;
 use function array_key_exists;
 use function array_is_list;
 use function array_map;
+use function is_string;
 
 /**
  * @internal
@@ -44,6 +45,28 @@ class HandlerMethod
     private readonly array $parameters;
 
     /**
+     * @param array<int|string, mixed> $arguments
+     */
+    private static function isNumericArray(array $arguments): bool
+    {
+        return array_is_list($arguments);
+    }
+
+    /**
+     * @param array<int|string, mixed> $arguments
+     */
+    private static function isAssociativeArray(array $arguments): bool
+    {
+        foreach ($arguments as $key => $_) {
+            if (!is_string($key)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param THandler $handler
      */
     public function __construct(object $handler, string $methodName)
@@ -64,9 +87,19 @@ class HandlerMethod
      */
     public function __invoke(array $arguments): mixed
     {
-        $resolved = array_is_list($arguments)
-            ? $this->resolvePositionalArguments($arguments)
-            : $this->resolveNamedArguments($arguments); // @phpstan-ignore argument.type
+        if (self::isNumericArray($arguments)) {
+            /**
+             * @var list<mixed> $arguments
+             */
+            $resolved = $this->resolvePositionalArguments($arguments);
+        } elseif (self::isAssociativeArray($arguments)) {
+            /**
+             * @var array<string, mixed> $arguments
+             */
+            $resolved = $this->resolveNamedArguments($arguments);
+        } else {
+            throw new LogicException('invalid-arguments');
+        }
 
         return $this->handler->{$this->name}(...$resolved);
     }

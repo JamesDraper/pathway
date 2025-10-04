@@ -311,4 +311,58 @@ final class HandlerMethodTest extends TestCase
         $this->assertSame([], $method([]));
         $this->assertSame(['a', 'b'], $method(['a', 'b']));
     }
+
+    #[Test]
+    public function itThrowsAnExceptionWhenInvokedAWithNonZeroIndexedList(): void
+    {
+        $handler = new class {
+            public function run(string $a, string $b): string
+            {
+                return $a . $b;
+            }
+        };
+
+        $method = new HandlerMethod($handler, 'run');
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('invalid-arguments');
+
+        $method([1 => 'x', 2 => 'y']);
+    }
+
+    #[Test]
+    public function itThrowsAnExceptionWhenInvokedWithMixedNumericAndStringKeys(): void
+    {
+        $handler = new class {
+            public function mix(string $a, string $b): string
+            {
+                return $a . $b;
+            }
+        };
+
+        $method = new HandlerMethod($handler, 'mix');
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('invalid-arguments');
+
+        $method(['a' => 'foo', 0 => 'bar']);
+    }
+
+    #[Test]
+    public function itThrowsAnExceptionWhenInvokeWithTooManyPositionalArguments(): void
+    {
+        $handler = new class {
+            public function add(int $a, int $b): int
+            {
+                return $a + $b;
+            }
+        };
+
+        $method = new HandlerMethod($handler, 'add');
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('too-many-args');
+
+        $method([1, 2, 3]); // extra argument beyond expected
+    }
 }
