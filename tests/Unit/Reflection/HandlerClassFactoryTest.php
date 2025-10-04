@@ -34,13 +34,13 @@ final class HandlerClassFactoryTest extends TestCase
 
         $result = $factory($handler);
 
-        $this->assertSame('prepare', $result->prepare->getName());
-        $this->assertSame($handler, $result->prepare->getHandler());
+        $this->assertSame('prepare', $result->getPrepareMethod()->getName());
+        $this->assertSame($handler, $result->getPrepareMethod()->getHandler());
 
-        $this->assertSame('process', $result->process->getName());
-        $this->assertSame($handler, $result->process->getHandler());
+        $this->assertSame('process', $result->getProcessMethod()->getName());
+        $this->assertSame($handler, $result->getProcessMethod()->getHandler());
 
-        $this->assertSame('finalize', $result->finalize->getName());
-        $this->assertSame($handler, $result->finalize->getHandler());
+        $this->assertSame('finalize', $result->getFinalizeMethod()->getName());
+        $this->assertSame($handler, $result->getFinalizeMethod()->getHandler());
     }
 }

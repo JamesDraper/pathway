@@ -16,9 +16,9 @@ class HandlerClass
      * @param HandlerMethod<THandler> $finalize
      */
     public function __construct(
-        public readonly HandlerMethod $prepare,
-        public readonly HandlerMethod $process,
-        public readonly HandlerMethod $finalize,
+        private readonly HandlerMethod $prepare,
+        private readonly HandlerMethod $process,
+        private readonly HandlerMethod $finalize,
     ) {
     }
 
@@ -44,5 +44,29 @@ class HandlerClass
     public function finalize(array $arguments): mixed
     {
         return ($this->finalize)($arguments);
+    }
+
+    /**
+     * @return HandlerMethod<THandler>
+     */
+    public function getPrepareMethod(): HandlerMethod
+    {
+        return $this->prepare;
+    }
+
+    /**
+     * @return HandlerMethod<THandler>
+     */
+    public function getProcessMethod(): HandlerMethod
+    {
+        return $this->process;
+    }
+
+    /**
+     * @return HandlerMethod<THandler>
+     */
+    public function getFinalizeMethod(): HandlerMethod
+    {
+        return $this->finalize;
     }
 }
