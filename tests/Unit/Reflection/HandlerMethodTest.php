@@ -102,7 +102,9 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenMethodIsStatic(): void
     {
         $handler = new class {
-            public static function bad(): void {}
+            public static function bad(): void
+            {
+            }
         };
 
         $this->expectException(LogicException::class);
@@ -115,7 +117,9 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenMethodIsProtected(): void
     {
         $handler = new class {
-            protected function secret(): void {}
+            protected function secret(): void
+            {
+            }
         };
 
         $this->expectException(LogicException::class);
@@ -128,7 +132,9 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenMethodIsPrivate(): void
     {
         $handler = new class {
-            private function secret(): void {} // @phpstan-ignore method.unused
+            private function secret(): void // @phpstan-ignore method.unused
+            {
+            }
         };
 
         $this->expectException(LogicException::class);
@@ -141,7 +147,9 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenMethodDoesNotExist(): void
     {
         $handler = new class {
-            public function real(): void {}
+            public function real(): void
+            {
+            }
         };
 
         $this->expectException(LogicException::class);
@@ -171,7 +179,9 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenMissingRequiredPositionalArgument(): void
     {
         $handler = new class {
-            public function handle(string $a, string $b): void {}
+            public function handle(string $a, string $b): void
+            {
+            }
         };
 
         $method = new HandlerMethod($handler, 'handle');
@@ -186,7 +196,9 @@ final class HandlerMethodTest extends TestCase
     public function itThrowsAnExceptionWhenTooManyPositionalArguments(): void
     {
         $handler = new class {
-            public function handle(string $a): void {}
+            public function handle(string $a): void
+            {
+            }
         };
 
         $method = new HandlerMethod($handler, 'handle');
