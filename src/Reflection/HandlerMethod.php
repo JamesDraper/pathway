@@ -8,8 +8,6 @@ use ReflectionParameter;
 use ReflectionMethod;
 use ReflectionClass;
 
-use LogicException;
-
 use function array_key_exists;
 use function array_is_list;
 use function array_map;
@@ -72,8 +70,8 @@ class HandlerMethod
      */
     public function __construct(ReflectionClass $reflectionClass, object $handler, string $methodName)
     {
-        $reflectionMethod = $this->getMethod($reflectionClass, $methodName);
-        $this->assertMethodIsPublicAndNonStatic($reflectionMethod);
+        $reflectionMethod = $this->getMethod($reflectionClass, $handler, $methodName);
+        $this->assertMethodIsPublicAndNonStatic($reflectionMethod, $handler);
 
         $this->handler = $handler;
         $this->name = $reflectionMethod->getName();
@@ -97,7 +95,7 @@ class HandlerMethod
              */
             $resolved = $this->resolveNamedArguments($arguments);
         } else {
-            throw new LogicException('invalid-arguments');
+            throw Exception::mixedOrNonSequentialArguments($this->handler, $this->name);
         }
 
         return $this->handler->{$this->name}(...$resolved);
@@ -141,11 +139,11 @@ class HandlerMethod
                 continue;
             }
 
-            throw new LogicException('missing-argument');
+            throw Exception::missingArguments($this->handler, $this->name);
         }
 
         if (array_key_exists($index, $arguments)) {
-            throw new LogicException('too-many-args');
+            throw Exception::tooManyArguments($this->handler, $this->name);
         }
 
         return $resolved;
@@ -172,7 +170,7 @@ class HandlerMethod
                 continue;
             }
 
-            throw new LogicException('missing argument');
+            throw Exception::missingArguments($this->handler, $this->name);
         }
 
         return $resolved;
@@ -181,23 +179,19 @@ class HandlerMethod
     /**
      * @param ReflectionClass<THandler> $class
      */
-    private function getMethod(ReflectionClass $reflectionClass, string $method): ReflectionMethod
+    private function getMethod(ReflectionClass $reflectionClass, object $handler, string $methodName): ReflectionMethod
     {
         try {
-            return $reflectionClass->getMethod($method);
+            return $reflectionClass->getMethod($methodName);
         } catch (ReflectionException) {
-            throw new LogicException('method does not exist.');
+            throw Exception::methodDoesNotExist($handler, $methodName);
         }
     }
 
-    private function assertMethodIsPublicAndNonStatic(ReflectionMethod $reflectionMethod): void
+    private function assertMethodIsPublicAndNonStatic(ReflectionMethod $reflectionMethod, object $handler): void
     {
         if (!$reflectionMethod->isPublic() || $reflectionMethod->isStatic()) {
-            throw new LogicException(sprintf(
-                'Handler method %s::%s() must be public and non-static.',
-                $reflectionMethod->getDeclaringClass()->getName(),
-                $reflectionMethod->getName(),
-            ));
+            throw Exception::methodNotPublicNonStatic($handler, $reflectionMethod->getName());
         }
     }
 

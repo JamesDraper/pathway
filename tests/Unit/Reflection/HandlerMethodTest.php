@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace Tests\Unit\Reflection;
 
 use Pathway\Reflection\HandlerMethod;
+use Pathway\Reflection\Exception;
 
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionClass;
-use LogicException;
 
 final class HandlerMethodTest extends TestCase
 {
@@ -104,10 +104,10 @@ final class HandlerMethodTest extends TestCase
 
         $method = new HandlerMethod($reflectionClass, $handler, 'increment');
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('missing-argument');
-
-        $method([]);
+        $this->assertThrown(
+            Exception::missingArguments($handler, 'increment'),
+            static fn () => $method([]),
+        );
     }
 
     #[Test]
@@ -121,10 +121,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('~must be public and non-static~');
-
-        new HandlerMethod($reflectionClass, $handler, 'bad');
+        $this->assertThrown(
+            Exception::methodNotPublicNonStatic($handler, 'bad'),
+            static fn () => new HandlerMethod($reflectionClass, $handler, 'bad'),
+        );
     }
 
     #[Test]
@@ -138,10 +138,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('~must be public and non-static~');
-
-        new HandlerMethod($reflectionClass, $handler, 'secret');
+        $this->assertThrown(
+            Exception::methodNotPublicNonStatic($handler, 'secret'),
+            static fn () => new HandlerMethod($reflectionClass, $handler, 'secret'),
+        );
     }
 
     #[Test]
@@ -155,10 +155,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessageMatches('~must be public and non-static~');
-
-        new HandlerMethod($reflectionClass, $handler, 'secret');
+        $this->assertThrown(
+            Exception::methodNotPublicNonStatic($handler, 'secret'),
+            static fn () => new HandlerMethod($reflectionClass, $handler, 'secret'),
+        );
     }
 
     #[Test]
@@ -172,10 +172,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('method does not exist.');
-
-        new HandlerMethod($reflectionClass, $handler, 'fakeMethod');
+        $this->assertThrown(
+            Exception::methodDoesNotExist($handler, 'handle'),
+            static fn () => new HandlerMethod($reflectionClass, $handler, 'handle'),
+        );
     }
 
     #[Test]
@@ -210,10 +210,10 @@ final class HandlerMethodTest extends TestCase
 
         $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('missing-argument');
-
-        $method(['only-one']);
+        $this->assertThrown(
+            Exception::missingArguments($handler, 'handle'),
+            static fn () => $method(['only-one']),
+        );
     }
 
     #[Test]
@@ -229,10 +229,10 @@ final class HandlerMethodTest extends TestCase
 
         $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('too-many-args');
-
-        $method(['one', 'two']);
+        $this->assertThrown(
+            Exception::tooManyArguments($handler, 'handle'),
+            static fn () => $method(['one', 'two']),
+        );
     }
 
     #[Test]
@@ -364,10 +364,10 @@ final class HandlerMethodTest extends TestCase
 
         $method = new HandlerMethod($reflectionClass, $handler, 'run');
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('invalid-arguments');
-
-        $method([1 => 'x', 2 => 'y']);
+        $this->assertThrown(
+            Exception::mixedOrNonSequentialArguments($handler, 'run'),
+            static fn () => $method([1 => 'x', 2 => 'y']),
+        );
     }
 
     #[Test]
@@ -384,10 +384,10 @@ final class HandlerMethodTest extends TestCase
 
         $method = new HandlerMethod($reflectionClass, $handler, 'mix');
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('invalid-arguments');
-
-        $method(['a' => 'foo', 0 => 'bar']);
+        $this->assertThrown(
+            Exception::mixedOrNonSequentialArguments($handler, 'mix'),
+            static fn () => $method(['a' => 'foo', 0 => 'bar']),
+        );
     }
 
     #[Test]
@@ -404,9 +404,9 @@ final class HandlerMethodTest extends TestCase
 
         $method = new HandlerMethod($reflectionClass, $handler, 'add');
 
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('too-many-args');
-
-        $method([1, 2, 3]); // extra argument beyond expected
+        $this->assertThrown(
+            Exception::tooManyArguments($handler, 'add'),
+            static fn () => $method([1, 2, 3]),
+        );
     }
 }
