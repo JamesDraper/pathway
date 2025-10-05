@@ -72,12 +72,12 @@ class HandlerMethod
      */
     public function __construct(ReflectionClass $reflectionClass, object $handler, string $methodName)
     {
-        $method = $this->getMethod($reflectionClass, $methodName);
-        $this->assertMethodIsPublicAndNonStatic($method);
+        $reflectionMethod = $this->getMethod($reflectionClass, $methodName);
+        $this->assertMethodIsPublicAndNonStatic($reflectionMethod);
 
         $this->handler = $handler;
-        $this->name = $method->getName();
-        $this->parameters = $this->buildParameters($method->getParameters());
+        $this->name = $reflectionMethod->getName();
+        $this->parameters = $this->buildParameters($reflectionMethod->getParameters());
     }
 
     /**
@@ -181,22 +181,22 @@ class HandlerMethod
     /**
      * @param ReflectionClass<THandler> $class
      */
-    private function getMethod(ReflectionClass $class, string $method): ReflectionMethod
+    private function getMethod(ReflectionClass $reflectionClass, string $method): ReflectionMethod
     {
         try {
-            return $class->getMethod($method);
+            return $reflectionClass->getMethod($method);
         } catch (ReflectionException) {
             throw new LogicException('method does not exist.');
         }
     }
 
-    private function assertMethodIsPublicAndNonStatic(ReflectionMethod $method): void
+    private function assertMethodIsPublicAndNonStatic(ReflectionMethod $reflectionMethod): void
     {
-        if (!$method->isPublic() || $method->isStatic()) {
+        if (!$reflectionMethod->isPublic() || $reflectionMethod->isStatic()) {
             throw new LogicException(sprintf(
                 'Handler method %s::%s() must be public and non-static.',
-                $method->getDeclaringClass()->getName(),
-                $method->getName(),
+                $reflectionMethod->getDeclaringClass()->getName(),
+                $reflectionMethod->getName(),
             ));
         }
     }
@@ -205,27 +205,27 @@ class HandlerMethod
      * @param ReflectionParameter[] $parameters
      * @return Parameter[]
      */
-    private function buildParameters(array $parameters): array
+    private function buildParameters(array $reflectionParameters): array
     {
         return array_map(
-            fn (ReflectionParameter $parameter): array => $this->buildParameter($parameter),
-            $parameters,
+            fn (ReflectionParameter $reflectionParameter): array => $this->buildParameter($reflectionParameter),
+            $reflectionParameters,
         );
     }
 
     /**
      * @return Parameter
      */
-    private function buildParameter(ReflectionParameter $parameter): array
+    private function buildParameter(ReflectionParameter $reflectionParameter): array
     {
-        $hasDefault = $parameter->isDefaultValueAvailable();
+        $hasDefault = $reflectionParameter->isDefaultValueAvailable();
 
         return [
-            self::PARAM_NAME => $parameter->getName(),
-            self::PARAM_IS_VARIADIC => $parameter->isVariadic(),
+            self::PARAM_NAME => $reflectionParameter->getName(),
+            self::PARAM_IS_VARIADIC => $reflectionParameter->isVariadic(),
             self::PARAM_HAS_DEFAULT => $hasDefault,
             self::PARAM_DEFAULT => $hasDefault
-                ? $parameter->getDefaultValue()
+                ? $reflectionParameter->getDefaultValue()
                 : null,
         ];
     }
