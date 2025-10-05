@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Reflection;
+namespace Tests\Integration\Reflection;
 
 use Pathway\Reflection\HandlerClassFactory;
 
