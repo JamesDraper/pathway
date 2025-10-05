@@ -49,11 +49,11 @@ final class Exception extends LogicException implements Throwable
         $this->methodName = $methodName;
     }
 
-    public function debug(): array
+    public function snapshot(): array
     {
         return [
             'code' => $this->getCode(),
-            'handler' => $this->handler,
+            'handler' => $this->handler::class,
             'methodName' => $this->methodName,
         ];
     }

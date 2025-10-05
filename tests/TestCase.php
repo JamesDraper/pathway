@@ -13,7 +13,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             $next();
         } catch (Throwable $thrown) {
             $this->assertInstanceOf($throwable::class, $thrown);
-            $this->assertSame($throwable->debug(), $thrown->debug());
+            $this->assertSame($throwable->snapshot(), $thrown->snapshot());
 
             return;
         }
