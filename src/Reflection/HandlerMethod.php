@@ -177,7 +177,7 @@ class HandlerMethod
     }
 
     /**
-     * @param ReflectionClass<THandler> $class
+     * @param ReflectionClass<THandler> $reflectionClass
      */
     private function getMethod(ReflectionClass $reflectionClass, object $handler, string $methodName): ReflectionMethod
     {
@@ -196,7 +196,7 @@ class HandlerMethod
     }
 
     /**
-     * @param ReflectionParameter[] $parameters
+     * @param ReflectionParameter[] $reflectionParameters
      * @return Parameter[]
      */
     private function buildParameters(array $reflectionParameters): array
