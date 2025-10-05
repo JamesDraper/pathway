@@ -5,8 +5,9 @@ namespace Tests\Integration\Reflection;
 
 use Pathway\Reflection\HandlerClassFactory;
 
+use Tests\TestCase;
+
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 final class HandlerClassFactoryTest extends TestCase
 {

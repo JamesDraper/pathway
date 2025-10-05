@@ -5,8 +5,9 @@ namespace Tests\Unit\Reflection;
 
 use Pathway\Reflection\HandlerMethod;
 
+use Tests\TestCase;
+
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 use ReflectionClass;
 use LogicException;
