@@ -27,7 +27,7 @@ class HandlerClass
      */
     public function prepare(array $arguments): mixed
     {
-        return ($this->prepare)($arguments);
+        return $this->prepare->invoke($arguments);
     }
 
     /**
@@ -35,7 +35,7 @@ class HandlerClass
      */
     public function process(array $arguments): mixed
     {
-        return ($this->process)($arguments);
+        return $this->process->invoke($arguments);
     }
 
     /**
@@ -43,7 +43,7 @@ class HandlerClass
      */
     public function finalize(array $arguments): mixed
     {
-        return ($this->finalize)($arguments);
+        return $this->finalize->invoke($arguments);
     }
 
     /**

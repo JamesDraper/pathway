@@ -82,7 +82,7 @@ class HandlerMethod
      * @param array<string, mixed>|list<mixed> $arguments
      * @return mixed
      */
-    public function __invoke(array $arguments): mixed
+    public function invoke(array $arguments): mixed
     {
         if (self::isNumericArray($arguments)) {
             /**
