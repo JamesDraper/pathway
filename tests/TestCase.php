@@ -5,6 +5,8 @@ namespace Tests;
 
 use Pathway\Throwable;
 
+use Mockery;
+
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     final protected function assertThrown(Throwable $throwable, callable $next): void
@@ -19,5 +21,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         }
 
         $this->fail(sprintf('Expected %s to be thrown.', $throwable::class));
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        Mockery::close();
     }
 }
