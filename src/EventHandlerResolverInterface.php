@@ -9,5 +9,5 @@ interface EventHandlerResolverInterface
      * @param class-string $eventClassPath
      * @return object[]
      */
-    public function resolve(string $eventClassPath): array;
+    public function resolve(string $eventClassPath): iterable;
 }
