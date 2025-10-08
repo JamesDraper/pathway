@@ -15,7 +15,7 @@ class HandlerClassFactory
      * @param THandler $handler
      * @return HandlerClass<THandler>
      */
-    public function __invoke(object $handler): HandlerClass
+    public function create(object $handler): HandlerClass
     {
         $reflectionClass = new ReflectionClass($handler);
 

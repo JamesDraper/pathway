@@ -33,7 +33,7 @@ final class HandlerClassFactoryTest extends TestCase
 
         $factory = new HandlerClassFactory;
 
-        $result = $factory($handler);
+        $result = $factory->create($handler);
 
         $this->assertSame('prepare', $result->getPrepareMethod()->getName());
         $this->assertSame($handler, $result->getPrepareMethod()->getHandler());
