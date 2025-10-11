@@ -27,18 +27,17 @@
             "@phpcs"
         ],
         "phpunit": [
-            "@phpunit-unit",
-            "@phpunit-integration"
+            "@phpunit.unit",
+            "@phpunit.integration"
         ],
-        "@phpunit-unit": "phpunit --testsuite=unit",
-        "@phpunit-integration": "phpunit --testsuite=integration",
-        "phpunit": "phpunit",
+        "phpunit.unit": "phpunit --testsuite=unit",
+        "phpunit.integration": "phpunit --testsuite=integration",
         "phpstan": "phpstan",
         "phpcs": [
-            "@phpcs-src",
-            "@phpcs-test"
+            "@phpcs.src",
+            "@phpcs.test"
         ],
-        "phpcs-src": "phpcs src --standard=phpcs.src.xml",
-        "phpcs-test": "phpcs tests --standard=phpcs.test.xml"
+        "phpcs.src": "phpcs src --standard=phpcs.src.xml",
+        "phpcs.test": "phpcs tests --standard=phpcs.test.xml"
     }
 }
