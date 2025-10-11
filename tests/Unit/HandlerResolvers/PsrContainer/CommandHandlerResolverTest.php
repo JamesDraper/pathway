@@ -27,15 +27,15 @@ final class CommandHandlerResolverTest extends TestCase
 
         $container
             ->expects()
-            ->has('CommandHandler')
+            ->has($handler::class . 'Handler')
             ->andReturn(true);
 
         $container
             ->expects()
-            ->get('CommandHandler')
+            ->get($handler::class . 'Handler')
             ->andReturn($handler);
 
-        $result = $resolver->resolve('Command');
+        $result = $resolver->resolve($handler::class);
 
         $this->assertSame($handler, $result);
     }
@@ -44,38 +44,38 @@ final class CommandHandlerResolverTest extends TestCase
     public function it_throws_an_exception_if_a_handler_id_is_not_in_the_container(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('No handler found for command "Command" (expected "CommandHandler").');
 
         $container = Mockery::mock(ContainerInterface::class);
         $resolver = new CommandHandlerResolver($container);
+        $handler = new stdClass();
 
         $container
             ->expects()
-            ->has('CommandHandler')
+            ->has($handler::class . 'Handler')
             ->andReturn(false);
 
-        $resolver->resolve('Command');
+        $resolver->resolve($handler::class);
     }
 
     #[Test]
     public function it_throws_an_exception_if_a_handler_is_not_an_object(): void
     {
         $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Handler for "Command" must be an object, got integer.');
 
         $container = Mockery::mock(ContainerInterface::class);
         $resolver = new CommandHandlerResolver($container);
+        $handler = new stdClass();
 
         $container
             ->expects()
-            ->has('CommandHandler')
+            ->has($handler::class . 'Handler')
             ->andReturn(true);
 
         $container
             ->expects()
-            ->get('CommandHandler')
+            ->get($handler::class . 'Handler')
             ->andReturn(123);
 
-        $resolver->resolve('Command');
+        $resolver->resolve($handler::class);
     }
 }

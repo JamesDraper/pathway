@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Internal;
 
-use Pathway\Resolvers\CommandHandlerResolverInterface;
-use Pathway\Resolvers\EventHandlerResolverInterface;
+use Pathway\HandlerResolvers\CommandHandlerResolverInterface;
+use Pathway\HandlerResolvers\EventHandlerResolverInterface;
 use Pathway\Internal\Reflection\HandlerClassFactory;
 use Pathway\Internal\Reflection\HandlerClass;
 use Pathway\Internal\Resolver;
