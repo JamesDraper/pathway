@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Internal\Reflection;
+namespace Pathway\Internal\Exceptions;
 
 /**
  * @internal
  */
-enum ExceptionCode: int
+enum ReflectionExceptionCode: int
 {
     case METHOD_DOES_NOT_EXIST = 0;
     case METHOD_NOT_PUBLIC_NON_STATIC = 1;

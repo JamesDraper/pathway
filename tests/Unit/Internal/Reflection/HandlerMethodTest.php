@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Internal\Reflection;
 
+use Pathway\Internal\Exceptions\ReflectionException;
 use Pathway\Internal\Reflection\HandlerMethod;
 use Pathway\Internal\Reflection\Exception;
 
@@ -105,7 +106,7 @@ final class HandlerMethodTest extends TestCase
         $method = new HandlerMethod($reflectionClass, $handler, 'increment');
 
         $this->assertThrown(
-            Exception::missingArguments($handler, 'increment'),
+            ReflectionException::missingArguments($handler, 'increment'),
             static fn () => $method->invoke([]),
         );
     }
@@ -122,7 +123,7 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            Exception::methodNotPublicNonStatic($handler, 'bad'),
+            ReflectionException::methodNotPublicNonStatic($handler, 'bad'),
             static fn () => new HandlerMethod($reflectionClass, $handler, 'bad'),
         );
     }
@@ -139,7 +140,7 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            Exception::methodNotPublicNonStatic($handler, 'secret'),
+            ReflectionException::methodNotPublicNonStatic($handler, 'secret'),
             static fn () => new HandlerMethod($reflectionClass, $handler, 'secret'),
         );
     }
@@ -156,7 +157,7 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            Exception::methodNotPublicNonStatic($handler, 'secret'),
+            ReflectionException::methodNotPublicNonStatic($handler, 'secret'),
             static fn () => new HandlerMethod($reflectionClass, $handler, 'secret'),
         );
     }
@@ -173,7 +174,7 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            Exception::methodDoesNotExist($handler, 'handle'),
+            ReflectionException::methodDoesNotExist($handler, 'handle'),
             static fn () => new HandlerMethod($reflectionClass, $handler, 'handle'),
         );
     }
@@ -211,7 +212,7 @@ final class HandlerMethodTest extends TestCase
         $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
         $this->assertThrown(
-            Exception::missingArguments($handler, 'handle'),
+            ReflectionException::missingArguments($handler, 'handle'),
             static fn () => $method->invoke(['only-one']),
         );
     }
@@ -230,7 +231,7 @@ final class HandlerMethodTest extends TestCase
         $method = new HandlerMethod($reflectionClass, $handler, 'handle');
 
         $this->assertThrown(
-            Exception::tooManyArguments($handler, 'handle'),
+            ReflectionException::tooManyArguments($handler, 'handle'),
             static fn () => $method->invoke(['one', 'two']),
         );
     }
@@ -365,7 +366,7 @@ final class HandlerMethodTest extends TestCase
         $method = new HandlerMethod($reflectionClass, $handler, 'run');
 
         $this->assertThrown(
-            Exception::mixedOrNonSequentialArguments($handler, 'run'),
+            ReflectionException::mixedOrNonSequentialArguments($handler, 'run'),
             static fn () => $method->invoke([1 => 'x', 2 => 'y']),
         );
     }
@@ -385,7 +386,7 @@ final class HandlerMethodTest extends TestCase
         $method = new HandlerMethod($reflectionClass, $handler, 'mix');
 
         $this->assertThrown(
-            Exception::mixedOrNonSequentialArguments($handler, 'mix'),
+            ReflectionException::mixedOrNonSequentialArguments($handler, 'mix'),
             static fn () => $method->invoke(['a' => 'foo', 0 => 'bar']),
         );
     }
@@ -405,7 +406,7 @@ final class HandlerMethodTest extends TestCase
         $method = new HandlerMethod($reflectionClass, $handler, 'add');
 
         $this->assertThrown(
-            Exception::tooManyArguments($handler, 'add'),
+            ReflectionException::tooManyArguments($handler, 'add'),
             static fn () => $method->invoke([1, 2, 3]),
         );
     }

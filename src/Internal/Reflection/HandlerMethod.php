@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Pathway\Internal\Reflection;
 
-use ReflectionException;
+use Pathway\Internal\Exceptions\ReflectionException;
+
+use ReflectionException as CoreReflectionException;
 use ReflectionParameter;
 use ReflectionMethod;
 use ReflectionClass;
@@ -95,7 +97,7 @@ class HandlerMethod
              */
             $resolved = $this->resolveNamedArguments($arguments);
         } else {
-            throw Exception::mixedOrNonSequentialArguments($this->handler, $this->name);
+            throw ReflectionException::mixedOrNonSequentialArguments($this->handler, $this->name);
         }
 
         return $this->handler->{$this->name}(...$resolved);
@@ -139,11 +141,11 @@ class HandlerMethod
                 continue;
             }
 
-            throw Exception::missingArguments($this->handler, $this->name);
+            throw ReflectionException::missingArguments($this->handler, $this->name);
         }
 
         if (array_key_exists($index, $arguments)) {
-            throw Exception::tooManyArguments($this->handler, $this->name);
+            throw ReflectionException::tooManyArguments($this->handler, $this->name);
         }
 
         return $resolved;
@@ -170,7 +172,7 @@ class HandlerMethod
                 continue;
             }
 
-            throw Exception::missingArguments($this->handler, $this->name);
+            throw ReflectionException::missingArguments($this->handler, $this->name);
         }
 
         return $resolved;
@@ -183,15 +185,15 @@ class HandlerMethod
     {
         try {
             return $reflectionClass->getMethod($methodName);
-        } catch (ReflectionException) {
-            throw Exception::methodDoesNotExist($handler, $methodName);
+        } catch (CoreReflectionException) {
+            throw ReflectionException::methodDoesNotExist($handler, $methodName);
         }
     }
 
     private function assertMethodIsPublicAndNonStatic(ReflectionMethod $reflectionMethod, object $handler): void
     {
         if (!$reflectionMethod->isPublic() || $reflectionMethod->isStatic()) {
-            throw Exception::methodNotPublicNonStatic($handler, $reflectionMethod->getName());
+            throw ReflectionException::methodNotPublicNonStatic($handler, $reflectionMethod->getName());
         }
     }
 
