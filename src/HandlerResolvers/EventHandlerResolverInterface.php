@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Resolvers;
+namespace Pathway\HandlerResolvers;
 
 interface EventHandlerResolverInterface
 {
