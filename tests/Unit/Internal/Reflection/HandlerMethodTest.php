@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Reflection;
+namespace Tests\Unit\Internal\Reflection;
 
-use Pathway\Reflection\HandlerMethod;
-use Pathway\Reflection\Exception;
+use Pathway\Internal\Reflection\HandlerMethod;
+use Pathway\Internal\Reflection\Exception;
 
 use Tests\TestCase;
 

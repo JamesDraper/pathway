@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Tests;
+namespace Tests\Unit\Internal;
 
+use Pathway\Internal\Reflection\HandlerClassFactory;
+use Pathway\Internal\Reflection\HandlerClass;
 use Pathway\CommandHandlerResolverInterface;
-use Pathway\Reflection\HandlerClassFactory;
 use Pathway\EventHandlerResolverInterface;
-use Pathway\Reflection\HandlerClass;
-use Pathway\Resolver;
+use Pathway\Internal\Resolver;
 
 use Tests\TestCase;
 

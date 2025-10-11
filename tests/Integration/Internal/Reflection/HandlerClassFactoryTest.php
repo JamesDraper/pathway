@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Integration\Reflection;
+namespace Tests\Integration\Internal\Reflection;
 
-use Pathway\Reflection\HandlerClassFactory;
+use Pathway\Internal\Reflection\HandlerClassFactory;
 
 use Tests\TestCase;
 

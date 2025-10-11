@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway;
+namespace Pathway\Internal;
 
-use Pathway\Reflection\HandlerClassFactory;
+use Pathway\Internal\Reflection\HandlerClassFactory;
+use Pathway\CommandHandlerResolverInterface;
+use Pathway\EventHandlerResolverInterface;
 
 use LogicException;
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Reflection;
+namespace Pathway\Internal\Reflection;
 
 use Pathway\Throwable;
 
