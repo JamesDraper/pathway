@@ -31,7 +31,7 @@ final class ResolverTest extends TestCase
     private readonly Resolver $resolver;
 
     #[Test]
-    public function itResolvesACommandHandler(): void
+    public function it_resolves_a_command_handler(): void
     {
         $handler = new stdClass();
         $handlerClass = Mockery::mock(HandlerClass::class);
@@ -54,8 +54,8 @@ final class ResolverTest extends TestCase
     }
 
     #[Test]
-    #[Depends('itResolvesACommandHandler')]
-    public function itOnlyResolvesACommandHandlerOnce(): void
+    #[Depends('it_resolves_a_command_handler')]
+    public function it_only_resolves_a_command_handler_once(): void
     {
         $handler = new stdClass();
         $handlerClass = Mockery::mock(HandlerClass::class);
@@ -79,7 +79,7 @@ final class ResolverTest extends TestCase
     }
 
     #[Test]
-    public function itResolvesAnEventHandler(): void
+    public function it_resolves_an_event_handler(): void
     {
         $handler1 = new stdClass();
         $handlerClass1 = Mockery::mock(HandlerClass::class);
@@ -124,8 +124,8 @@ final class ResolverTest extends TestCase
     }
 
     #[Test]
-    #[Depends('itResolvesAnEventHandler')]
-    public function itResolvesAnEventHandlerOnce(): void
+    #[Depends('it_resolves_an_event_handler')]
+    public function it_resolves_an_event_handler_once(): void
     {
         $handler = new stdClass();
         $handlerClass = Mockery::mock(HandlerClass::class);
@@ -151,8 +151,8 @@ final class ResolverTest extends TestCase
     }
 
     #[Test]
-    #[Depends('itResolvesAnEventHandler')]
-    public function itThrowsAnExceptionIfAnEventHandlerIsNotAnObject(): void
+    #[Depends('it_resolves_an_event_handler')]
+    public function it_throws_an_exception_if_an_event_handler_is_not_an_object(): void
     {
         $this->expectException(LogicException::class);
 

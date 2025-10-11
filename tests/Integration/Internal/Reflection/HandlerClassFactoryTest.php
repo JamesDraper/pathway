@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 final class HandlerClassFactoryTest extends TestCase
 {
     #[Test]
-    public function itCreatesAHandlerClass(): void
+    public function it_creates_a_handler_class(): void
     {
         $handler = new class {
             public function prepare(int $a, int $b): int

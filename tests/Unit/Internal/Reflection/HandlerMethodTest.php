@@ -16,7 +16,7 @@ use ReflectionClass;
 final class HandlerMethodTest extends TestCase
 {
     #[Test]
-    public function itCanBeInvokedWithNamedArguments(): void
+    public function it_can_be_invoked_with_named_arguments(): void
     {
         $handler = new class {
             public function add(int $a, int $b): int
@@ -35,7 +35,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithDefaultArguments(): void
+    public function it_can_be_invoked_with_default_arguments(): void
     {
         $handler = new class {
             public function increment(int $num = 1): int
@@ -54,7 +54,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithPartialArgumentsAndDefaults(): void
+    public function it_can_be_invoked_with_partial_arguments_and_defaults(): void
     {
         $handler = new class {
             public function add(int $a, int $b = 1): int
@@ -73,7 +73,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedMultipleTimes(): void
+    public function it_can_be_invoked_multiple_times(): void
     {
         $handler = new class {
             public function add(int $a, int $b): int
@@ -92,7 +92,7 @@ final class HandlerMethodTest extends TestCase
 
 
     #[Test]
-    public function itThrowsAnExceptionWhenArgumentMissingAndNoDefault(): void
+    public function it_throws_an_exception_when_argument_missing_and_no_default(): void
     {
         $handler = new class {
             public function increment(int $num): int
@@ -112,7 +112,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenMethodIsStatic(): void
+    public function it_throws_an_exception_when_method_is_static(): void
     {
         $handler = new class {
             public static function bad(): void
@@ -129,7 +129,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenMethodIsProtected(): void
+    public function it_throws_an_exception_when_method_is_protected(): void
     {
         $handler = new class {
             protected function secret(): void
@@ -146,7 +146,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenMethodIsPrivate(): void
+    public function it_throws_an_exception_when_method_is_private(): void
     {
         $handler = new class {
             private function secret(): void // @phpstan-ignore method.unused
@@ -163,7 +163,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenMethodDoesNotExist(): void
+    public function it_throws_an_exception_when_method_does_not_exist(): void
     {
         $handler = new class {
             public function real(): void
@@ -180,7 +180,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithBasicPositionalArguments(): void
+    public function it_can_be_invoked_with_basic_positional_arguments(): void
     {
         $handler = new class {
             /**
@@ -199,7 +199,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenMissingRequiredPositionalArgument(): void
+    public function it_throws_an_exception_when_missing_required_positional_argument(): void
     {
         $handler = new class {
             public function handle(string $a, string $b): void
@@ -218,7 +218,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenTooManyPositionalArguments(): void
+    public function it_throws_an_exception_whenT_too_many_positional_arguments(): void
     {
         $handler = new class {
             public function handle(string $a): void
@@ -237,7 +237,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itUsesDefaultWhenPositionalArgumentMissing(): void
+    public function it_uses_default_when_positional_argument_missing(): void
     {
         $handler = new class {
             /**
@@ -256,7 +256,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithVariadicPositionalArguments(): void
+    public function it_can_be_invoked_with_variadic_positional_arguments(): void
     {
         $handler = new class {
             /**
@@ -275,7 +275,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithEmptyVariadicPositionalArguments(): void
+    public function it_can_be_invoked_with_empty_variadic_positional_arguments(): void
     {
         $handler = new class {
             /**
@@ -294,7 +294,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithDefaultAndVariadicCombination(): void
+    public function it_can_be_invoked_with_default_and_variadic_combination(): void
     {
         $handler = new class {
             /**
@@ -315,7 +315,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithEmptyParameterList(): void
+    public function it_can_be_invoked_with_empty_parameter_list(): void
     {
         $handler = new class {
             public function handle(): string
@@ -331,7 +331,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itCanBeInvokedWithOnlyVariadicParameters(): void
+    public function it_can_be_invoked_with_only_variadic_parameters(): void
     {
         $handler = new class {
             /**
@@ -352,7 +352,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenInvokedAWithNonZeroIndexedList(): void
+    public function it_throws_an_exception_when_invoked_with_non_zero_indexed_list(): void
     {
         $handler = new class {
             public function run(string $a, string $b): string
@@ -372,7 +372,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenInvokedWithMixedNumericAndStringKeys(): void
+    public function it_throws_an_exception_when_invoked_with_mixed_numeric_and_string_keys(): void
     {
         $handler = new class {
             public function mix(string $a, string $b): string
@@ -392,7 +392,7 @@ final class HandlerMethodTest extends TestCase
     }
 
     #[Test]
-    public function itThrowsAnExceptionWhenInvokeWithTooManyPositionalArguments(): void
+    public function it_throws_an_exception_when_invoke_with_too_many_positional_arguments(): void
     {
         $handler = new class {
             public function add(int $a, int $b): int

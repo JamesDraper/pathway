@@ -18,7 +18,7 @@ use stdClass;
 final class HandlerClassTest extends TestCase
 {
     #[Test]
-    public function itRunsPrepareProcessAndFinalize(): void
+    public function it_runs_prepare_process_and_finalize(): void
     {
         $message = new stdClass();
 
