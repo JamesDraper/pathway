@@ -13,12 +13,12 @@ use function is_object;
 
 class CommandHandlerResolver implements CommandHandlerResolverInterface
 {
-    final public function __construct(
+    public function __construct(
         private readonly ContainerInterface $container,
     ) {
     }
 
-    final public function resolve(string $classPath): object
+    public function resolve(string $classPath): object
     {
         $handlerId = $this->getHandlerId($classPath);
 
