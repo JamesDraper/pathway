@@ -34,6 +34,11 @@
         "@phpunit-integration": "phpunit --testsuite=integration",
         "phpunit": "phpunit",
         "phpstan": "phpstan",
-        "phpcs": "phpcs src tests"
+        "phpcs": [
+            "@phpcs-src",
+            "@phpcs-test"
+        ],
+        "phpcs-src": "phpcs src --standard=phpcs.src.xml",
+        "phpcs-test": "phpcs tests --standard=phpcs.test.xml"
     }
 }
