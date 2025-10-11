@@ -5,7 +5,7 @@ namespace Pathway\Internal;
 
 use Pathway\HandlerResolvers\CommandHandlerResolverInterface;
 use Pathway\HandlerResolvers\EventHandlerResolverInterface;
-use Pathway\Internal\Reflection\HandlerClassFactory;
+use Pathway\Internal\Handler\HandlerFactory;
 
 use LogicException;
 
@@ -30,7 +30,7 @@ class Resolver
     public function __construct(
         private readonly CommandHandlerResolverInterface $commandHandlerResolver,
         private readonly EventHandlerResolverInterface $eventHandlerResolver,
-        private readonly HandlerClassFactory $handlerClassFactory,
+        private readonly HandlerFactory $handlerFactory,
     ) {
     }
 
@@ -42,7 +42,7 @@ class Resolver
         if (!isset($this->commandHandlerMap[$classPath])) {
             $handler = $this->commandHandlerResolver->resolve($classPath);
 
-            $handlerClass = $this->handlerClassFactory->create($handler);
+            $handlerClass = $this->handlerFactory->create($handler);
 
             $this->commandHandlerMap[$classPath] = $handlerClass;
         }
@@ -69,7 +69,7 @@ class Resolver
                     ));
                 }
 
-                $handlerClass = $this->handlerClassFactory->create($handler);
+                $handlerClass = $this->handlerFactory->create($handler);
 
                 $this->eventHandlerMap[$classPath][] = $handlerClass;
             }

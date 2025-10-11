@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Integration\Internal\Reflection;
+namespace Tests\Integration\Internal\Handler;
 
-use Pathway\Internal\Reflection\HandlerClassFactory;
+use Pathway\Internal\Handler\HandlerFactory;
 
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\Test;
 
-final class HandlerClassFactoryTest extends TestCase
+final class HandlerFactoryTest extends TestCase
 {
     #[Test]
     public function it_creates_a_handler_class(): void
@@ -31,7 +31,7 @@ final class HandlerClassFactoryTest extends TestCase
             }
         };
 
-        $factory = new HandlerClassFactory;
+        $factory = new HandlerFactory;
 
         $result = $factory->create($handler);
 

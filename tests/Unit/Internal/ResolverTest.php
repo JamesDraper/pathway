@@ -5,8 +5,8 @@ namespace Tests\Unit\Internal;
 
 use Pathway\HandlerResolvers\CommandHandlerResolverInterface;
 use Pathway\HandlerResolvers\EventHandlerResolverInterface;
-use Pathway\Internal\Reflection\HandlerClassFactory;
-use Pathway\Internal\Reflection\HandlerClass;
+use Pathway\Internal\Handler\HandlerFactory;
+use Pathway\Internal\Handler\Handler;
 use Pathway\Internal\Resolver;
 
 use Tests\TestCase;
@@ -26,7 +26,7 @@ final class ResolverTest extends TestCase
 
     private readonly MockInterface&EventHandlerResolverInterface $eventResolver;
 
-    private readonly MockInterface&HandlerClassFactory $factory;
+    private readonly MockInterface&HandlerFactory $factory;
 
     private readonly Resolver $resolver;
 
@@ -34,7 +34,7 @@ final class ResolverTest extends TestCase
     public function it_resolves_a_command_handler(): void
     {
         $handler = new stdClass();
-        $handlerClass = Mockery::mock(HandlerClass::class);
+        $handlerClass = Mockery::mock(Handler::class);
 
         $this
             ->commandResolver
@@ -58,7 +58,7 @@ final class ResolverTest extends TestCase
     public function it_only_resolves_a_command_handler_once(): void
     {
         $handler = new stdClass();
-        $handlerClass = Mockery::mock(HandlerClass::class);
+        $handlerClass = Mockery::mock(Handler::class);
 
         $this
             ->commandResolver
@@ -82,13 +82,13 @@ final class ResolverTest extends TestCase
     public function it_resolves_an_event_handler(): void
     {
         $handler1 = new stdClass();
-        $handlerClass1 = Mockery::mock(HandlerClass::class);
+        $handlerClass1 = Mockery::mock(Handler::class);
 
         $handler2 = new stdClass();
-        $handlerClass2 = Mockery::mock(HandlerClass::class);
+        $handlerClass2 = Mockery::mock(Handler::class);
 
         $handler3 = new stdClass();
-        $handlerClass3 = Mockery::mock(HandlerClass::class);
+        $handlerClass3 = Mockery::mock(Handler::class);
 
         $this
             ->eventResolver
@@ -128,7 +128,7 @@ final class ResolverTest extends TestCase
     public function it_resolves_an_event_handler_once(): void
     {
         $handler = new stdClass();
-        $handlerClass = Mockery::mock(HandlerClass::class);
+        $handlerClass = Mockery::mock(Handler::class);
 
         $this
             ->eventResolver
@@ -157,7 +157,7 @@ final class ResolverTest extends TestCase
         $this->expectException(LogicException::class);
 
         $handler1 = new stdClass();
-        $handlerClass1 = Mockery::mock(HandlerClass::class);
+        $handlerClass1 = Mockery::mock(Handler::class);
 
         $this
             ->eventResolver
@@ -183,7 +183,7 @@ final class ResolverTest extends TestCase
 
         $this->commandResolver = Mockery::mock(CommandHandlerResolverInterface::class);
         $this->eventResolver = Mockery::mock(EventHandlerResolverInterface::class);
-        $this->factory = Mockery::mock(HandlerClassFactory::class);
+        $this->factory = Mockery::mock(HandlerFactory::class);
 
         $this->resolver = new Resolver(
             $this->commandResolver,

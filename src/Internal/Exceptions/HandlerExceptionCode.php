@@ -6,7 +6,7 @@ namespace Pathway\Internal\Exceptions;
 /**
  * @internal
  */
-enum ReflectionExceptionCode: int
+enum HandlerExceptionCode: int
 {
     case METHOD_DOES_NOT_EXIST = 0;
     case METHOD_NOT_PUBLIC_NON_STATIC = 1;

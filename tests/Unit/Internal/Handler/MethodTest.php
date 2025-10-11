@@ -1,11 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Reflection;
+namespace Tests\Unit\Internal\Handler;
 
-use Pathway\Internal\Exceptions\ReflectionException;
-use Pathway\Internal\Reflection\HandlerMethod;
-use Pathway\Internal\Reflection\Exception;
+use Pathway\Internal\Exceptions\HandlerException;
+use Pathway\Internal\Handler\Method;
 
 use Tests\TestCase;
 
@@ -13,7 +12,7 @@ use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionClass;
 
-final class HandlerMethodTest extends TestCase
+final class MethodTest extends TestCase
 {
     #[Test]
     public function it_can_be_invoked_with_named_arguments(): void
@@ -27,7 +26,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'add');
+        $method = new Method($reflectionClass, $handler, 'add');
 
         $result = $method->invoke(['a' => 1, 'b' => 2]);
 
@@ -46,7 +45,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'increment');
+        $method = new Method($reflectionClass, $handler, 'increment');
 
         $result = $method->invoke([]);
 
@@ -65,7 +64,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'add');
+        $method = new Method($reflectionClass, $handler, 'add');
 
         $result = $method->invoke(['a' => 3]);
 
@@ -84,7 +83,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'add');
+        $method = new Method($reflectionClass, $handler, 'add');
 
         $this->assertSame(3, $method->invoke(['a' => 1, 'b' => 2]));
         $this->assertSame(7, $method->invoke(['a' => 3, 'b' => 4]));
@@ -103,10 +102,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'increment');
+        $method = new Method($reflectionClass, $handler, 'increment');
 
         $this->assertThrown(
-            ReflectionException::missingArguments($handler, 'increment'),
+            HandlerException::missingArguments($handler, 'increment'),
             static fn () => $method->invoke([]),
         );
     }
@@ -123,8 +122,8 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            ReflectionException::methodNotPublicNonStatic($handler, 'bad'),
-            static fn () => new HandlerMethod($reflectionClass, $handler, 'bad'),
+            HandlerException::methodNotPublicNonStatic($handler, 'bad'),
+            static fn () => new Method($reflectionClass, $handler, 'bad'),
         );
     }
 
@@ -140,8 +139,8 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            ReflectionException::methodNotPublicNonStatic($handler, 'secret'),
-            static fn () => new HandlerMethod($reflectionClass, $handler, 'secret'),
+            HandlerException::methodNotPublicNonStatic($handler, 'secret'),
+            static fn () => new Method($reflectionClass, $handler, 'secret'),
         );
     }
 
@@ -157,8 +156,8 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            ReflectionException::methodNotPublicNonStatic($handler, 'secret'),
-            static fn () => new HandlerMethod($reflectionClass, $handler, 'secret'),
+            HandlerException::methodNotPublicNonStatic($handler, 'secret'),
+            static fn () => new Method($reflectionClass, $handler, 'secret'),
         );
     }
 
@@ -174,8 +173,8 @@ final class HandlerMethodTest extends TestCase
         $reflectionClass = new ReflectionClass($handler);
 
         $this->assertThrown(
-            ReflectionException::methodDoesNotExist($handler, 'handle'),
-            static fn () => new HandlerMethod($reflectionClass, $handler, 'handle'),
+            HandlerException::methodDoesNotExist($handler, 'handle'),
+            static fn () => new Method($reflectionClass, $handler, 'handle'),
         );
     }
 
@@ -194,7 +193,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
         $this->assertSame(['one', 'two'], $method->invoke(['one', 'two']));
     }
 
@@ -209,10 +208,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
 
         $this->assertThrown(
-            ReflectionException::missingArguments($handler, 'handle'),
+            HandlerException::missingArguments($handler, 'handle'),
             static fn () => $method->invoke(['only-one']),
         );
     }
@@ -228,10 +227,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
 
         $this->assertThrown(
-            ReflectionException::tooManyArguments($handler, 'handle'),
+            HandlerException::tooManyArguments($handler, 'handle'),
             static fn () => $method->invoke(['one', 'two']),
         );
     }
@@ -251,7 +250,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
         $this->assertSame(['one', 'default'], $method->invoke(['one']));
     }
 
@@ -270,7 +269,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
         $this->assertSame(['one', 'two', 'three'], $method->invoke(['one', 'two', 'three']));
     }
 
@@ -289,7 +288,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
         $this->assertSame(['one'], $method->invoke(['one']));
     }
 
@@ -308,7 +307,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
 
         $this->assertSame(['one', 'two', 'three', 'four'], $method->invoke(['one', 'two', 'three', 'four']));
         $this->assertSame(['one', 'default'], $method->invoke(['one']));
@@ -326,7 +325,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
         $this->assertSame('ok', $method->invoke([]));
     }
 
@@ -345,7 +344,7 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'handle');
+        $method = new Method($reflectionClass, $handler, 'handle');
 
         $this->assertSame([], $method->invoke([]));
         $this->assertSame(['a', 'b'], $method->invoke(['a', 'b']));
@@ -363,10 +362,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'run');
+        $method = new Method($reflectionClass, $handler, 'run');
 
         $this->assertThrown(
-            ReflectionException::mixedOrNonSequentialArguments($handler, 'run'),
+            HandlerException::mixedOrNonSequentialArguments($handler, 'run'),
             static fn () => $method->invoke([1 => 'x', 2 => 'y']),
         );
     }
@@ -383,10 +382,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'mix');
+        $method = new Method($reflectionClass, $handler, 'mix');
 
         $this->assertThrown(
-            ReflectionException::mixedOrNonSequentialArguments($handler, 'mix'),
+            HandlerException::mixedOrNonSequentialArguments($handler, 'mix'),
             static fn () => $method->invoke(['a' => 'foo', 0 => 'bar']),
         );
     }
@@ -403,10 +402,10 @@ final class HandlerMethodTest extends TestCase
 
         $reflectionClass = new ReflectionClass($handler);
 
-        $method = new HandlerMethod($reflectionClass, $handler, 'add');
+        $method = new Method($reflectionClass, $handler, 'add');
 
         $this->assertThrown(
-            ReflectionException::tooManyArguments($handler, 'add'),
+            HandlerException::tooManyArguments($handler, 'add'),
             static fn () => $method->invoke([1, 2, 3]),
         );
     }

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Internal\Reflection;
+namespace Pathway\Internal\Handler;
 
-use Pathway\Internal\Exceptions\ReflectionException;
+use Pathway\Internal\Exceptions\HandlerException;
 
-use ReflectionException as CoreReflectionException;
+use ReflectionException;
 use ReflectionParameter;
 use ReflectionMethod;
 use ReflectionClass;
@@ -25,7 +25,7 @@ use function is_string;
  *     default: mixed,
  * }
  */
-class HandlerMethod
+class Method
 {
     private const string PARAM_NAME = 'name';
     private const string PARAM_IS_VARIADIC = 'is_variadic';
@@ -97,7 +97,7 @@ class HandlerMethod
              */
             $resolved = $this->resolveNamedArguments($arguments);
         } else {
-            throw ReflectionException::mixedOrNonSequentialArguments($this->handler, $this->name);
+            throw HandlerException::mixedOrNonSequentialArguments($this->handler, $this->name);
         }
 
         return $this->handler->{$this->name}(...$resolved);
@@ -141,11 +141,11 @@ class HandlerMethod
                 continue;
             }
 
-            throw ReflectionException::missingArguments($this->handler, $this->name);
+            throw HandlerException::missingArguments($this->handler, $this->name);
         }
 
         if (array_key_exists($index, $arguments)) {
-            throw ReflectionException::tooManyArguments($this->handler, $this->name);
+            throw HandlerException::tooManyArguments($this->handler, $this->name);
         }
 
         return $resolved;
@@ -172,7 +172,7 @@ class HandlerMethod
                 continue;
             }
 
-            throw ReflectionException::missingArguments($this->handler, $this->name);
+            throw HandlerException::missingArguments($this->handler, $this->name);
         }
 
         return $resolved;
@@ -185,15 +185,15 @@ class HandlerMethod
     {
         try {
             return $reflectionClass->getMethod($methodName);
-        } catch (CoreReflectionException) {
-            throw ReflectionException::methodDoesNotExist($handler, $methodName);
+        } catch (ReflectionException) {
+            throw HandlerException::methodDoesNotExist($handler, $methodName);
         }
     }
 
     private function assertMethodIsPublicAndNonStatic(ReflectionMethod $reflectionMethod, object $handler): void
     {
         if (!$reflectionMethod->isPublic() || $reflectionMethod->isStatic()) {
-            throw ReflectionException::methodNotPublicNonStatic($handler, $reflectionMethod->getName());
+            throw HandlerException::methodNotPublicNonStatic($handler, $reflectionMethod->getName());
         }
     }
 

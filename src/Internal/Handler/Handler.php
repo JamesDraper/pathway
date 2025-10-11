@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Internal\Reflection;
+namespace Pathway\Internal\Handler;
 
 use Pathway\DispatcherInterface;
 
@@ -10,17 +10,17 @@ use Pathway\DispatcherInterface;
  * @template THandler of object
  * @phpstan-type ArgumentList array<string, mixed>|list<mixed>
  */
-class HandlerClass
+class Handler
 {
     /**
-     * @param HandlerMethod<THandler> $prepare
-     * @param HandlerMethod<THandler> $process
-     * @param HandlerMethod<THandler> $finalize
+     * @param Method<THandler> $prepare
+     * @param Method<THandler> $process
+     * @param Method<THandler> $finalize
      */
     public function __construct(
-        public readonly HandlerMethod $prepare,
-        public readonly HandlerMethod $process,
-        public readonly HandlerMethod $finalize,
+        public readonly Method $prepare,
+        public readonly Method $process,
+        public readonly Method $finalize,
     ) {
     }
 

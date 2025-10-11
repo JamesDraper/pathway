@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Internal\Reflection;
+namespace Tests\Unit\Internal\Handler;
 
-use Pathway\Internal\Reflection\HandlerMethod;
-use Pathway\Internal\Reflection\HandlerClass;
+use Pathway\Internal\Handler\Handler;
+use Pathway\Internal\Handler\Method;
 use Pathway\DispatcherInterface;
 
 use Tests\TestCase;
@@ -17,7 +17,7 @@ use Mockery;
 use LogicException;
 use stdClass;
 
-final class HandlerClassTest extends TestCase
+final class HandlerTest extends TestCase
 {
     #[Test]
     public function it_runs_prepare_process_and_finalize(): void
@@ -26,9 +26,9 @@ final class HandlerClassTest extends TestCase
 
         $dispatcher = Mockery::mock(DispatcherInterface::class);
 
-        $prepare = Mockery::mock(HandlerMethod::class);
-        $process = Mockery::mock(HandlerMethod::class);
-        $finalize = Mockery::mock(HandlerMethod::class);
+        $prepare = Mockery::mock(Method::class);
+        $process = Mockery::mock(Method::class);
+        $finalize = Mockery::mock(Method::class);
 
         $prepare
             ->expects()
@@ -46,7 +46,7 @@ final class HandlerClassTest extends TestCase
             ->invoke(['e' => 'f', 'g' => 'h'])
             ->andReturn(['i' => 'j', 'k' => 'l']);
 
-        $handler = new HandlerClass($prepare, $process, $finalize);
+        $handler = new Handler($prepare, $process, $finalize);
 
         $result = $handler->handle($message, $dispatcher);
 
@@ -63,16 +63,16 @@ final class HandlerClassTest extends TestCase
 
         $dispatcher = Mockery::mock(DispatcherInterface::class);
 
-        $prepare = Mockery::mock(HandlerMethod::class);
-        $process = Mockery::mock(HandlerMethod::class);
-        $finalize = Mockery::mock(HandlerMethod::class);
+        $prepare = Mockery::mock(Method::class);
+        $process = Mockery::mock(Method::class);
+        $finalize = Mockery::mock(Method::class);
 
         $prepare
             ->expects()
             ->invoke([$message, $dispatcher])
             ->andThrows(new LogicException);
 
-        $handler = new HandlerClass($prepare, $process, $finalize);
+        $handler = new Handler($prepare, $process, $finalize);
 
         $handler->handle($message, $dispatcher);
     }
@@ -87,9 +87,9 @@ final class HandlerClassTest extends TestCase
 
         $dispatcher = Mockery::mock(DispatcherInterface::class);
 
-        $prepare = Mockery::mock(HandlerMethod::class);
-        $process = Mockery::mock(HandlerMethod::class);
-        $finalize = Mockery::mock(HandlerMethod::class);
+        $prepare = Mockery::mock(Method::class);
+        $process = Mockery::mock(Method::class);
+        $finalize = Mockery::mock(Method::class);
 
         $prepare
             ->expects()
@@ -102,7 +102,7 @@ final class HandlerClassTest extends TestCase
             ->andThrows(new LogicException);
 
 
-        $handler = new HandlerClass($prepare, $process, $finalize);
+        $handler = new Handler($prepare, $process, $finalize);
 
         $handler->handle($message, $dispatcher);
     }
@@ -117,9 +117,9 @@ final class HandlerClassTest extends TestCase
 
         $dispatcher = Mockery::mock(DispatcherInterface::class);
 
-        $prepare = Mockery::mock(HandlerMethod::class);
-        $process = Mockery::mock(HandlerMethod::class);
-        $finalize = Mockery::mock(HandlerMethod::class);
+        $prepare = Mockery::mock(Method::class);
+        $process = Mockery::mock(Method::class);
+        $finalize = Mockery::mock(Method::class);
 
         $prepare
             ->expects()
@@ -137,7 +137,7 @@ final class HandlerClassTest extends TestCase
             ->invoke(['e' => 'f', 'g' => 'h'])
             ->andThrows(new LogicException);
 
-        $handler = new HandlerClass($prepare, $process, $finalize);
+        $handler = new Handler($prepare, $process, $finalize);
 
         $handler->handle($message, $dispatcher);
     }
