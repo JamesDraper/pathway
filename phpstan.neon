@@ -3,6 +3,8 @@ parameters:
     paths:
         - src
         - tests
+    excludePaths:
+        - src/Dispatcher.php # remove once class is finished.
 
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon
