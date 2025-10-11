@@ -16,57 +16,9 @@ class HandlerClass
      * @param HandlerMethod<THandler> $finalize
      */
     public function __construct(
-        private readonly HandlerMethod $prepare,
-        private readonly HandlerMethod $process,
-        private readonly HandlerMethod $finalize,
+        public readonly HandlerMethod $prepare,
+        public readonly HandlerMethod $process,
+        public readonly HandlerMethod $finalize,
     ) {
-    }
-
-    /**
-     * @phpstan-param ArgumentList $arguments
-     */
-    public function prepare(array $arguments): mixed
-    {
-        return $this->prepare->invoke($arguments);
-    }
-
-    /**
-     * @phpstan-param ArgumentList $arguments
-     */
-    public function process(array $arguments): mixed
-    {
-        return $this->process->invoke($arguments);
-    }
-
-    /**
-     * @phpstan-param ArgumentList $arguments
-     */
-    public function finalize(array $arguments): mixed
-    {
-        return $this->finalize->invoke($arguments);
-    }
-
-    /**
-     * @return HandlerMethod<THandler>
-     */
-    public function getPrepareMethod(): HandlerMethod
-    {
-        return $this->prepare;
-    }
-
-    /**
-     * @return HandlerMethod<THandler>
-     */
-    public function getProcessMethod(): HandlerMethod
-    {
-        return $this->process;
-    }
-
-    /**
-     * @return HandlerMethod<THandler>
-     */
-    public function getFinalizeMethod(): HandlerMethod
-    {
-        return $this->finalize;
     }
 }
