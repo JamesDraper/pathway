@@ -27,12 +27,12 @@ class HandlerClass
     public function handle(object $message, DispatcherInterface $dispatcher): mixed
     {
         /**
-         * @var array<string, mixed>|list<mixed> $prepared
+         * @var ArgumentList $prepared
          */
         $prepared = $this->prepare->invoke([$message, $dispatcher]);
 
         /**
-         * @var array<string, mixed>|list<mixed> $processed
+         * @var ArgumentList $processed
          */
         $processed = $this->process->invoke($prepared);
 
