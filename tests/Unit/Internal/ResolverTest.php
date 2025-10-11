@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Internal;
 
+use Pathway\Resolvers\CommandHandlerResolverInterface;
+use Pathway\Resolvers\EventHandlerResolverInterface;
 use Pathway\Internal\Reflection\HandlerClassFactory;
 use Pathway\Internal\Reflection\HandlerClass;
-use Pathway\CommandHandlerResolverInterface;
-use Pathway\EventHandlerResolverInterface;
 use Pathway\Internal\Resolver;
 
 use Tests\TestCase;
