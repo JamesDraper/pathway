@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Pathway\HandlerResolvers\PsrContainer;
 
 use Pathway\HandlerResolvers\CommandHandlerResolverInterface;
+use Pathway\Internal\TypeFormatter;
 
 use Psr\Container\ContainerInterface;
 
@@ -36,7 +37,7 @@ class CommandHandlerResolver implements CommandHandlerResolverInterface
             throw new LogicException(sprintf(
                 'Handler for "%s" must be an object, got %s.',
                 $classPath,
-                gettype($handler)
+                TypeFormatter::format($handler)
             ));
         }
 

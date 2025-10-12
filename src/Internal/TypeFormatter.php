@@ -15,7 +15,7 @@ use function sprintf;
  */
 class TypeFormatter
 {
-    public function format(mixed $value): string
+    public static function format(mixed $value): string
     {
         $type = gettype($value);
 
@@ -25,13 +25,13 @@ class TypeFormatter
             'integer' => 'int',
             'double' => 'float',
             'array' => 'array',
-            'object' => $this->formatObject((object) $value),
+            'object' => self::formatObject((object) $value),
             'resource', 'resource (closed)' => 'resource',
             default => $type,
         };
     }
 
-    private function formatObject(object $value): string
+    private static function formatObject(object $value): string
     {
         if ($value instanceof Closure) {
             return 'closure';

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Tests\Unit\Internal;
+namespace Pathway\Tests;
 
 use Pathway\Internal\TypeFormatter;
 
@@ -15,48 +15,46 @@ use Closure;
 
 final class TypeFormatterTest extends TestCase
 {
-    private TypeFormatter $formatter;
-
     #[Test]
     public function it_formats_null(): void
     {
-        $this->assertSame('null', $this->formatter->format(null));
+        $this->assertSame('null', TypeFormatter::format(null));
     }
 
     #[Test]
     public function it_formats_true(): void
     {
-        $this->assertSame('bool', $this->formatter->format(true));
+        $this->assertSame('bool', TypeFormatter::format(true));
     }
 
     #[Test]
     public function it_formats_false(): void
     {
-        $this->assertSame('bool', $this->formatter->format(false));
+        $this->assertSame('bool', TypeFormatter::format(false));
     }
 
     #[Test]
     public function it_formats_integers(): void
     {
-        $this->assertSame('int', $this->formatter->format(123));
+        $this->assertSame('int', TypeFormatter::format(123));
     }
 
     #[Test]
     public function it_formats_floats(): void
     {
-        $this->assertSame('float', $this->formatter->format(1.23));
+        $this->assertSame('float', TypeFormatter::format(1.23));
     }
 
     #[Test]
     public function it_formats_strings(): void
     {
-        $this->assertSame('string', $this->formatter->format('STRING'));
+        $this->assertSame('string', TypeFormatter::format('STRING'));
     }
 
     #[Test]
     public function it_formats_arrays(): void
     {
-        $this->assertSame('array', $this->formatter->format([1, 2, 3]));
+        $this->assertSame('array', TypeFormatter::format([1, 2, 3]));
     }
 
     #[Test]
@@ -66,7 +64,7 @@ final class TypeFormatterTest extends TestCase
             return 42;
         };
 
-        $this->assertSame('closure', $this->formatter->format($closure));
+        $this->assertSame('closure', TypeFormatter::format($closure));
     }
 
     #[Test]
@@ -74,7 +72,7 @@ final class TypeFormatterTest extends TestCase
     {
         $enum = SimpleEnum::ONE;
 
-        $this->assertSame('enum(Tests\Fixtures\SimpleEnum)', $this->formatter->format($enum));
+        $this->assertSame('enum(Tests\Fixtures\SimpleEnum)', TypeFormatter::format($enum));
     }
 
     #[Test]
@@ -82,7 +80,7 @@ final class TypeFormatterTest extends TestCase
     {
         $enum = SimpleBackedEnum::ONE;
 
-        $this->assertSame('enum(Tests\Fixtures\SimpleBackedEnum)', $this->formatter->format($enum));
+        $this->assertSame('enum(Tests\Fixtures\SimpleBackedEnum)', TypeFormatter::format($enum));
     }
 
     #[Test]
@@ -91,13 +89,6 @@ final class TypeFormatterTest extends TestCase
         $obj = new class {
         };
 
-        $this->assertSame(sprintf('object(%s)', get_class($obj)), $this->formatter->format($obj));
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->formatter = new TypeFormatter;
+        $this->assertSame(sprintf('object(%s)', get_class($obj)), TypeFormatter::format($obj));
     }
 }
