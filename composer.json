@@ -19,7 +19,8 @@
         "squizlabs/php_codesniffer": "^4.0",
         "mockery/mockery": "^1.6",
         "phpstan/phpstan-mockery": "^2.0",
-        "psr/container": "^2.0"
+        "psr/container": "^2.0",
+        "symfony/var-dumper": "^7.3"
     },
     "suggest": {
         "psr/container": "To use container-based handler resolvers."
