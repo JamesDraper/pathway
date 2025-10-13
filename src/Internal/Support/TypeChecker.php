@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Pathway\Internal\Support;
 
 use function array_is_list;
-use function array_reduce;
 use function is_object;
 use function is_string;
 use function is_array;
@@ -14,21 +13,6 @@ use function is_array;
  */
 class TypeChecker
 {
-    /**
-     * @param array<string|int, mixed> $value
-     */
-    public static function arrayIsObjectList(array $value): bool
-    {
-        /**
-         * @var array<string|int, mixed> $value
-         */
-        $isObjectArray = array_reduce($value, function (bool $isObjectArray, mixed $item): bool {
-            return $isObjectArray && self::isObject($item);
-        }, true);
-
-        return $isObjectArray && self::arrayIsList($value);
-    }
-
     /**
      * @param array<string|int, mixed> $value
      */

@@ -166,49 +166,4 @@ final class TypeCheckerTest extends TestCase
             'value' => [0 => 'a', 'two' => 'b'],
         ];
     }
-
-    /**
-     * @param array<int|string, mixed> $value
-     */
-    #[Test]
-    #[DataProvider('provideObjectListValues')]
-    public function it_verifies_object_lists(bool $expected, array $value): void
-    {
-        $this->assertSame($expected, TypeChecker::arrayIsObjectList($value));
-    }
-
-    public static function provideObjectListValues(): Generator
-    {
-        yield 'object list' => [
-            'expected' => true,
-            'value' => [
-                new stdClass,
-                new stdClass,
-            ],
-        ];
-
-        yield 'object list non-zero index' => [
-            'expected' => false,
-            'value' => [
-                1 => new stdClass,
-                2 => new stdClass,
-            ],
-        ];
-
-        yield 'mixed list (object and string)' => [
-            'expected' => false,
-            'value' => [
-                new stdClass,
-                'STRING',
-            ],
-        ];
-
-        yield 'associative object array' => [
-            'expected' => false,
-            'value' => [
-                'a' => new stdClass,
-                'b' => new stdClass,
-            ],
-        ];
-    }
 }
