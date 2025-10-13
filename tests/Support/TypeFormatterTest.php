@@ -5,8 +5,8 @@ namespace Tests\Support;
 
 use Pathway\Internal\Support\TypeFormatter;
 
-use Tests\Fixtures\SimpleBackedEnum;
-use Tests\Fixtures\SimpleEnum;
+use Tests\Support\Fixtures\SimpleBackedEnum;
+use Tests\Support\Fixtures\SimpleEnum;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\Test;
@@ -72,7 +72,10 @@ final class TypeFormatterTest extends TestCase
     {
         $enum = SimpleEnum::ONE;
 
-        $this->assertSame('enum(Tests\Fixtures\SimpleEnum)', TypeFormatter::format($enum));
+        $this->assertSame(
+            'enum(Tests\Support\Fixtures\SimpleEnum)',
+            TypeFormatter::format($enum),
+        );
     }
 
     #[Test]
@@ -80,7 +83,10 @@ final class TypeFormatterTest extends TestCase
     {
         $enum = SimpleBackedEnum::ONE;
 
-        $this->assertSame('enum(Tests\Fixtures\SimpleBackedEnum)', TypeFormatter::format($enum));
+        $this->assertSame(
+            'enum(Tests\Support\Fixtures\SimpleBackedEnum)',
+            TypeFormatter::format($enum),
+        );
     }
 
     #[Test]
