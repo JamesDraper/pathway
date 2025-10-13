@@ -7,8 +7,8 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="type-formatter">
-            <file>tests/TypeFormatterTest.php</file>
+        <testsuite name="support">
+            <directory>tests/Support</directory>
         </testsuite>
 
         <testsuite name="unit">

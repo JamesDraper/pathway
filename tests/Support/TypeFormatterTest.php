@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Tests;
+namespace Tests\Support;
 
-use Pathway\Internal\TypeFormatter;
+use Pathway\Internal\Support\TypeFormatter;
 
 use Tests\Fixtures\SimpleBackedEnum;
 use Tests\Fixtures\SimpleEnum;

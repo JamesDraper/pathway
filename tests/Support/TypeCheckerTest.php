@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Support;
+namespace Tests\Support;
 
 use Pathway\Internal\Support\TypeChecker;
 

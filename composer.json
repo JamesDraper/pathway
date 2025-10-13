@@ -31,11 +31,11 @@
             "@phpcs"
         ],
         "phpunit": [
-            "@phpunit.type-formatter",
+            "@phpunit.support",
             "@phpunit.unit",
             "@phpunit.integration"
         ],
-        "phpunit.type-formatter": "phpunit --testsuite=type-formatter",
+        "phpunit.support": "phpunit --testsuite=support",
         "phpunit.unit": "phpunit --testsuite=unit",
         "phpunit.integration": "phpunit --testsuite=integration",
         "phpstan": "phpstan",

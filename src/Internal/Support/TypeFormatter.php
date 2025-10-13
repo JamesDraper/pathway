@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Internal;
+namespace Pathway\Internal\Support;
 
 use Closure;
 
