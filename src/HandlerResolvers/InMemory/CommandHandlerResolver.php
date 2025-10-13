@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Pathway\HandlerResolvers\InMemory;
 
 use Pathway\HandlerResolvers\CommandHandlerResolverInterface;
-use Pathway\Internal\Support\TypeChecker;
+use Pathway\Support\TypeChecker;
 
 use function array_key_exists;
 

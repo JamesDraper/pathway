@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Pathway\HandlerResolvers\InMemory;
 
-use Pathway\Internal\Support\TypeFormatter;
+use Pathway\Support\TypeFormatter;
 use Pathway\Throwable;
 
 use LogicException;

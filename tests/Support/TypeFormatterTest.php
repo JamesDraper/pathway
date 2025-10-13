@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Support;
 
-use Pathway\Internal\Support\TypeFormatter;
+use Pathway\Support\TypeFormatter;
 
 use Tests\Support\Fixtures\SimpleBackedEnum;
 use Tests\Support\Fixtures\SimpleEnum;
