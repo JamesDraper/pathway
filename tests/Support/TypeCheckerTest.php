@@ -84,6 +84,55 @@ final class TypeCheckerTest extends TestCase
      * @param array<int|string, mixed> $value
      */
     #[Test]
+    #[DataProvider('provideAssociativeArrayValues')]
+    public function it_verifies_associative_arrays(bool $expected, array $value): void
+    {
+        $this->assertSame($expected, TypeChecker::arrayIsAssociative($value));
+    }
+
+    public static function provideAssociativeArrayValues(): Generator
+    {
+        yield 'list array' => [
+            'expected' => false,
+            'value' => [1, 2, 3],
+        ];
+
+        yield 'associative array' => [
+            'expected' => true,
+            'value' => [
+                'a' => 1,
+                'b' => 2,
+            ],
+        ];
+
+        yield 'empty array' => [
+            'expected' => true,
+            'value' => [],
+        ];
+
+        yield 'numeric string keys' => [
+            'expected' => false,
+            'value' => [
+                '0' => 'a',
+                '1' => 'b',
+            ],
+        ];
+
+        yield 'mixed keys' => [
+            'expected' => false,
+            'value' => [
+                0 => 'a',
+                'two' => 'b',
+            ],
+        ];
+    }
+
+    //
+
+    /**
+     * @param array<int|string, mixed> $value
+     */
+    #[Test]
     #[DataProvider('provideArrayListValues')]
     public function it_verifies_lists(bool $expected, array $value): void
     {

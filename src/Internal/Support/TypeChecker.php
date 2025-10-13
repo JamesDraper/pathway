@@ -6,6 +6,7 @@ namespace Pathway\Internal\Support;
 use function array_is_list;
 use function array_reduce;
 use function is_object;
+use function is_string;
 use function is_array;
 
 /**
@@ -27,6 +28,20 @@ class TypeChecker
         }, true);
 
         return $isObjectArray && self::arrayIsList($value);
+    }
+
+    /**
+     * @param array<string|int, mixed> $value
+     */
+    public static function arrayIsAssociative(array $value): bool
+    {
+        foreach ($value as $key => $_) {
+            if (!is_string($key)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
