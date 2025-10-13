@@ -14,12 +14,11 @@ use function is_array;
  */
 class TypeChecker
 {
-    public static function isObjectList(mixed $value): bool
+    /**
+     * @param array<string|int, mixed> $value
+     */
+    public static function arrayIsObjectList(array $value): bool
     {
-        if (!self::isArray($value)) {
-            return false;
-        }
-
         /**
          * @var array<string|int, mixed> $value
          */
