@@ -33,10 +33,12 @@
         ],
         "phpunit": [
             "@phpunit.support",
+            "@phpunit.handler-resolvers",
             "@phpunit.unit",
             "@phpunit.integration"
         ],
         "phpunit.support": "phpunit --testsuite=support",
+        "phpunit.handler-resolvers": "phpunit --testsuite=handler-resolvers",
         "phpunit.unit": "phpunit --testsuite=unit",
         "phpunit.integration": "phpunit --testsuite=integration",
         "phpstan": "phpstan",
