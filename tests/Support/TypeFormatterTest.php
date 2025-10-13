@@ -9,56 +9,71 @@ use Tests\Support\Fixtures\SimpleBackedEnum;
 use Tests\Support\Fixtures\SimpleEnum;
 use Tests\TestCase;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
+use Generator;
 use Closure;
 
 final class TypeFormatterTest extends TestCase
 {
     #[Test]
-    public function it_formats_null(): void
+    #[DataProvider('provideValues')]
+    public function it_formats_correctly(string $expected, mixed $value): void
     {
-        $this->assertSame('null', TypeFormatter::format(null));
+        $this->assertSame($expected, TypeFormatter::format($value));
+    }
+
+    public static function provideValues(): Generator
+    {
+        yield 'null' => [
+            'expected' => 'null',
+            'value' => null,
+        ];
+
+        yield 'true' => [
+            'expected' => 'bool',
+            'value' => true,
+        ];
+
+        yield 'false' => [
+            'expected' => 'bool',
+            'value' => false,
+        ];
+
+        yield 'integer' => [
+            'expected' => 'int',
+            'value' => 123,
+        ];
+
+        yield 'float' => [
+            'expected' => 'float',
+            'value' => 1.23,
+        ];
+
+        yield 'string' => [
+            'expected' => 'string',
+            'value' => 'STRING',
+        ];
+
+        yield 'array' => [
+            'expected' => 'array',
+            'value' => [1, 2, 3],
+        ];
+
+        yield 'enum' => [
+            'expected' => 'enum(Tests\Support\Fixtures\SimpleEnum)',
+            'value' => SimpleEnum::ONE,
+        ];
+
+        yield 'backed enum' => [
+            'expected' => 'enum(Tests\Support\Fixtures\SimpleBackedEnum)',
+            'value' => SimpleBackedEnum::ONE,
+        ];
     }
 
     #[Test]
-    public function it_formats_true(): void
-    {
-        $this->assertSame('bool', TypeFormatter::format(true));
-    }
-
-    #[Test]
-    public function it_formats_false(): void
-    {
-        $this->assertSame('bool', TypeFormatter::format(false));
-    }
-
-    #[Test]
-    public function it_formats_integers(): void
-    {
-        $this->assertSame('int', TypeFormatter::format(123));
-    }
-
-    #[Test]
-    public function it_formats_floats(): void
-    {
-        $this->assertSame('float', TypeFormatter::format(1.23));
-    }
-
-    #[Test]
-    public function it_formats_strings(): void
-    {
-        $this->assertSame('string', TypeFormatter::format('STRING'));
-    }
-
-    #[Test]
-    public function it_formats_arrays(): void
-    {
-        $this->assertSame('array', TypeFormatter::format([1, 2, 3]));
-    }
-
-    #[Test]
-    public function it_formats_closures(): void
+    public function it_formats_closures_correctly(): void
     {
         $closure = function () {
             return 42;
@@ -68,33 +83,14 @@ final class TypeFormatterTest extends TestCase
     }
 
     #[Test]
-    public function it_formats_enums(): void
-    {
-        $enum = SimpleEnum::ONE;
-
-        $this->assertSame(
-            'enum(Tests\Support\Fixtures\SimpleEnum)',
-            TypeFormatter::format($enum),
-        );
-    }
-
-    #[Test]
-    public function it_formats_backed_enums(): void
-    {
-        $enum = SimpleBackedEnum::ONE;
-
-        $this->assertSame(
-            'enum(Tests\Support\Fixtures\SimpleBackedEnum)',
-            TypeFormatter::format($enum),
-        );
-    }
-
-    #[Test]
-    public function it_formats_objects(): void
+    public function it_formats_objects_correctly(): void
     {
         $obj = new class {
         };
 
-        $this->assertSame(sprintf('object(%s)', get_class($obj)), TypeFormatter::format($obj));
+        $this->assertSame(
+            sprintf('object(%s)', get_class($obj)),
+            TypeFormatter::format($obj),
+        );
     }
 }
