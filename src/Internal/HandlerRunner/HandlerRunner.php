@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\HandlerRunner;
+namespace Pathway\Internal\HandlerRunner;
 
 use Pathway\DispatcherInterface;
 

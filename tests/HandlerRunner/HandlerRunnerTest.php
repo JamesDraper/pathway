@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\HandlerRunner;
 
-use Pathway\HandlerRunner\HandlerRunner;
-use Pathway\HandlerRunner\Method;
+use Pathway\Internal\HandlerRunner\HandlerRunner;
+use Pathway\Internal\HandlerRunner\Method;
 use Pathway\DispatcherInterface;
 
 use Tests\TestCase;

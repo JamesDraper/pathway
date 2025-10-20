@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\HandlerRunner;
 
-use Pathway\HandlerRunner\HandlerRunnerFactory;
+use Pathway\Internal\HandlerRunner\HandlerRunnerFactory;
 
 use Tests\TestCase;
 
