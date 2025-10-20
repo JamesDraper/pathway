@@ -35,11 +35,13 @@
             "@phpunit.support",
             "@phpunit.handler-resolvers",
             "@phpunit.handler-runner",
+            "@phpunit.dispatcher",
             "@phpunit.unit"
         ],
         "phpunit.support": "phpunit --testsuite=support",
         "phpunit.handler-resolvers": "phpunit --testsuite=handler-resolvers",
         "phpunit.handler-runner": "phpunit --testsuite=handler-runner",
+        "phpunit.dispatcher": "phpunit --testsuite=dispatcher",
         "phpunit.unit": "phpunit --testsuite=unit",
         "phpstan": "phpstan",
         "phpcs": [

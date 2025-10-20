@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Pathway\Internal;
 
+use Pathway\Internal\Support\TypeFormatter;
 use Pathway\Internal\Throwable;
 
 /**
@@ -54,6 +55,18 @@ class Exception extends \Exception implements Throwable
             'code' => ExceptionCode::TOO_MANY_ARGUMENTS,
             'handler' => $handler,
             'method' => $method,
+        ]);
+    }
+
+    public static function eventHandlerNotObject(string $eventHandlerClassPath, int $index, mixed $handler): self
+    {
+        $type = TypeFormatter::format($handler);
+
+        return new self(ExceptionCode::EVENT_HANDLER_NOT_OBJECT, [
+            'code' => ExceptionCode::EVENT_HANDLER_NOT_OBJECT,
+            'handler' => $eventHandlerClassPath,
+            'index' => $index,
+            'type' => $type,
         ]);
     }
 

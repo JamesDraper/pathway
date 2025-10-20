@@ -7,7 +7,7 @@ interface EventHandlerResolverInterface
 {
     /**
      * @param class-string $classPath
-     * @return object[]
+     * @return list<object>
      */
     public function resolve(string $classPath): iterable;
 }

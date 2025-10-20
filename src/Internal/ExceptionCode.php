@@ -13,4 +13,5 @@ enum ExceptionCode: int
     case MIXED_OR_NON_SEQUENTIAL_ARGUMENTS = 2;
     case MISSING_ARGUMENTS = 3;
     case TOO_MANY_ARGUMENTS = 4;
+    case EVENT_HANDLER_NOT_OBJECT = 5;
 }
