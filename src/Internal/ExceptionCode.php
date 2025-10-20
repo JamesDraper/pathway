@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Internal\HandlerRunner;
+namespace Pathway\Internal;
 
 /**
  * @internal

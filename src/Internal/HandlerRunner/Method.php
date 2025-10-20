@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Pathway\Internal\HandlerRunner;
 
+use Pathway\Internal\Exception;
+
 use ReflectionException;
 use ReflectionParameter;
 use ReflectionMethod;

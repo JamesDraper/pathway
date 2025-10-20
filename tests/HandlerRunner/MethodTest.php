@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests\HandlerRunner;
 
-use Pathway\Internal\HandlerRunner\Exception;
 use Pathway\Internal\HandlerRunner\Method;
+use Pathway\Internal\Exception;
 
 use Tests\TestCase;
 
