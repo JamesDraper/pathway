@@ -20,14 +20,26 @@ use stdClass;
 
 final class HandlerRunnerTest extends TestCase
 {
+    /**
+     * @phpstan-ignore missingType.generics
+     */
     private readonly HandlerRunner $handlerRunner;
 
     private readonly DispatcherInterface&MockInterface $dispatcher;
 
+    /**
+     * @phpstan-ignore missingType.generics
+     */
     private readonly Method&MockInterface $prepare;
 
+    /**
+     * @phpstan-ignore missingType.generics
+     */
     private readonly Method&MockInterface $process;
 
+    /**
+     * @phpstan-ignore missingType.generics
+     */
     private readonly Method&MockInterface $finalize;
 
     #[Test]

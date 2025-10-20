@@ -13,7 +13,7 @@ class HandlerRunnerFactory
     /**
      * @template THandler of object
      * @param THandler $handler
-     * @return Handler<THandler>
+     * @return HandlerRunner<THandler>
      */
     public function make(object $handler): HandlerRunner
     {

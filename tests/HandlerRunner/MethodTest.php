@@ -18,8 +18,14 @@ final class MethodTest extends TestCase
 
     private readonly object $toArrayHandler;
 
+    /**
+     * @phpstan-ignore missingType.generics
+     */
     private readonly Method $addMethod;
 
+    /**
+     * @phpstan-ignore missingType.generics
+     */
     private readonly Method $toArrayMethod;
 
     #[Test]
@@ -195,6 +201,9 @@ final class MethodTest extends TestCase
     public function it_throws_an_exception_when_method_is_private(): void
     {
         $handler = new class {
+            /**
+             * @phpstan-ignore method.unused
+             */
             private function add(int $a = 1, int $b = 2): int
             {
                 return $a + $b;
@@ -211,6 +220,9 @@ final class MethodTest extends TestCase
     public function it_throws_an_exception_when_method_does_not_exist(): void
     {
         $handler = new class {
+            /**
+             * @phpstan-ignore method.unused
+             */
             private function subtract(int $a = 1, int $b = 2): int
             {
                 return $a - $b;
@@ -320,7 +332,12 @@ final class MethodTest extends TestCase
         $this->toArrayMethod = $this->makeMethod($this->toArrayHandler, 'toArray');
     }
 
-    private function makeMethod(object $handler, string $method): mixed
+    /**
+     * @template THandler of object
+     * @param THandler $handler
+     * @return Method<THandler>
+     */
+    private function makeMethod(object $handler, string $method): Method
     {
         return new Method(new ReflectionClass($handler), $handler, $method);
     }
