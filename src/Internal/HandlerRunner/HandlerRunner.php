@@ -8,7 +8,6 @@ use Pathway\DispatcherInterface;
 /**
  * @internal
  * @template THandler of object
- * @phpstan-type ArgumentList array<string, mixed>|list<mixed>
  */
 class HandlerRunner
 {
@@ -27,12 +26,12 @@ class HandlerRunner
     public function run(object $message, DispatcherInterface $dispatcher): mixed
     {
         /**
-         * @var ArgumentList $prepared
+         * @var array<string, mixed>|list<mixed> $prepared
          */
         $prepared = $this->prepare->invoke([$message, $dispatcher]);
 
         /**
-         * @var ArgumentList $processed
+         * @var array<string, mixed>|list<mixed> $processed
          */
         $processed = $this->process->invoke($prepared);
 
