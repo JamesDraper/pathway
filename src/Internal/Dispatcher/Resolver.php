@@ -59,7 +59,7 @@ class Resolver
         if (!isset($this->eventHandlerMap[$classPath])) {
             $this->eventHandlerMap[$classPath] = [];
 
-            $handlers = array_values($this->eventHandlerResolver->resolve($classPath));
+            $handlers = array_values($this->eventHandlerResolver->resolve($classPath)); // @phpstan-ignore arrayValues.list
 
             foreach ($handlers as $i => $handler) {
                 if (!is_object($handler)) { // @phpstan-ignore function.alreadyNarrowedType

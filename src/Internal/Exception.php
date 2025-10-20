@@ -11,6 +11,9 @@ use Pathway\Internal\Throwable;
  */
 class Exception extends \Exception implements Throwable
 {
+    /**
+     * @var array<string, mixed>
+     */
     private readonly array $snapshot;
 
     public static function methodDoesNotExist(object $handler, string $method): self
@@ -71,7 +74,7 @@ class Exception extends \Exception implements Throwable
     }
 
     /**
-     * @param array<string, scalar|null> $snapshot
+     * @param array<string, mixed> $snapshot
      */
     public function __construct(ExceptionCode $code, array $snapshot)
     {

@@ -7,7 +7,7 @@ interface Throwable extends \Throwable
 {
     /**
      * @internal
-     * @return array<string, scalar|null>
+     * @return array<string, mixed>
      */
     public function snapshot(): array;
 }
