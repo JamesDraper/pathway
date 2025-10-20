@@ -35,14 +35,12 @@
             "@phpunit.support",
             "@phpunit.handler-resolvers",
             "@phpunit.handler-runner",
-            "@phpunit.unit",
-            "@phpunit.integration"
+            "@phpunit.unit"
         ],
         "phpunit.support": "phpunit --testsuite=support",
         "phpunit.handler-resolvers": "phpunit --testsuite=handler-resolvers",
         "phpunit.handler-runner": "phpunit --testsuite=handler-runner",
         "phpunit.unit": "phpunit --testsuite=unit",
-        "phpunit.integration": "phpunit --testsuite=integration",
         "phpstan": "phpstan",
         "phpcs": [
             "@phpcs.src",
