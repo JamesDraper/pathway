@@ -21,9 +21,9 @@ class Method
     /**
      * @var THandler
      */
-    private readonly object $handler;
+    public readonly object $handler;
 
-    private readonly string $name;
+    public readonly string $name;
 
     /**
      * @var Parameter[]
@@ -87,16 +87,6 @@ class Method
         }
 
         return $this->handler->{$this->name}(...$resolved);
-    }
-
-    public function getHandler(): object
-    {
-        return $this->handler;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
     }
 
     /**
