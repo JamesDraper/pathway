@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Pathway\HandlerResolvers\PsrContainer;
 
 use Pathway\HandlerResolvers\CommandHandlerResolverInterface;
-use Pathway\Support\TypeFormatter;
+use Pathway\Internal\Support\TypeFormatter;
 
 use Psr\Container\ContainerInterface;
 

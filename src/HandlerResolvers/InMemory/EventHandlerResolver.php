@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Pathway\HandlerResolvers\InMemory;
 
 use Pathway\HandlerResolvers\EventHandlerResolverInterface;
-use Pathway\Support\TypeChecker;
+use Pathway\Internal\Support\TypeChecker;
 
 final class EventHandlerResolver implements EventHandlerResolverInterface
 {

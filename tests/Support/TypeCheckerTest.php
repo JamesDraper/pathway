@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests\Support;
 
-use Pathway\Support\TypeChecker;
+use Pathway\Internal\Support\TypeChecker;
 
 use Tests\TestCase;
 

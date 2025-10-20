@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Pathway\Support;
+namespace Pathway\Internal\Support;
 
 use function array_is_list;
 use function is_object;
