@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Pathway\Throwable;
+use Pathway\Internal\Throwable;
 
 use Mockery;
 
