@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Handler;
+namespace Tests\HandlerRunner;
 
 use Pathway\HandlerRunner\HandlerRunner;
 use Pathway\HandlerRunner\Method;
