@@ -1,0 +1,50 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Pathway\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "require": {
+        "php": ">=8.4.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^12.4",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "squizlabs/php_codesniffer": "^4.0",
+        "mockery/mockery": "^1.6",
+        "phpstan/phpstan-mockery": "^2.0",
+        "psr/container": "^2.0",
+        "symfony/var-dumper": "^7.3"
+    },
+    "suggest": {
+        "psr/container": "To use container-based handler resolvers."
+    },
+    "scripts": {
+        "test": [
+            "@phpunit",
+            "@phpstan",
+            "@phpcs"
+        ],
+        "phpunit": [
+            "@phpunit.support",
+            "@phpunit.unit",
+            "@phpunit.integration"
+        ],
+        "phpunit.support": "phpunit --testsuite=support",
+        "phpunit.unit": "phpunit --testsuite=unit",
+        "phpunit.integration": "phpunit --testsuite=integration",
+        "phpstan": "phpstan",
+        "phpcs": [
+            "@phpcs.src",
+            "@phpcs.test"
+        ],
+        "phpcs.src": "phpcs src --standard=phpcs.src.xml",
+        "phpcs.test": "phpcs tests --standard=phpcs.test.xml"
+    }
+}
