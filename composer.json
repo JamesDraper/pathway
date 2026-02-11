@@ -12,10 +12,17 @@
     "require-dev": {
         "phpunit/phpunit": "^13.0",
         "mockery/mockery": "^1.6",
-        "phpstan/phpstan": "^2.1"
+        "phpstan/phpstan": "^2.1",
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "scripts": {
         "phpunit": "phpunit",
-        "phpstan": "phpstan"
+        "phpstan": "phpstan",
+        "phpcs": [
+            "@phpcs.src",
+            "@phpcs.tests"
+        ],
+        "phpcs.src": "phpcs src --standard=phpcs.src.xml",
+        "phpcs.tests": "phpcs tests --standard=phpcs.tests.xml"
     }
 }
