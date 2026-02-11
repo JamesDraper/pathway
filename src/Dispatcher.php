@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Pathway;
 
+use Pathway\Resolvers\CommandHandlerResolver;
+use Pathway\Resolvers\EventHandlerResolver;
+
 class Dispatcher implements DispatcherInterface
 {
     public function __construct(

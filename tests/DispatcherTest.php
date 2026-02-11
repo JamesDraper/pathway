@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Pathway\CommandHandlerResolver;
-use Pathway\EventHandlerResolver;
+use Pathway\Resolvers\CommandHandlerResolver;
+use Pathway\Resolvers\EventHandlerResolver;
 use Pathway\DispatcherInterface;
 use Pathway\Dispatcher;
 
