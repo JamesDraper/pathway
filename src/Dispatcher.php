@@ -6,7 +6,7 @@ namespace Pathway;
 use Pathway\Resolvers\CommandHandlerResolver;
 use Pathway\Resolvers\EventHandlerResolver;
 
-class Dispatcher implements DispatcherInterface
+final class Dispatcher implements DispatcherInterface
 {
     public function __construct(
         public readonly CommandHandlerResolver $commandHandlerResolver,
