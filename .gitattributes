@@ -1,2 +1,8 @@
 # Enforce Unix new line characters.
 * text=auto eol=lf
+
+/tests export-ignore
+
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/phpunit.xml.dist export-ignore
