@@ -5,6 +5,7 @@ namespace Tests;
 
 use Pathway\CommandHandlerResolver;
 use Pathway\EventHandlerResolver;
+use Pathway\DispatcherInterface;
 use Pathway\Dispatcher;
 
 use PHPUnit\Framework\Attributes\Test;
@@ -14,6 +15,17 @@ use Mockery;
 
 final class DispatcherTest extends MockeryTestCase
 {
+    #[Test]
+    public function it_implements_the_dispatcher_interface(): void
+    {
+        $dispatcher = new Dispatcher(
+            Mockery::mock(CommandHandlerResolver::class),
+            Mockery::mock(EventHandlerResolver::class),
+        );
+
+        $this->assertInstanceOf(DispatcherInterface::class, $dispatcher);
+    }
+
     #[Test]
     public function it_disptches_commands(): void
     {

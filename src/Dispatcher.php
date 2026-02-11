@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Pathway;
 
-class Dispatcher
+class Dispatcher implements DispatcherInterface
 {
     public function __construct(
         public readonly CommandHandlerResolver $commandHandlerResolver,
