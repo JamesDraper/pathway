@@ -65,7 +65,7 @@ final class DispatcherTest extends MockeryTestCase
         $this->assertSame(['finalized'], $result);
     }
 
-        #[Test]
+    #[Test]
     public function it_disptches_events(): void
     {
         $commandHandlerResolver = Mockery::mock(CommandHandlerResolver::class);
