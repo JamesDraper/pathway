@@ -5,4 +5,7 @@
 
 /.gitattributes export-ignore
 /.gitignore export-ignore
+/phpcs.src.xml export-ignore
+/phpcs.src.tests export-ignore
+/phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
