@@ -3,11 +3,10 @@ declare(strict_types=1);
 
 namespace Pathway\Resolvers;
 
-interface EventHandlerResolver
+interface CommandHandlerResolverInterface
 {
     /**
      * @param class-string $classPath
-     * @return list<object>
      */
-    public function resolve(string $classPath): iterable;
+    public function resolve(string $classPath): object;
 }

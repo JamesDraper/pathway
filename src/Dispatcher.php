@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace Pathway;
 
-use Pathway\Resolvers\CommandHandlerResolver;
-use Pathway\Resolvers\EventHandlerResolver;
+use Pathway\Resolvers\CommandHandlerResolverInterface;
+use Pathway\Resolvers\EventHandlerResolverInterface;
 
 final class Dispatcher implements DispatcherInterface
 {
     public function __construct(
-        public readonly CommandHandlerResolver $commandHandlerResolver,
-        public readonly EventHandlerResolver $eventHandlerResolver,
+        public readonly CommandHandlerResolverInterface $commandHandlerResolver,
+        public readonly EventHandlerResolverInterface $eventHandlerResolver,
     ) {
     }
 

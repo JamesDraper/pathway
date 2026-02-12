@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use Pathway\Resolvers\CommandHandlerResolver;
-use Pathway\Resolvers\EventHandlerResolver;
+use Pathway\Resolvers\CommandHandlerResolverInterface;
+use Pathway\Resolvers\EventHandlerResolverInterface;
 use Pathway\DispatcherInterface;
 use Pathway\Dispatcher;
 
@@ -19,8 +19,8 @@ final class DispatcherTest extends MockeryTestCase
     public function it_implements_the_dispatcher_interface(): void
     {
         $dispatcher = new Dispatcher(
-            Mockery::mock(CommandHandlerResolver::class),
-            Mockery::mock(EventHandlerResolver::class),
+            Mockery::mock(CommandHandlerResolverInterface::class),
+            Mockery::mock(EventHandlerResolverInterface::class),
         );
 
         $this->assertInstanceOf(DispatcherInterface::class, $dispatcher);
@@ -29,9 +29,9 @@ final class DispatcherTest extends MockeryTestCase
     #[Test]
     public function it_disptches_commands(): void
     {
-        $commandHandlerResolver = Mockery::mock(CommandHandlerResolver::class);
+        $commandHandlerResolver = Mockery::mock(CommandHandlerResolverInterface::class);
 
-        $eventHandlerResolver = Mockery::mock(EventHandlerResolver::class);
+        $eventHandlerResolver = Mockery::mock(EventHandlerResolverInterface::class);
 
         $dispatcher = new Dispatcher($commandHandlerResolver, $eventHandlerResolver);
 
@@ -68,9 +68,9 @@ final class DispatcherTest extends MockeryTestCase
     #[Test]
     public function it_disptches_events(): void
     {
-        $commandHandlerResolver = Mockery::mock(CommandHandlerResolver::class);
+        $commandHandlerResolver = Mockery::mock(CommandHandlerResolverInterface::class);
 
-        $eventHandlerResolver = Mockery::mock(EventHandlerResolver::class);
+        $eventHandlerResolver = Mockery::mock(EventHandlerResolverInterface::class);
 
         $dispatcher = new Dispatcher($commandHandlerResolver, $eventHandlerResolver);
 
