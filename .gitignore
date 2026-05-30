@@ -1,5 +1,6 @@
 /.bypass-finals-cache/*
 /vendor/*
+/notes/*
 
 /.phpunit.result.cache
 /composer.lock
