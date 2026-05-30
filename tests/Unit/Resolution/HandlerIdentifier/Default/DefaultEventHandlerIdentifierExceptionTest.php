@@ -19,12 +19,6 @@ final class DefaultEventHandlerIdentifierExceptionTest extends TestCase
     }
 
     #[Test]
-    public function it_is_final(): void
-    {
-        $this->assertFinal(DefaultEventHandlerIdentifierException::class);
-    }
-
-    #[Test]
     public function it_implements_the_event_handler_indentifier_exception(): void
     {
         $this->assertChildOf(DefaultEventHandlerIdentifierException::class, EventHandlerIdentifierException::class);

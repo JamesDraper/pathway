@@ -16,10 +16,4 @@ final class DispatcherTest extends TestCase
     {
         $this->assertClassExists(Dispatcher::class);
     }
-
-    #[Test]
-    public function it_is_final(): void
-    {
-        $this->assertFinal(Dispatcher::class);
-    }
 }

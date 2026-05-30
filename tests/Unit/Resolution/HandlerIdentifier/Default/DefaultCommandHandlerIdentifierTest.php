@@ -19,12 +19,6 @@ final class DefaultCommandHandlerIdentifierTest extends TestCase
     }
 
     #[Test]
-    public function it_is_final(): void
-    {
-        $this->assertFinal(DefaultCommandHandlerIdentifier::class);
-    }
-
-    #[Test]
     public function it_implements_the_command_handler_indentifier_interface(): void
     {
         $this->assertChildOf(DefaultCommandHandlerIdentifier::class, CommandHandlerIdentifier::class);

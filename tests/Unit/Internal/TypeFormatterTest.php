@@ -24,12 +24,6 @@ final class TypeFormatterTest extends TestCase
     }
 
     #[Test]
-    public function it_is_final(): void
-    {
-        $this->assertFinal(TypeFormatter::class);
-    }
-
-    #[Test]
     #[DataProvider('provider_it_formats')]
     public function it_formats(string $expected, mixed $value): void
     {

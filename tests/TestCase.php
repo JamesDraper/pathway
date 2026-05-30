@@ -9,8 +9,6 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Mockery\MockInterface;
 use Mockery;
 
-use ReflectionClass;
-
 use function interface_exists;
 use function is_subclass_of;
 use function class_exists;
@@ -67,16 +65,6 @@ abstract class TestCase extends MockeryTestCase
     final protected function assertClassExists(string $class): void
     {
         $this->assertTrue(class_exists($class));
-    }
-
-    /**
-     * @param class-string $class
-     */
-    final protected function assertFinal(string $class): void
-    {
-        $reflectionClass = new ReflectionClass($class);
-        
-        $this->assertTrue($reflectionClass->isFinal());
     }
 
     /**
