@@ -26,6 +26,7 @@ final class ClassInfoFactoryTest extends TestCase
         $result = $classInfoFactory->make(Fixtures\EmptyClass::class);
 
         $this->assertNotNull($result);
+        $this->assertSame(Fixtures\EmptyClass::class, $result->getName());
     }
 
     #[Test]

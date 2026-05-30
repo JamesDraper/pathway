@@ -24,6 +24,11 @@ final class ClassInfo
     {
     }
 
+    public function getName(): string
+    {
+        return $this->class->getName();
+    }
+
     public function getMethodInfo(string $method): ?MethodInfo
     {
         if (!array_key_exists($method, $this->methodInfos)) {
