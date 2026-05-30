@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Info;
+namespace Tests\Integration\Internal\Info;
 
 use Pathway\Internal\Info\ParameterInfo;
 use Pathway\Internal\Info\MethodInfo;
