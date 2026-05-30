@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Pathway;
 
-interface Dispatcher
+final class Dispatcher implements DispatcherInterface
 {
-    /**
-     * @throws PathwayException
-     */
-    public function command(object $command): mixed;
+    public function command(object $command): mixed
+    {
+        // todo: finish this.
+    }
 
-    /**
-     * @throws PathwayException
-     */
-    public function event(object $event): void;
+    public function event(object $event): void
+    {
+        // todo: finish this.
+    }
 }

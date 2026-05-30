@@ -14,6 +14,12 @@ final class DispatcherTest extends TestCase
     #[Test]
     public function it_exists(): void
     {
-        $this->assertInterfaceExists(Dispatcher::class);
+        $this->assertClassExists(Dispatcher::class);
+    }
+
+    #[Test]
+    public function it_is_final(): void
+    {
+        $this->assertFinal(Dispatcher::class);
     }
 }
