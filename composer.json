@@ -17,6 +17,11 @@
         "squizlabs/php_codesniffer": "^4.0"
     },
     "scripts": {
+        "test": [
+            "@phpunit",
+            "@phpstan",
+            "@phpcs"
+        ],
         "phpunit": "phpunit",
         "phpstan": "phpstan",
         "phpcs": [
