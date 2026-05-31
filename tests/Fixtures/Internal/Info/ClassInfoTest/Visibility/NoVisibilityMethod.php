@@ -5,6 +5,7 @@ namespace Tests\Fixtures\Internal\Info\ClassInfoTest\Visibility;
 
 final class NoVisibilityMethod
 {
+    // // phpcs:ignore Squiz.Scope.MethodScope
     function greetNoVisibility(): void
     {
         echo 'Hello World!';
