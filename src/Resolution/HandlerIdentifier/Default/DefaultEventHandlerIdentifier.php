@@ -22,7 +22,7 @@ final class DefaultEventHandlerIdentifier implements EventHandlerIdentifier
         $handlers = $this->lookup[$class] ?? [];
 
         foreach ($handlers as $handler) {
-            if (!is_string($handler)) {
+            if (!is_string($handler)) { // @phpstan-ignore function.alreadyNarrowedType
                 $typeFormatter = $this->makeTypeFormatter();
                 $type = $typeFormatter->format($handler);
 

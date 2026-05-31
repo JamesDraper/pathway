@@ -25,7 +25,7 @@ final class TypeFormatter
             'integer' => 'int',
             'double' => 'float',
             'array' => 'array',
-            'object' => $this->formatObject($value),
+            'object' => $this->formatObject($value), // @phpstan-ignore argument.type
             'resource', 'resource (closed)' => 'resource',
             default => $type,
         };

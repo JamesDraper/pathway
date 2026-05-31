@@ -15,7 +15,7 @@ use function array_map;
 final class ClassInfo
 {
     /**
-     * @param array<string, MethodInfo> $methodInfos
+     * @var array<string, MethodInfo|null> $methodInfos
      */
     private array $methodInfos = [];
 
