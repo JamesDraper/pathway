@@ -104,6 +104,15 @@ final class ClassInfoTest extends TestCase
                 'class' => Fixtures\Visibility\PrivateMethod::class,
                 'method' => 'greetPrivate',
             ],
+            'no visibility method' => [
+                'expected' => [
+                    'visibility' => Visibility::PUBLIC,
+                    'isStatic' => false,
+                    'parameters' => [],
+                ],
+                'class' => Fixtures\Visibility\NoVisibilityMethod::class,
+                'method' => 'greetNoVisibility',
+            ],
         ];
 
         $isStatic = [

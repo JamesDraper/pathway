@@ -68,6 +68,12 @@ final class MethodInfoTest extends TestCase
                 'class' => Fixtures\PrivateMethod::class,
                 'method' => 'greetPrivate',
             ],
+            'no visibility method' => [
+                'expectedVisibility' => Visibility::PUBLIC,
+                'expectedIsStatic' => false,
+                'class' => Fixtures\NoVisibilityMethod::class,
+                'method' => 'greetNoVisibility',
+            ],
             'static' => [
                 'expectedVisibility' => Visibility::PUBLIC,
                 'expectedIsStatic' => true,
