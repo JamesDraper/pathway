@@ -1,19 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Info;
+namespace Tests\Info\MethodInfoTest;
 
-use Pathway\Internal\Info\ParameterInfo;
 use Pathway\Internal\Info\MethodInfo;
-use Pathway\Internal\Info\Visibility;
 
-use Tests\Fixtures\Internal\Info\MethodInfoTest as Fixtures;
+use Tests\Info\MethodInfoTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Test;
-
-use ReflectionMethod;
+use PHPUnit\Framework\Attributes\Test;;
 
 final class MethodInfoTest extends TestCase
 {

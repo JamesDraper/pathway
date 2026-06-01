@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Internal\Info\MethodInfoTest;
+namespace Tests\Info\MethodInfoTest\Fixtures;
 
 final class StaticMethod
 {
