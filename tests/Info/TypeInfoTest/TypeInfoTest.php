@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Info;
+namespace Tests\Info\TypeInfoTest;
 
 use Pathway\Internal\Info\TypeInfo;
 
-use Tests\Fixtures\Internal\Info\TypeInfoTest as Fixtures;
+use Tests\Info\TypeInfoTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;
