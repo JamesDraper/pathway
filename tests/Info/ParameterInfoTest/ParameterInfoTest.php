@@ -1,21 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal\Info;
+namespace Tests\Info\ParameterInfoTest;
 
 use Pathway\Internal\Info\ParameterInfo;
 use Pathway\Internal\Info\TypeInfo;
 
+use Tests\Info\ParameterInfoTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionParameter;
-use ReflectionFunction;
-use Closure;
+use ReflectionClass;
 
-use function sprintf;
+use function array_shift;
 
 final class ParameterInfoTest extends TestCase
 {
@@ -32,9 +32,10 @@ final class ParameterInfoTest extends TestCase
         bool $expectedIsVariadric,
         bool $expectedHasDefault,
         mixed $expectedDefault,
-        string $parameterString,
+        string $class,
+        string $method,
     ): void {
-        $reflectionParameter = $this->getReflectionParameter($parameterString);
+        $reflectionParameter = $this->getReflectionParameter($class, $method);
 
         $typeInfo = $this->makeMock(TypeInfo::class);
 
@@ -51,40 +52,38 @@ final class ParameterInfoTest extends TestCase
     {
         return [
             [
-                'expectedName' => 'one',
+                'expectedName' => 'str',
                 'expectedIsVariadric' => false,
                 'expectedHasDefault' => false,
                 'expectedDefault' => null,
-                'parameterString' => 'string $one',
+                'class' => Fixtures\SimpleParameter::class,
+                'method' => 'reverse',
             ],
             [
-                'expectedName' => 'two',
+                'expectedName' => 'strs',
                 'expectedIsVariadric' => true,
                 'expectedHasDefault' => false,
                 'expectedDefault' => null,
-                'parameterString' => 'string ...$two',
+                'class' => Fixtures\VariadicParameter::class,
+                'method' => 'concatenate',
             ],
             [
-                'expectedName' => 'three',
+                'expectedName' => 'user',
                 'expectedIsVariadric' => false,
                 'expectedHasDefault' => true,
-                'expectedDefault' => 'THREE',
-                'parameterString' => 'string $three = "THREE"',
+                'expectedDefault' => 'guest',
+                'class' => Fixtures\DefaultValueParameter::class,
+                'method' => 'greet',
             ],
         ];
     }
 
-    private function getReflectionParameter(string $type): ReflectionParameter
+    private function getReflectionParameter(string $class, string $method): ReflectionParameter
     {
-        $src = sprintf('return function(%s) {};', $type);
+        $reflectionClass = new ReflectionClass($class);
 
-        /**
-         * @var Closure $function
-         */
-        $function = eval($src);
+        $reflectionParameters = $reflectionClass->getMethod($method)->getParameters();
 
-        $reflectionFunction = new ReflectionFunction($function);
-
-        return $reflectionFunction->getParameters()[0];
+        return array_shift($reflectionParameters);
     }
 }
