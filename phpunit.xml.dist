@@ -7,8 +7,12 @@
          colors="true"
 >
     <testsuites>
-        <testsuite name="info">
-            <directory>tests/Info</directory>
+        <testsuite name="info.unit">
+            <directory>tests/Info/Unit</directory>
+        </testsuite>
+
+        <testsuite name="info.integration">
+            <directory>tests/Info/Integration</directory>
         </testsuite>
 
         <!-- <testsuite name="unit">
