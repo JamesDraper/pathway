@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Internal\Info\ClassInfoTest\Variadic;
+namespace Tests\Info\Integration\Fixtures\Variadic;
 
 use function array_sum;
 

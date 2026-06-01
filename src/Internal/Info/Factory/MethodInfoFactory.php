@@ -6,6 +6,7 @@ namespace Pathway\Internal\Info\Factory;
 use Pathway\Internal\Info\ParameterInfo;
 use Pathway\Internal\Info\MethodInfo;
 
+use ReflectionParameter;
 use ReflectionMethod;
 
 use function array_map;

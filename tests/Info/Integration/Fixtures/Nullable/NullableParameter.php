@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Internal\Info\ClassInfoTest\Nullable;
+namespace Tests\Info\Integration\Fixtures\Nullable;
 
 use function session_id;
 
-final class NonNullableParameter
+final class NullableParameter
 {
     /**
      * @return string|false
      */
-    public function setSessionId(string $id)
+    public function setSessionId(?string $id)
     {
         return session_id($id);
     }

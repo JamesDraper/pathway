@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Internal\Info\ClassInfoTest\IsStatic;
+namespace Tests\Info\Integration\Fixtures\IsStatic;
 
 use function strrev;
 

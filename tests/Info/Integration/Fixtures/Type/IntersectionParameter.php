@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Internal\Info\ClassInfoTest\Type;
+namespace Tests\Info\Integration\Fixtures\Type;
 
 use Countable;
 use Iterator;
