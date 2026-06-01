@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Internal\TypeFormatterTest;
+namespace Tests\TypeFormatter\Fixtures;
 
 enum SimpleBackedEnum: string
 {

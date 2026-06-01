@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Internal;
+namespace Tests\TypeFormatter;
 
 use Pathway\Internal\TypeFormatter;
 
-use Tests\Fixtures\Internal\TypeFormatterTest\SimpleBackedEnum;
-use Tests\Fixtures\Internal\TypeFormatterTest\SimpleEnum;
+use Tests\TypeFormatter\Fixtures\SimpleBackedEnum;
+use Tests\TypeFormatter\Fixtures\SimpleEnum;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -64,11 +64,11 @@ final class TypeFormatterTest extends TestCase
                 'value' => [1, 2, 3],
             ],
             'enum' => [
-                'expected' => 'enum(Tests\Fixtures\Internal\TypeFormatterTest\SimpleEnum)',
+                'expected' => 'enum(Tests\\TypeFormatter\\Fixtures\\SimpleEnum)',
                 'value' => SimpleEnum::ONE,
             ],
             'backed enum' => [
-                'expected' => 'enum(Tests\Fixtures\Internal\TypeFormatterTest\SimpleBackedEnum)',
+                'expected' => 'enum(Tests\\TypeFormatter\\Fixtures\\SimpleBackedEnum)',
                 'value' => SimpleBackedEnum::ONE,
             ],
         ];

@@ -15,6 +15,10 @@
             <directory>tests/Info/Integration</directory>
         </testsuite>
 
+        <testsuite name="type-formatter">
+            <directory>tests/TypeFormatter</directory>
+        </testsuite>
+
         <!-- <testsuite name="unit">
             <directory>tests/Unit</directory>
         </testsuite>
