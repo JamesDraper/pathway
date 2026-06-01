@@ -5,9 +5,8 @@ namespace Pathway\Internal\Info;
 
 use Pathway\Internal\Info\Factory\MethodInfoFactory;
 
-use ReflectionClass;
-
 use function array_key_exists;
+use function method_exists;
 
 /**
  * @internal
@@ -19,16 +18,18 @@ class ClassInfo
      */
     private array $methodInfos = [];
 
-    // @phpstan-ignore missingType.generics
+    /**
+     * @param class-string $class
+     */
     public function __construct(
         private readonly MethodInfoFactory $methodInfoFactory,
-        private readonly ReflectionClass $class
+        private readonly string $class
     ) {
     }
     
     public function getName(): string
     {
-        return $this->class->getName();
+        return $this->class;
     }
 
     public function getMethodInfo(string $method): ?MethodInfo
@@ -42,12 +43,10 @@ class ClassInfo
 
     private function makeMethodInfo(string $method): ?MethodInfo
     {
-        if (!$this->class->hasMethod($methodName)) {
+        if (!method_exists($this->class, $method)) {
             return null;
         }
 
-        return $this->makeMethodInfo->make(
-            $this->class->getMethod($method),
-        );
+        return $this->methodInfoFactory->make($this->class, $method);
     }
 }

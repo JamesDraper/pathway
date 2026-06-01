@@ -16,13 +16,15 @@ class MethodInfoFactory
     {
     }
 
-    public function make(ReflectionMethod $method): MethodInfo
+    public function make(string $class, string $method): MethodInfo
     {
+        $reflectionMethod = ReflectionMethod::createFromMethodName($class . '::' . $method);
+
         $parameterInfos = array_map(
             fn (ReflectionParameter $parameter): ParameterInfo => $this->parameterInfoFactory->make($parameter),
-            $method->getParameters(),
+            $reflectionMethod->getParameters(),
         );
 
-        return new MethodInfo($method, $parameterInfos);
+        return new MethodInfo($reflectionMethod, $parameterInfos);
     }
 }
