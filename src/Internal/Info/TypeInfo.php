@@ -28,7 +28,7 @@ use function sort;
 /**
  * @internal
  */
-final class TypeInfo
+class TypeInfo
 {
     public function __construct(private readonly ?ReflectionType $type)
     {

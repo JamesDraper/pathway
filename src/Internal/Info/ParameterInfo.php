@@ -8,7 +8,7 @@ use ReflectionParameter;
 /**
  * @internal
  */
-final class ParameterInfo
+class ParameterInfo
 {
     public function __construct(
         private readonly ReflectionParameter $parameter,

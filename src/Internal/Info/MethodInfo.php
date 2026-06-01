@@ -8,7 +8,7 @@ use ReflectionMethod;
 /**
  * @internal
  */
-final class MethodInfo
+class MethodInfo
 {
     /**
      * @param list<ParameterInfo> $parameterInfos

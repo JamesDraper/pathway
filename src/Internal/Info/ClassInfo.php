@@ -12,7 +12,7 @@ use function array_key_exists;
 /**
  * @internal
  */
-final class ClassInfo
+class ClassInfo
 {
     /**
      * @var array<string, MethodInfo|null> $methodInfos
