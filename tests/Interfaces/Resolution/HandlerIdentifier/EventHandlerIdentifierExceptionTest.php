@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Resolution\HandlerIdentifier;
+namespace Tests\Interfaces\Resolution\HandlerIdentifier;
 
 use Pathway\Resolution\HandlerIdentifier\EventHandlerIdentifierException;
 use Pathway\Resolution\HandlerIdentifier\HandlerIdentifierException;

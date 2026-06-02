@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Invocation;
+namespace Tests\Interfaces\Invocation;
 
 use Pathway\Invocation\InvocationException;
 use Pathway\PathwayException;

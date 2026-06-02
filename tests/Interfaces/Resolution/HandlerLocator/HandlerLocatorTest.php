@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Resolution\HandlerLocator;
+namespace Tests\Interfaces\Resolution\HandlerLocator;
 
 use Pathway\Resolution\HandlerLocator\HandlerLocator;
 

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Unit\Invocation\ArgumentResolver;
+namespace Tests\Interfaces\Invocation\ArgumentResolver;
 
 use Pathway\Invocation\ArgumentResolver\ArgumentResolverException;
 use Pathway\Invocation\InvocationException;
