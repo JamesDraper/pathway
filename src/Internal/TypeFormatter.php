@@ -13,7 +13,7 @@ use function sprintf;
 /**
  * @internal
  */
-final class TypeFormatter
+class TypeFormatter
 {
     public function format(mixed $value): string
     {
