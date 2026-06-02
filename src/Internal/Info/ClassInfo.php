@@ -26,7 +26,7 @@ class ClassInfo
         private readonly string $class
     ) {
     }
-    
+
     public function getName(): string
     {
         return $this->class;
