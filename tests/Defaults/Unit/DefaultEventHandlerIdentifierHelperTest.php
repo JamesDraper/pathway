@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Tests\Defaults\Integration;
+namespace Tests\Defaults\Unit;
 
 use Pathway\Resolution\HandlerIdentifier\Default\DefaultEventHandlerIdentifierException;
 use Pathway\Resolution\HandlerIdentifier\Default\DefaultEventHandlerIdentifier;
+use Pathway\Internal\Defaults\DefaultEventHandlerIdentifierHelper;
 use Pathway\Resolution\HandlerIdentifier\EventHandlerIdentifier;
 use Pathway\Internal\TypeFormatter;
 
@@ -12,24 +13,19 @@ use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\Test;
 
-final class DefaultEventHandlerIdentifierTest extends TestCase
+final class DefaultEventHandlerIdentifierHelperTest extends TestCase
 {
     #[Test]
     public function it_exists(): void
     {
-        $this->assertClassExists(DefaultEventHandlerIdentifier::class);
-    }
-
-    #[Test]
-    public function it_implements_the_event_handler_indentifier_interface(): void
-    {
-        $this->assertChildOf(DefaultEventHandlerIdentifier::class, EventHandlerIdentifier::class);
+        $this->assertClassExists(DefaultEventHandlerIdentifierHelper::class);
     }
 
     #[Test]
     public function it_returns_the_handlers(): void
     {
-        $defaultEventHandlerIdentifier = new DefaultEventHandlerIdentifier([
+        $typeFormatter = $this->makeMock(TypeFormatter::class);
+        $defaultEventHandlerIdentifierHelper = new DefaultEventHandlerIdentifierHelper($typeFormatter, [
             'Class\\Path\\One' => [
                 'handler.one',
                 'handler.two',
@@ -40,7 +36,7 @@ final class DefaultEventHandlerIdentifierTest extends TestCase
             ],
         ]);
 
-        $result = $defaultEventHandlerIdentifier->identify('Class\\Path\\One');
+        $result = $defaultEventHandlerIdentifierHelper->identify('Class\\Path\\One');
 
         $this->assertSame([
             'handler.one',
@@ -51,7 +47,8 @@ final class DefaultEventHandlerIdentifierTest extends TestCase
     #[Test]
     public function it_returns_no_handlers_if_none_are_defined_for_the_class(): void
     {
-        $defaultEventHandlerIdentifier = new DefaultEventHandlerIdentifier([
+        $typeFormatter = $this->makeMock(TypeFormatter::class);
+        $defaultEventHandlerIdentifierHelper = new DefaultEventHandlerIdentifierHelper($typeFormatter, [
             'Class\\Path\\One' => [
                 'handler.one',
                 'handler.two',
@@ -62,7 +59,7 @@ final class DefaultEventHandlerIdentifierTest extends TestCase
             ],
         ]);
 
-        $result = $defaultEventHandlerIdentifier->identify('Class\\Path\\Three');
+        $result = $defaultEventHandlerIdentifierHelper->identify('Class\\Path\\Three');
 
         $this->assertSame([], $result);
     }
@@ -71,24 +68,26 @@ final class DefaultEventHandlerIdentifierTest extends TestCase
     public function it_throws_an_exception_if_a_handler_id_is_not_a_string(): void
     {
         $this->expectException(DefaultEventHandlerIdentifierException::class);
-        $this->expectExceptionMessage('Events must be resolved to string identifiers, got int.');
+        $this->expectExceptionMessage('Events must be resolved to string identifiers, got TYPE.');
 
-        $defaultEventHandlerIdentifier = $this->makePartialMock(
-            DefaultEventHandlerIdentifier::class,
-            [
-                [
-                    'Class\\Path\\One' => [
-                        'handler.one',
-                        'handler.two',
-                    ],
-                    'Class\\Path\\Two' => [
-                        'handler.three',
-                        123,
-                    ],
-                ],
+        $typeFormatter = $this->makeMock(TypeFormatter::class);
+
+        $defaultEventHandlerIdentifierHelper = new DefaultEventHandlerIdentifierHelper($typeFormatter, [
+            'Class\\Path\\One' => [
+                'handler.one',
+                'handler.two',
             ],
-        );
+            'Class\\Path\\Two' => [
+                'handler.three',
+                123,
+            ],
+        ]);
 
-        $defaultEventHandlerIdentifier->identify('Class\\Path\\Two');
+        $typeFormatter
+            ->expects()
+            ->format(123)
+            ->andReturn('TYPE');
+
+        $defaultEventHandlerIdentifierHelper->identify('Class\\Path\\Two');
     }
 }
