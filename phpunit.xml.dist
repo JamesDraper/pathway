@@ -22,6 +22,14 @@
         <testsuite name="interfaces">
             <directory>tests/Interfaces</directory>
         </testsuite>
+
+        <testsuite name="defaults.unit">
+            <directory>tests/Defaults/Unit</directory>
+        </testsuite>
+
+        <testsuite name="defaults.integration">
+            <directory>tests/Defaults/Integration</directory>
+        </testsuite>
     </testsuites>
 
     <source>
