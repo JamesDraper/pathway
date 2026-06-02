@@ -23,6 +23,7 @@
             "@phpcs"
         ],
         "phpunit": "phpunit",
+        "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpstan": "phpstan",
         "phpcs": [
             "@phpcs.src",
