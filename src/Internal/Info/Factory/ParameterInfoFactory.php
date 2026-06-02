@@ -7,6 +7,9 @@ use Pathway\Internal\Info\ParameterInfo;
 
 use ReflectionParameter;
 
+/**
+ * @internal
+ */
 class ParameterInfoFactory
 {
     public function __construct(private readonly TypeInfoFactory $typeInfoFactory)

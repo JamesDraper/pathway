@@ -7,6 +7,9 @@ use Pathway\Internal\Info\TypeInfo;
 
 use ReflectionType;
 
+/**
+ * @internal
+ */
 class TypeInfoFactory
 {
     public function make(?ReflectionType $type): TypeInfo

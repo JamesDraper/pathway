@@ -9,6 +9,9 @@ use Pathway\Internal\TypeFormatter;
 
 use function is_string;
 
+/**
+ * @internal
+ */
 class DefaultEventHandlerIdentifierHelper
 {
     /**

@@ -8,6 +8,9 @@ use Pathway\Internal\Info\ClassInfo;
 
 use function class_exists;
 
+/**
+ * @internal
+ */
 class ClassInfoFactory
 {
     public function __construct(private readonly MethodInfoFactory $methodInfoFactory)

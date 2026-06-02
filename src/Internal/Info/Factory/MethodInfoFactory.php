@@ -11,6 +11,9 @@ use ReflectionMethod;
 
 use function array_map;
 
+/**
+ * @internal
+ */
 class MethodInfoFactory
 {
     public function __construct(private readonly ParameterInfoFactory $parameterInfoFactory)
