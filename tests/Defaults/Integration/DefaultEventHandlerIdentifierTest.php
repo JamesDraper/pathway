@@ -73,21 +73,16 @@ final class DefaultEventHandlerIdentifierTest extends TestCase
         $this->expectException(DefaultEventHandlerIdentifierException::class);
         $this->expectExceptionMessage('Events must be resolved to string identifiers, got int.');
 
-        $defaultEventHandlerIdentifier = $this->makePartialMock(
-            DefaultEventHandlerIdentifier::class,
-            [
-                [
-                    'Class\\Path\\One' => [
-                        'handler.one',
-                        'handler.two',
-                    ],
-                    'Class\\Path\\Two' => [
-                        'handler.three',
-                        123,
-                    ],
-                ],
+        $defaultEventHandlerIdentifier = new DefaultEventHandlerIdentifier([
+            'Class\\Path\\One' => [
+                'handler.one',
+                'handler.two',
             ],
-        );
+            'Class\\Path\\Two' => [
+                'handler.three',
+                123,
+            ],
+        ]);
 
         $defaultEventHandlerIdentifier->identify('Class\\Path\\Two');
     }
