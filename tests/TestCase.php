@@ -24,21 +24,6 @@ abstract class TestCase extends MockeryTestCase
     }
 
     /**
-     * @template T of object
-     * @param class-string<T> $class
-     * @param list<mixed> $constructorArguments
-     * @return T&MockInterface
-     */
-    final protected function makePartialMock(string $class, array $constructorArguments = []): MockInterface
-    {
-        $mock = Mockery::mock($class, $constructorArguments)->makePartial();
-
-        $mock->shouldAllowMockingProtectedMethods();
-
-        return $mock;
-    }
-
-    /**
      * @param class-string $interface
      */
     final protected function assertInterfaceExists(string $interface): void
