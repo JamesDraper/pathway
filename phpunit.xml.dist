@@ -18,6 +18,10 @@
             <directory>tests/info/unit</directory>
         </testsuite>
 
+        <testsuite name="info.integration">
+            <file>tests/info/integration/InfoTest.php</file>
+        </testsuite>
+
         <testsuite name="unit">
             <directory>tests/Unit</directory>
         </testsuite>

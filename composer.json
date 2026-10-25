@@ -32,12 +32,14 @@
             "@phpunit.interfaces",
             "@phpunit.type-formatter",
             "@phpunit.info.unit",
+            "@phpunit.info.integration",
             "@phpunit.unit"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
         "phpunit.type-formatter": "phpunit --testsuite=interfaces",
         "phpunit.info.unit": "phpunit --testsuite=info.unit",
+        "phpunit.info.integration": "phpunit --testsuite=info.integration",
         "phpunit.unit": "phpunit --testsuite=unit",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
