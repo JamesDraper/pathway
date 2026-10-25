@@ -3,5 +3,8 @@
         "psr-4": {
             "Pathway\\": "src"
         }
+    },
+    "require": {
+        "php": ">=8.5.1"
     }
 }
