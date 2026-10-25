@@ -6,5 +6,11 @@
     },
     "require": {
         "php": ">=8.5.1"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.3"
+    },
+    "scripts": {
+        "phpstan": "phpstan analyze"
     }
 }
