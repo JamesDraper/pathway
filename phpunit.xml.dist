@@ -14,6 +14,10 @@
             <file>tests/type-formatter/TypeFormatterTest.php</file>
         </testsuite>
 
+        <testsuite name="info">
+            <directory>tests/info</directory>
+        </testsuite>
+
         <testsuite name="unit">
             <directory>tests/Unit</directory>
         </testsuite>

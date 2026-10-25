@@ -29,11 +29,13 @@
         "phpunit": [
             "@phpunit.interfaces",
             "@phpunit.type-formatter",
+            "@phpunit.info",
             "@phpunit.unit"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
         "phpunit.type-formatter": "phpunit --testsuite=interfaces",
+        "phpunit.info": "phpunit --testsuite=info",
         "phpunit.unit": "phpunit --testsuite=unit",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
