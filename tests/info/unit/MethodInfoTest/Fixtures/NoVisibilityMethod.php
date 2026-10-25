@@ -6,7 +6,7 @@ declare(strict_types=1);
  * @php-cs-fixer-ignore modifier_keywords
  */
 
-namespace Tests\Info\MethodInfoTest\Fixtures;
+namespace Tests\Info\Unit\MethodInfoTest\Fixtures;
 
 final class NoVisibilityMethod
 {

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Info\ParameterInfoTest;
+namespace Tests\Info\Unit\ParameterInfoTest;
 
 use Pathway\Internal\Info\ParameterInfo;
 use Pathway\Internal\Info\TypeInfo;
 
-use Tests\Info\ParameterInfoTest\Fixtures;
+use Tests\Info\Unit\ParameterInfoTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;

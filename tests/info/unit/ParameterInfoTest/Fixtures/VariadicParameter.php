@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Info\ParameterInfoTest\Fixtures;
+namespace Tests\Info\Unit\ParameterInfoTest\Fixtures;
 
 use function implode;
 

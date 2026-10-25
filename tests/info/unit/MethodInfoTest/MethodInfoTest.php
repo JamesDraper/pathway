@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Info\MethodInfoTest;
+namespace Tests\Info\Unit\MethodInfoTest;
 
 use Pathway\Internal\Info\MethodInfo;
 use Pathway\Internal\Info\Visibility;
 
-use Tests\Info\MethodInfoTest\Fixtures;
+use Tests\Info\Unit\MethodInfoTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;
