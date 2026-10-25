@@ -8,6 +8,9 @@ $rules = [
     '@auto' => true,
     '@auto:risky' => true,
     '@PhpCsFixer:risky' => true,
+    'final_internal_class' => false,
+    'php_unit_data_provider_return_type' => false,
+    'php_unit_data_provider_name' => false,
     'php_unit_test_case_static_method_calls' => [
         'call_type' => 'this',
     ],
