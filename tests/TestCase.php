@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests;
+
+use function interface_exists;
+use function is_subclass_of;
+use function class_exists;
+use function sprintf;
+
+abstract class TestCase extends \PHPUnit\Framework\TestCase
+{
+    /**
+     * @param class-string $class
+     * @param class-string $interface
+     */
+    final protected function assertImplementsInterface(string $class, string $interface): void
+    {
+        $this->assertClassExists($class);
+        $this->assertInterfaceExists($interface);
+
+        $message = sprintf('Class "%s" does not implement interface "%s".', $class, $interface);
+
+        $this->assertTrue(is_subclass_of($class, $interface), $message);
+    }
+
+    /**
+     * @param class-string $interface
+     */
+    final protected function assertInterfaceExists(string $interface): void
+    {
+        $message = sprintf('Interface "%s" does not exist.', $interface);
+
+        $this->assertTrue(interface_exists($interface), $message);
+    }
+
+    /**
+     * @param class-string $class
+     */
+    final protected function assertClassExists(string $class): void
+    {
+        $message = sprintf('Class "%s" does not exist.', $class);
+
+        $this->assertTrue(class_exists($class), $message);
+    }
+}
