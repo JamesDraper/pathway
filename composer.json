@@ -22,12 +22,12 @@
     },
     "scripts": {
         "test": [
+            "@phpunit",
             "@phpstan",
-            "@php-cs-fixer",
-            "@phpunit"
+            "@php-cs-fixer"
         ],
+        "phpunit": "phpunit",
         "phpstan": "phpstan analyze",
-        "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run",
-        "phpunit": "phpunit"
+        "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }
 }
