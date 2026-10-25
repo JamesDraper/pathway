@@ -7,7 +7,7 @@
     "autoload-dev": {
         "files": ["tests/TestCase.php"],
         "psr-4": {
-            "Tests\\Interfaces\\": "tests/Interfaces",
+            "Tests\\Interfaces\\": "tests/interfaces",
             "Tests\\TypeFormatter\\": "tests/type-formatter",
             "Tests\\": "tests"
         }
