@@ -4,13 +4,27 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Mockery\MockInterface;
+use Mockery;
+
 use function interface_exists;
 use function is_subclass_of;
 use function class_exists;
 use function sprintf;
 
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends MockeryTestCase
 {
+    /**
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T&MockInterface
+     */
+    final protected function makeMock(string $class): MockInterface
+    {
+        return Mockery::mock($class);
+    }
+
     /**
      * @param class-string $class
      * @param class-string $interface
