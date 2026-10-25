@@ -27,6 +27,20 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     /**
      * @param class-string $interface
+     * @param class-string $parent
+     */
+    final protected function assertExtendsInterface(string $interface, string $parent): void
+    {
+        $this->assertInterfaceExists($interface);
+        $this->assertInterfaceExists($parent);
+
+        $message = sprintf('Interface "%s" does not extend interface "%s".', $interface, $parent);
+
+        $this->assertTrue(is_subclass_of($interface, $parent), $message);
+    }
+
+    /**
+     * @param class-string $interface
      */
     final protected function assertInterfaceExists(string $interface): void
     {

@@ -5,7 +5,9 @@
         }
     },
     "autoload-dev": {
+        "files": ["tests/TestCase.php"],
         "psr-4": {
+            "Tests\\Interfaces\\": "tests/Interfaces",
             "Tests\\": "tests"
         }
     },
