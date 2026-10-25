@@ -26,7 +26,14 @@
             "@phpstan",
             "@php-cs-fixer"
         ],
-        "phpunit": "phpunit",
+        "phpunit": [
+            "@phpunit.interfaces",
+            "@phpunit.type-formatter",
+            "@phpunit.unit"
+        ],
+        "phpunit.interfaces": "phpunit --testsuite=interfaces",
+        "phpunit.type-formatter": "phpunit --testsuite=interfaces",
+        "phpunit.unit": "phpunit --testsuite=unit",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }
