@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Defaults\Internal;
 
-use Pathway\Internal\Info\Factories\ParameterInfoFactory;
-use Pathway\Internal\Info\Factories\MethodInfoFactory;
 use Pathway\Resolution\DefaultHandlerLocatorException;
-use Pathway\Internal\Info\Factories\ClassInfoFactory;
-use Pathway\Internal\Info\Factories\TypeInfoFactory;
 use Pathway\Resolution\HandlerLocatorException;
 use Pathway\Internal\DefaultHandlerLocator;
 
@@ -183,14 +179,6 @@ final class DefaultHandlerLocatorTest extends TestCase
     {
         parent::setUp();
 
-        $this->defaultHandlerLocator = new DefaultHandlerLocator(
-            new ClassInfoFactory(
-                new MethodInfoFactory(
-                    new ParameterInfoFactory(
-                        new TypeInfoFactory(),
-                    ),
-                ),
-            ),
-        );
+        $this->defaultHandlerLocator = new DefaultHandlerLocator();
     }
 }

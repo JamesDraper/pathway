@@ -11,14 +11,14 @@ use ReflectionParameter;
 /**
  * @internal
  */
-class ParameterInfoFactory
+final class ParameterInfoFactory
 {
-    public function __construct(private readonly TypeInfoFactory $typeInfoFactory) {}
-
-    public function make(ReflectionParameter $parameter): ParameterInfo
+    public static function make(ReflectionParameter $parameter): ParameterInfo
     {
-        $typeInfo = $this->typeInfoFactory->make($parameter->getType());
+        $typeInfo = TypeInfoFactory::make($parameter->getType());
 
         return new ParameterInfo($parameter, $typeInfo);
     }
+
+    private function __construct();
 }

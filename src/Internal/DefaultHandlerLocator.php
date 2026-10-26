@@ -20,13 +20,9 @@ class DefaultHandlerLocator
 {
     private const string FACTORY_METHOD = 'make';
 
-    public function __construct(
-        private readonly ClassInfoFactory $classInfoFactory,
-    ) {}
-
     public function locate(string $id): object
     {
-        $classInfo = $this->classInfoFactory->make($id);
+        $classInfo = ClassInfoFactory::make($id);
 
         if ($classInfo === null) {
             throw $this->classDoesNotExist($id);

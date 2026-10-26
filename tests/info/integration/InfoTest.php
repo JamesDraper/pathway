@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Info\Integration;
 
-use Pathway\Internal\Info\Factories\ParameterInfoFactory;
-use Pathway\Internal\Info\Factories\MethodInfoFactory;
 use Pathway\Internal\Info\Factories\VisibilityFactory;
 use Pathway\Internal\Info\Factories\ClassInfoFactory;
-use Pathway\Internal\Info\Factories\TypeInfoFactory;
 
 use Pathway\Internal\Info\Visibility;
 
@@ -23,12 +20,10 @@ use function count;
 
 final class InfoTest extends TestCase
 {
-    private readonly ClassInfoFactory $classInfoFactory;
-
     #[Test]
     public function it_returns_null_if_a_class_does_not_exist(): void
     {
-        $classInfo = $this->classInfoFactory->make('_not_a_class');
+        $classInfo = ClassInfoFactory::make('_not_a_class');
 
         $this->assertNull($classInfo);
     }
@@ -43,7 +38,7 @@ final class InfoTest extends TestCase
         string $class,
         string $method,
     ): void {
-        $classInfo = $this->classInfoFactory->make($class);
+        $classInfo = ClassInfoFactory::make($class);
         $methodInfo = $classInfo->getMethodInfo($method);
 
         $this->assertNotNull($methodInfo);
@@ -385,19 +380,6 @@ final class InfoTest extends TestCase
             $variadic,
             $type,
             $nullable,
-        );
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->classInfoFactory = new ClassInfoFactory(
-            new MethodInfoFactory(
-                new ParameterInfoFactory(
-                    new TypeInfoFactory(),
-                ),
-            ),
         );
     }
 }

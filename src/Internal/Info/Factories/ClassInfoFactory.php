@@ -11,16 +11,16 @@ use function class_exists;
 /**
  * @internal
  */
-class ClassInfoFactory
+final class ClassInfoFactory
 {
-    public function __construct(private readonly MethodInfoFactory $methodInfoFactory) {}
-
-    public function make(string $class): ?ClassInfo
+    public static function make(string $class): ?ClassInfo
     {
         if (!class_exists($class)) {
             return null;
         }
 
-        return new ClassInfo($this->methodInfoFactory, $class);
+        return new ClassInfo($class);
     }
+
+    private function __construct();
 }

@@ -23,8 +23,7 @@ class ClassInfo
      * @param class-string $class
      */
     public function __construct(
-        private readonly MethodInfoFactory $methodInfoFactory,
-        private readonly string $class
+        private readonly string $class,
     ) {}
 
     public function getName(): string
@@ -47,6 +46,6 @@ class ClassInfo
             return null;
         }
 
-        return $this->methodInfoFactory->make($this->class, $method);
+        return MethodInfoFactory::make($this->class, $method);
     }
 }

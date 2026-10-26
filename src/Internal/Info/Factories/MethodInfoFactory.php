@@ -15,19 +15,19 @@ use function array_map;
 /**
  * @internal
  */
-class MethodInfoFactory
+final class MethodInfoFactory
 {
-    public function __construct(private readonly ParameterInfoFactory $parameterInfoFactory) {}
-
-    public function make(string $class, string $method): MethodInfo
+    public static function make(string $class, string $method): MethodInfo
     {
         $reflectionMethod = ReflectionMethod::createFromMethodName($class . '::' . $method);
 
         $parameterInfos = array_map(
-            fn(ReflectionParameter $parameter): ParameterInfo => $this->parameterInfoFactory->make($parameter),
+            static fn(ReflectionParameter $parameter): ParameterInfo => ParameterInfoFactory::make($parameter),
             $reflectionMethod->getParameters(),
         );
 
         return new MethodInfo($reflectionMethod, $parameterInfos);
     }
+
+    private function __construct();
 }

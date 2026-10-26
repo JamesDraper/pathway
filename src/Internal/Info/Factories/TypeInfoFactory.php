@@ -11,10 +11,12 @@ use ReflectionType;
 /**
  * @internal
  */
-class TypeInfoFactory
+final class TypeInfoFactory
 {
-    public function make(?ReflectionType $type): TypeInfo
+    public static function make(?ReflectionType $type): TypeInfo
     {
         return new TypeInfo($type);
     }
+
+    private function __construct();
 }
