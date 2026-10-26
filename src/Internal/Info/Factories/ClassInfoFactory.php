@@ -22,5 +22,5 @@ final class ClassInfoFactory
         return new ClassInfo($class);
     }
 
-    private function __construct();
+    private function __construct() {}
 }

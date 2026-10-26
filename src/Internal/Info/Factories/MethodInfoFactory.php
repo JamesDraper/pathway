@@ -29,5 +29,5 @@ final class MethodInfoFactory
         return new MethodInfo($reflectionMethod, $parameterInfos);
     }
 
-    private function __construct();
+    private function __construct() {}
 }

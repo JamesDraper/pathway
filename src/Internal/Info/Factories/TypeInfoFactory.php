@@ -18,5 +18,5 @@ final class TypeInfoFactory
         return new TypeInfo($type);
     }
 
-    private function __construct();
+    private function __construct() {}
 }
