@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Defaults\Internal;
+namespace Tests\Defaults;
 
 use Pathway\Resolution\DefaultHandlerLocatorException;
 use Pathway\Resolution\HandlerLocatorException;
-use Pathway\Internal\DefaultHandlerLocator;
+use Pathway\Resolution\DefaultHandlerLocator;
 
 use Tests\Defaults\Fixtures\DefaultHandlerLocator as Fixtures;
 use Tests\TestCase;

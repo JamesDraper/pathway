@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pathway\Internal;
+namespace Pathway\Resolution;
 
-use Pathway\Resolution\DefaultHandlerLocatorException;
 use Pathway\Internal\Info\Factories\ClassInfoFactory;
 use Pathway\Internal\Info\MethodInfo;
 use Pathway\Internal\Info\Visibility;
+use Pathway\Internal\TypeFormatter;
 
 use Throwable;
 
