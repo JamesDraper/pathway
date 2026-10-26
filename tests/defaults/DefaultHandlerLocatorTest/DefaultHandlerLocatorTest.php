@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Defaults;
+namespace Tests\Defaults\DefaultHandlerLocatorTest;
 
 use Pathway\Resolution\DefaultHandlerLocatorException;
 use Pathway\Resolution\HandlerLocatorException;
 use Pathway\Resolution\DefaultHandlerLocator;
 
-use Tests\Defaults\Fixtures\DefaultHandlerLocator as Fixtures;
+use Tests\Defaults\DefaultHandlerLocatorTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\DataProvider;
