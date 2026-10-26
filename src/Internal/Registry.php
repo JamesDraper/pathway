@@ -20,8 +20,6 @@ class Registry
 
     private static ?DefaultHandlerLocator $defaultHandlerLocator = null;
 
-    private function __construct() {}
-
     public static function getDefaultHandlerLocator(): DefaultHandlerLocator
     {
         return self::$defaultHandlerLocator ??= new DefaultHandlerLocator(
@@ -45,4 +43,6 @@ class Registry
             ),
         );
     }
+
+    private function __construct() {}
 }
