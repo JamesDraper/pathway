@@ -11,7 +11,6 @@ use Pathway\Internal\Info\Factories\ClassInfoFactory;
 use Pathway\Internal\Info\Factories\TypeInfoFactory;
 use Pathway\Resolution\HandlerLocatorException;
 use Pathway\Internal\DefaultHandlerLocator;
-use Pathway\Internal\TypeFormatter;
 
 use Tests\Defaults\Fixtures\DefaultHandlerLocator as Fixtures;
 use Tests\TestCase;
@@ -192,7 +191,6 @@ final class DefaultHandlerLocatorTest extends TestCase
                     ),
                 ),
             ),
-            new TypeFormatter(),
         );
     }
 }

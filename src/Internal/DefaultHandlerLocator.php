@@ -22,7 +22,6 @@ class DefaultHandlerLocator
 
     public function __construct(
         private readonly ClassInfoFactory $classInfoFactory,
-        private readonly TypeFormatter $typeFormatter,
     ) {}
 
     public function locate(string $id): object
@@ -120,7 +119,7 @@ class DefaultHandlerLocator
             $id,
             self::FACTORY_METHOD,
             $id,
-            $this->typeFormatter->format($handler),
+            TypeFormatter::format($handler),
         ));
     }
 }

@@ -14,9 +14,9 @@ use function sprintf;
 /**
  * @internal
  */
-class TypeFormatter
+final class TypeFormatter
 {
-    public function format(mixed $value): string
+    public static function format(mixed $value): string
     {
         $type = gettype($value);
 
@@ -26,13 +26,13 @@ class TypeFormatter
             'integer' => 'int',
             'double' => 'float',
             'array' => 'array',
-            'object' => $this->formatObject($value), // @phpstan-ignore argument.type
+            'object' => self::formatObject($value), // @phpstan-ignore argument.type
             'resource', 'resource (closed)' => 'resource',
             default => $type,
         };
     }
 
-    private function formatObject(object $value): string
+    private static function formatObject(object $value): string
     {
         if ($value instanceof Closure) {
             return 'closure';
@@ -46,4 +46,6 @@ class TypeFormatter
 
         return sprintf('object(%s)', $class);
     }
+
+    private function __construct() {}
 }

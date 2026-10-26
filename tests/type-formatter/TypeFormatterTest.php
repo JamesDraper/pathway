@@ -30,9 +30,7 @@ final class TypeFormatterTest extends TestCase
     #[DataProvider('provider_it_formats')]
     public function it_formats(string $expected, mixed $value): void
     {
-        $typeFormatter = new TypeFormatter();
-
-        $this->assertSame($expected, $typeFormatter->format($value));
+        $this->assertSame($expected, TypeFormatter::format($value));
     }
 
     public static function provider_it_formats(): array
@@ -80,35 +78,29 @@ final class TypeFormatterTest extends TestCase
     #[Test]
     public function it_formats_closures(): void
     {
-        $typeFormatter = new TypeFormatter();
-
         $closure = static fn() => 123;
 
-        $this->assertSame('closure', $typeFormatter->format($closure));
+        $this->assertSame('closure', TypeFormatter::format($closure));
     }
 
     #[Test]
     public function it_formats_objects(): void
     {
-        $typeFormatter = new TypeFormatter();
-
         $obj = new class {};
 
         $this->assertSame(
             sprintf('object(%s)', get_class($obj)),
-            $typeFormatter->format($obj),
+            TypeFormatter::format($obj),
         );
     }
 
     #[Test]
     public function it_formats_resources(): void
     {
-        $typeFormatter = new TypeFormatter();
-
         $file = tmpfile();
 
         try {
-            $this->assertSame('resource', $typeFormatter->format($file));
+            $this->assertSame('resource', TypeFormatter::format($file));
         } finally {
             fclose($file);
         }
@@ -117,12 +109,10 @@ final class TypeFormatterTest extends TestCase
     #[Test]
     public function it_formats_closed_resources(): void
     {
-        $typeFormatter = new TypeFormatter();
-
         $file = tmpfile();
 
         fclose($file);
 
-        $this->assertSame('resource', $typeFormatter->format($file));
+        $this->assertSame('resource', TypeFormatter::format($file));
     }
 }
