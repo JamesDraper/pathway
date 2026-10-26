@@ -6,6 +6,7 @@ namespace Tests\Registry;
 
 use Pathway\Internal\Info\Factories\ClassInfoFactory;
 use Pathway\Internal\Info\ClassInfo;
+use Pathway\Internal\DefaultHandlerLocator;
 use Pathway\Internal\TypeFormatter;
 use Pathway\Internal\Registry;
 
@@ -88,6 +89,18 @@ final class RegistryTest extends TestCase
         $this->assertNotNull($classInfo->getMethodInfo('getClassInfoFactory'));
     }
 
+    #[Test]
+    public function its_default_handler_locator_shares_the_registry_dependencies(): void
+    {
+        $locator = Registry::getDefaultHandlerLocator();
+
+        $classInfoFactory = new ReflectionProperty(DefaultHandlerLocator::class, 'classInfoFactory');
+        $typeFormatter = new ReflectionProperty(DefaultHandlerLocator::class, 'typeFormatter');
+
+        $this->assertSame(Registry::getClassInfoFactory(), $classInfoFactory->getValue($locator));
+        $this->assertSame(Registry::getTypeFormatter(), $typeFormatter->getValue($locator));
+    }
+
     public static function provider_classes(): array
     {
         return [
@@ -100,6 +113,11 @@ final class RegistryTest extends TestCase
                 'expected' => ClassInfoFactory::class,
                 'method' => 'getClassInfoFactory',
                 'property' => 'classInfoFactory',
+            ],
+            'default handler locator' => [
+                'expected' => DefaultHandlerLocator::class,
+                'method' => 'getDefaultHandlerLocator',
+                'property' => 'defaultHandlerLocator',
             ],
         ];
     }

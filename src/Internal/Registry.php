@@ -18,7 +18,17 @@ class Registry
 
     private static ?ClassInfoFactory $classInfoFactory = null;
 
+    private static ?DefaultHandlerLocator $defaultHandlerLocator = null;
+
     private function __construct() {}
+
+    public static function getDefaultHandlerLocator(): DefaultHandlerLocator
+    {
+        return self::$defaultHandlerLocator ??= new DefaultHandlerLocator(
+            self::getClassInfoFactory(),
+            self::getTypeFormatter(),
+        );
+    }
 
     public static function getTypeFormatter(): TypeFormatter
     {
