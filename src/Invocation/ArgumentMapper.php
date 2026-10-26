@@ -10,5 +10,5 @@ interface ArgumentMapper
      * @return list<mixed>
      * @throws ArgumentMapperException
      */
-    public function resolve(MethodInfo $methodInfo, mixed ...$arguments): array;
+    public function resolve(MethodInfo $methodInfo, mixed $value): array;
 }
