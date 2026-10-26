@@ -10,6 +10,7 @@
             "Tests\\Interfaces\\": "tests/interfaces",
             "Tests\\TypeFormatter\\": "tests/type-formatter",
             "Tests\\Info\\Unit\\": "tests/info/unit",
+            "Tests\\Info\\Integration\\": "tests/info/integration",
             "Tests\\": "tests"
         }
     },
