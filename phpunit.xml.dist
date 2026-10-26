@@ -22,6 +22,10 @@
             <file>tests/info/integration/InfoTest.php</file>
         </testsuite>
 
+        <testsuite name="registry">
+            <directory>tests/registry</directory>
+        </testsuite>
+
         <testsuite name="defaults">
             <directory>tests/Defaults</directory>
         </testsuite>
