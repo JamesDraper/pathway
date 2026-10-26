@@ -11,7 +11,7 @@
             "Tests\\TypeFormatter\\": "tests/type-formatter",
             "Tests\\Info\\Unit\\": "tests/info/unit",
             "Tests\\Info\\Integration\\": "tests/info/integration",
-            "Tests\\": "tests"
+            "Tests\\Defaults\\": "tests/defaults"
         }
     },
     "require": {
@@ -34,14 +34,14 @@
             "@phpunit.type-formatter",
             "@phpunit.info.unit",
             "@phpunit.info.integration",
-            "@phpunit.unit"
+            "@phpunit.defaults"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
         "phpunit.type-formatter": "phpunit --testsuite=interfaces",
         "phpunit.info.unit": "phpunit --testsuite=info.unit",
         "phpunit.info.integration": "phpunit --testsuite=info.integration",
-        "phpunit.unit": "phpunit --testsuite=unit",
+        "phpunit.defaults": "phpunit --testsuite=defaults",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }

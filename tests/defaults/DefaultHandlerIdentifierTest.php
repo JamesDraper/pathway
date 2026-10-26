@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unclassified;
+namespace Tests\Defaults;
 
 use Pathway\Resolution\DefaultHandlerIdentifier;
 use Pathway\Resolution\HandlerIdentifier;
