@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Pathway\Resolution;
 
-use Pathway\Internal\Info\Factories\ClassInfoFactory;
-use Pathway\Internal\Info\MethodInfo;
-use Pathway\Internal\Info\Visibility;
 use Pathway\Internal\TypeFormatter;
+use Pathway\Info\ClassInfo;
+use Pathway\Info\MethodInfo;
 
 use Throwable;
 
+use function class_exists;
 use function sprintf;
 
 /**
@@ -22,11 +22,11 @@ class DefaultHandlerLocator
 
     public function locate(string $id): object
     {
-        $classInfo = ClassInfoFactory::make($id);
-
-        if ($classInfo === null) {
+        if (!class_exists($id)) {
             throw $this->classDoesNotExist($id);
         }
+
+        $classInfo = new ClassInfo($id);
 
         $methodInfo = $classInfo->getMethodInfo(self::FACTORY_METHOD);
 
@@ -34,7 +34,7 @@ class DefaultHandlerLocator
             throw $this->factoryMethodDoesNotExist($id);
         }
 
-        if ($methodInfo->getVisibility() !== Visibility::PUBLIC || !$methodInfo->isStatic()) {
+        if (!$methodInfo->isPublic() || !$methodInfo->isStatic()) {
             throw $this->factoryMethodNotPublicStatic($id);
         }
 
