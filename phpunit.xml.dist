@@ -33,6 +33,10 @@
         <testsuite name="defaults">
             <directory>tests/Defaults</directory>
         </testsuite>
+
+        <testsuite name="method">
+            <directory>tests/method</directory>
+        </testsuite>
     </testsuites>
 
     <source>

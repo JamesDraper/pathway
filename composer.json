@@ -13,7 +13,8 @@
             "Tests\\Info\\Parameter\\": "tests/info/parameter",
             "Tests\\Info\\Method\\": "tests/info/method",
             "Tests\\Info\\Class\\": "tests/info/class",
-            "Tests\\Defaults\\": "tests/defaults"
+            "Tests\\Defaults\\": "tests/defaults",
+            "Tests\\Method\\": "tests/method"
         }
     },
     "require": {
@@ -37,7 +38,8 @@
             "@phpunit.info.parameter",
             "@phpunit.info.method",
             "@phpunit.info.class",
-            "@phpunit.defaults"
+            "@phpunit.defaults",
+            "@phpunit.method"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
@@ -47,6 +49,7 @@
         "phpunit.info.method": "phpunit --testsuite=info.method",
         "phpunit.info.class": "phpunit --testsuite=info.class",
         "phpunit.defaults": "phpunit --testsuite=defaults",
+        "phpunit.method": "phpunit --testsuite=method",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }
