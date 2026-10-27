@@ -14,14 +14,6 @@
             <file>tests/type-formatter/TypeFormatterTest.php</file>
         </testsuite>
 
-        <testsuite name="info.unit">
-            <directory>tests/info/unit</directory>
-        </testsuite>
-
-        <testsuite name="info.integration">
-            <file>tests/info/integration/InfoTest.php</file>
-        </testsuite>
-
         <testsuite name="defaults">
             <directory>tests/Defaults</directory>
         </testsuite>

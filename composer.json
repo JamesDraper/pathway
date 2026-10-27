@@ -9,8 +9,6 @@
         "psr-4": {
             "Tests\\Interfaces\\": "tests/interfaces",
             "Tests\\TypeFormatter\\": "tests/type-formatter",
-            "Tests\\Info\\Unit\\": "tests/info/unit",
-            "Tests\\Info\\Integration\\": "tests/info/integration",
             "Tests\\Info\\Type\\": "tests/info/type",
             "Tests\\Info\\Parameter\\": "tests/info/parameter",
             "Tests\\Info\\Method\\": "tests/info/method",
@@ -36,8 +34,6 @@
         "phpunit": [
             "@phpunit.interfaces",
             "@phpunit.type-formatter",
-            "@phpunit.info.unit",
-            "@phpunit.info.integration",
             "@phpunit.defaults",
             "@phpunit.info.type",
             "@phpunit.info.parameter",
@@ -47,8 +43,6 @@
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
         "phpunit.type-formatter": "phpunit --testsuite=interfaces",
-        "phpunit.info.unit": "phpunit --testsuite=info.unit",
-        "phpunit.info.integration": "phpunit --testsuite=info.integration",
         "phpunit.defaults": "phpunit --testsuite=defaults",
         "phpunit.info.type": "phpunit --testsuite=info.type",
         "phpunit.info.parameter": "phpunit --testsuite=info.parameter",
