@@ -122,4 +122,14 @@ final class MethodInfoTest extends TestCase
         $this->assertSame($first, $second);
         $this->assertSame($first[0], $second[0]);
     }
+
+    #[Test]
+    public function getParameterInfos_passes_itself_to_the_parameter_infos(): void
+    {
+        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'));
+
+        foreach ($methodInfo->getParameterInfos() as $parameterInfo) {
+            $this->assertSame($methodInfo, $parameterInfo->getMethodInfo());
+        }
+    }
 }

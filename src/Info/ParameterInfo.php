@@ -13,7 +13,15 @@ class ParameterInfo
 {
     private ?TypeInfo $typeInfo = null;
 
-    public function __construct(private readonly ReflectionParameter $parameter) {}
+    public function __construct(
+        private readonly ReflectionParameter $parameter,
+        private readonly MethodInfo $method,
+    ) {}
+
+    public function getMethodInfo(): MethodInfo
+    {
+        return $this->method;
+    }
 
     public function getName(): string
     {

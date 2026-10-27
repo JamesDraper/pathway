@@ -52,7 +52,7 @@ class MethodInfo
     public function getParameterInfos(): array
     {
         return $this->parameterInfos ??= array_map(
-            static fn(ReflectionParameter $parameter): ParameterInfo => new ParameterInfo($parameter),
+            fn(ReflectionParameter $parameter): ParameterInfo => new ParameterInfo($parameter, $this),
             $this->method->getParameters(),
         );
     }
