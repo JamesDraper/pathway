@@ -147,6 +147,6 @@ final class MethodInfoTest extends TestCase
 
     private function makeClassInfo(): ClassInfo
     {
-        return (new ReflectionClass(ClassInfo::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(ClassInfo::class)->newInstanceWithoutConstructor();
     }
 }
