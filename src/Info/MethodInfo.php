@@ -19,7 +19,15 @@ class MethodInfo
      */
     private ?array $parameterInfos = null;
 
-    public function __construct(private readonly ReflectionMethod $method) {}
+    public function __construct(
+        private readonly ReflectionMethod $method,
+        private readonly ClassInfo $class,
+    ) {}
+
+    public function getClassInfo(): ClassInfo
+    {
+        return $this->class;
+    }
 
     public function isPublic(): bool
     {

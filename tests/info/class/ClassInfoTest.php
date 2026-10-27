@@ -41,6 +41,15 @@ final class ClassInfoTest extends TestCase
     }
 
     #[Test]
+    public function it_passes_itself_to_the_method_info(): void
+    {
+        $result = $this->classInfo->getMethodInfo('print');
+
+        $this->assertNotNull($result);
+        $this->assertSame($this->classInfo, $result->getClassInfo());
+    }
+
+    #[Test]
     public function it_gets_the_class_name(): void
     {
         $this->assertSame(Fixtures\SimpleClass::class, $this->classInfo->getName());

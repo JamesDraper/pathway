@@ -46,6 +46,6 @@ class ClassInfo
             return null;
         }
 
-        return new MethodInfo(new ReflectionMethod($this->class, $method));
+        return new MethodInfo(new ReflectionMethod($this->class, $method), $this);
     }
 }
