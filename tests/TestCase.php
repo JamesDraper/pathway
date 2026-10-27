@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use ReflectionClass;
+
 use function interface_exists;
 use function is_subclass_of;
 use function class_exists;
@@ -11,6 +13,18 @@ use function sprintf;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * Creates an instance without calling its constructor, for filling a required argument.
+     *
+     * @template T of object
+     * @param class-string<T> $class
+     * @return T
+     */
+    final protected function makeDummy(string $class): object
+    {
+        return new ReflectionClass($class)->newInstanceWithoutConstructor();
+    }
+
     /**
      * @param class-string $class
      * @param class-string $interface

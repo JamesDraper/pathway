@@ -39,7 +39,7 @@ final class ParameterInfoTest extends TestCase
     ): void {
         $reflectionParameter = $this->getReflectionParameter($class, $method);
 
-        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeMethodInfo());
+        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeDummy(MethodInfo::class));
 
         $this->assertSame($expectedName, $parameterInfo->getName());
         $this->assertSame($expectedIsVariadric, $parameterInfo->isVariadic());
@@ -83,7 +83,7 @@ final class ParameterInfoTest extends TestCase
     {
         $reflectionParameter = $this->getReflectionParameter(Fixtures\SimpleParameter::class, 'reverse');
 
-        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeMethodInfo());
+        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeDummy(MethodInfo::class));
 
         $typeInfo = $parameterInfo->getTypeInfo();
 
@@ -95,7 +95,7 @@ final class ParameterInfoTest extends TestCase
     {
         $reflectionParameter = $this->getReflectionParameter(Fixtures\SimpleParameter::class, 'reverse');
 
-        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeMethodInfo());
+        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeDummy(MethodInfo::class));
 
         $this->assertSame($parameterInfo->getTypeInfo(), $parameterInfo->getTypeInfo());
     }
@@ -104,7 +104,7 @@ final class ParameterInfoTest extends TestCase
     public function getMethodInfo_returns_the_method_info_given_to_the_constructor(): void
     {
         $reflectionParameter = $this->getReflectionParameter(Fixtures\SimpleParameter::class, 'reverse');
-        $methodInfo = $this->makeMethodInfo();
+        $methodInfo = $this->makeDummy(MethodInfo::class);
 
         $parameterInfo = new ParameterInfo($reflectionParameter, $methodInfo);
 
@@ -116,14 +116,9 @@ final class ParameterInfoTest extends TestCase
     {
         $reflectionParameter = $this->getReflectionParameter(Fixtures\SimpleParameter::class, 'reverse');
 
-        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeMethodInfo());
+        $parameterInfo = new ParameterInfo($reflectionParameter, $this->makeDummy(MethodInfo::class));
 
         $this->assertSame($parameterInfo, $parameterInfo->getTypeInfo()->getParameterInfo());
-    }
-
-    private function makeMethodInfo(): MethodInfo
-    {
-        return new ReflectionClass(MethodInfo::class)->newInstanceWithoutConstructor();
     }
 
     private function getReflectionParameter(string $class, string $method): ReflectionParameter

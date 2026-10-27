@@ -15,7 +15,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionMethod;
-use ReflectionClass;
 
 final class MethodInfoTest extends TestCase
 {
@@ -35,7 +34,7 @@ final class MethodInfoTest extends TestCase
         string $class,
         string $method,
     ): void {
-        $methodInfo = new MethodInfo(new ReflectionMethod($class, $method), $this->makeClassInfo());
+        $methodInfo = new MethodInfo(new ReflectionMethod($class, $method), $this->makeDummy(ClassInfo::class));
 
         $this->assertSame($expectedIsPublic, $methodInfo->isPublic());
         $this->assertSame($expectedIsProtected, $methodInfo->isProtected());
@@ -93,7 +92,7 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_builds_parameter_infos_from_the_method_parameters(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeClassInfo());
+        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeDummy(ClassInfo::class));
 
         $parameterInfos = $methodInfo->getParameterInfos();
 
@@ -108,7 +107,7 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_returns_an_empty_list_when_there_are_no_parameters(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\PublicMethod::class, 'greetPublic'), $this->makeClassInfo());
+        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\PublicMethod::class, 'greetPublic'), $this->makeDummy(ClassInfo::class));
 
         $this->assertSame([], $methodInfo->getParameterInfos());
     }
@@ -116,7 +115,7 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_caches_the_parameter_infos_after_first_generation(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeClassInfo());
+        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeDummy(ClassInfo::class));
 
         $first = $methodInfo->getParameterInfos();
         $second = $methodInfo->getParameterInfos();
@@ -128,7 +127,7 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getClassInfo_returns_the_class_info_given_to_the_constructor(): void
     {
-        $classInfo = $this->makeClassInfo();
+        $classInfo = $this->makeDummy(ClassInfo::class);
 
         $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\PublicMethod::class, 'greetPublic'), $classInfo);
 
@@ -138,15 +137,10 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_passes_itself_to_the_parameter_infos(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeClassInfo());
+        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeDummy(ClassInfo::class));
 
         foreach ($methodInfo->getParameterInfos() as $parameterInfo) {
             $this->assertSame($methodInfo, $parameterInfo->getMethodInfo());
         }
-    }
-
-    private function makeClassInfo(): ClassInfo
-    {
-        return new ReflectionClass(ClassInfo::class)->newInstanceWithoutConstructor();
     }
 }
