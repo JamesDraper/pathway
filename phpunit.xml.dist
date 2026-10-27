@@ -14,10 +14,6 @@
             <file>tests/type-formatter/TypeFormatterTest.php</file>
         </testsuite>
 
-        <testsuite name="defaults">
-            <directory>tests/Defaults</directory>
-        </testsuite>
-
         <testsuite name="info.type">
             <directory>tests/info/type</directory>
         </testsuite>
@@ -32,6 +28,10 @@
 
         <testsuite name="info.class">
             <directory>tests/info/class</directory>
+        </testsuite>
+
+        <testsuite name="defaults">
+            <directory>tests/Defaults</directory>
         </testsuite>
     </testsuites>
 

@@ -34,20 +34,20 @@
         "phpunit": [
             "@phpunit.interfaces",
             "@phpunit.type-formatter",
-            "@phpunit.defaults",
             "@phpunit.info.type",
             "@phpunit.info.parameter",
             "@phpunit.info.method",
-            "@phpunit.info.class"
+            "@phpunit.info.class",
+            "@phpunit.defaults"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
         "phpunit.type-formatter": "phpunit --testsuite=interfaces",
-        "phpunit.defaults": "phpunit --testsuite=defaults",
         "phpunit.info.type": "phpunit --testsuite=info.type",
         "phpunit.info.parameter": "phpunit --testsuite=info.parameter",
         "phpunit.info.method": "phpunit --testsuite=info.method",
         "phpunit.info.class": "phpunit --testsuite=info.class",
+        "phpunit.defaults": "phpunit --testsuite=defaults",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }
