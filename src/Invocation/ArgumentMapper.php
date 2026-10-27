@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pathway\Invocation;
 
-use Info\MethodInfo;
+use Pathway\Info\MethodInfo;
 
 interface ArgumentMapper
 {
