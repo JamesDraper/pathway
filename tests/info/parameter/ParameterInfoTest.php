@@ -123,7 +123,7 @@ final class ParameterInfoTest extends TestCase
 
     private function makeMethodInfo(): MethodInfo
     {
-        return (new ReflectionClass(MethodInfo::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(MethodInfo::class)->newInstanceWithoutConstructor();
     }
 
     private function getReflectionParameter(string $class, string $method): ReflectionParameter

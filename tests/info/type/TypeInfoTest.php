@@ -377,7 +377,7 @@ final class TypeInfoTest extends TestCase
 
     private function makeParameterInfo(): ParameterInfo
     {
-        return (new ReflectionClass(ParameterInfo::class))->newInstanceWithoutConstructor();
+        return new ReflectionClass(ParameterInfo::class)->newInstanceWithoutConstructor();
     }
 
     private function getReflectionType(string $type): ReflectionType
