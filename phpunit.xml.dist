@@ -25,6 +25,10 @@
         <testsuite name="defaults">
             <directory>tests/Defaults</directory>
         </testsuite>
+
+        <testsuite name="info.type">
+            <directory>tests/info/type</directory>
+        </testsuite>
     </testsuites>
 
     <source>
