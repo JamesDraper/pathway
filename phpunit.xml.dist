@@ -41,6 +41,10 @@
         <testsuite name="method-chain">
             <directory>tests/method-chain</directory>
         </testsuite>
+
+        <testsuite name="dispatcher">
+            <directory>tests/dispatcher</directory>
+        </testsuite>
     </testsuites>
 
     <source>

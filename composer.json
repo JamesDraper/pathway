@@ -15,7 +15,8 @@
             "Tests\\Info\\Class\\": "tests/info/class",
             "Tests\\Defaults\\": "tests/defaults",
             "Tests\\Method\\": "tests/method",
-            "Tests\\MethodChain\\": "tests/method-chain"
+            "Tests\\MethodChain\\": "tests/method-chain",
+            "Tests\\Dispatcher\\": "tests/dispatcher"
         }
     },
     "require": {
@@ -41,7 +42,8 @@
             "@phpunit.info.class",
             "@phpunit.defaults",
             "@phpunit.method",
-            "@phpunit.method-chain"
+            "@phpunit.method-chain",
+            "@phpunit.dispatcher"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
@@ -53,6 +55,7 @@
         "phpunit.defaults": "phpunit --testsuite=defaults",
         "phpunit.method": "phpunit --testsuite=method",
         "phpunit.method-chain": "phpunit --testsuite=method-chain",
+        "phpunit.dispatcher": "phpunit --testsuite=dispatcher",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }
