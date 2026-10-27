@@ -29,6 +29,10 @@
         <testsuite name="info.type">
             <directory>tests/info/type</directory>
         </testsuite>
+
+        <testsuite name="info.parameter">
+            <directory>tests/info/parameter</directory>
+        </testsuite>
     </testsuites>
 
     <source>

@@ -12,6 +12,7 @@
             "Tests\\Info\\Unit\\": "tests/info/unit",
             "Tests\\Info\\Integration\\": "tests/info/integration",
             "Tests\\Info\\Type\\": "tests/info/type",
+            "Tests\\Info\\Parameter\\": "tests/info/parameter",
             "Tests\\Defaults\\": "tests/defaults"
         }
     },
@@ -36,7 +37,8 @@
             "@phpunit.info.unit",
             "@phpunit.info.integration",
             "@phpunit.defaults",
-            "@phpunit.info.type"
+            "@phpunit.info.type",
+            "@phpunit.info.parameter"
         ],
         "phpunit.coverage": "phpunit --coverage-html coverage",
         "phpunit.interfaces": "phpunit --testsuite=interfaces",
@@ -45,6 +47,7 @@
         "phpunit.info.integration": "phpunit --testsuite=info.integration",
         "phpunit.defaults": "phpunit --testsuite=defaults",
         "phpunit.info.type": "phpunit --testsuite=info.type",
+        "phpunit.info.parameter": "phpunit --testsuite=info.parameter",
         "phpstan": "phpstan analyze",
         "php-cs-fixer": "php-cs-fixer fix -v --diff --dry-run"
     }
