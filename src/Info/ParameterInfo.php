@@ -39,6 +39,6 @@ class ParameterInfo
 
     public function getTypeInfo(): TypeInfo
     {
-        return $this->typeInfo ??= new TypeInfo($this->parameter->getType());
+        return $this->typeInfo ??= new TypeInfo($this->parameter->getType(), $this);
     }
 }

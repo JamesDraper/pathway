@@ -35,7 +35,15 @@ use function sort;
  */
 class TypeInfo
 {
-    public function __construct(private readonly ?ReflectionType $type) {}
+    public function __construct(
+        private readonly ?ReflectionType $type,
+        private readonly ParameterInfo $parameter,
+    ) {}
+
+    public function getParameterInfo(): ParameterInfo
+    {
+        return $this->parameter;
+    }
 
     public function isCompatible(mixed $value): bool
     {

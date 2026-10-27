@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Info\Type;
 
+use Pathway\Info\ParameterInfo;
 use Pathway\Info\TypeInfo;
 
 use Tests\Info\Type\Fixtures;
@@ -13,6 +14,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionFunction;
+use ReflectionClass;
 use ReflectionType;
 use Closure;
 
@@ -37,7 +39,7 @@ final class TypeInfoTest extends TestCase
         mixed $value,
     ): void {
         $reflectionType = $this->getReflectionType($type);
-        $typeInfo = new TypeInfo($reflectionType);
+        $typeInfo = new TypeInfo($reflectionType, $this->makeParameterInfo());
 
         $result = $typeInfo->isCompatible($value);
 
@@ -56,10 +58,19 @@ final class TypeInfoTest extends TestCase
     }
 
     #[Test]
+    public function getParameterInfo_returns_the_parameter_info_given_to_the_constructor(): void
+    {
+        $parameterInfo = $this->makeParameterInfo();
+        $typeInfo = new TypeInfo(null, $parameterInfo);
+
+        $this->assertSame($parameterInfo, $typeInfo->getParameterInfo());
+    }
+
+    #[Test]
     #[DataProvider('providerIsCompatibleNoType')]
     public function isCompatible_always_returns_true_if_type_is_null(mixed $value): void
     {
-        $typeInfo = new TypeInfo(null);
+        $typeInfo = new TypeInfo(null, $this->makeParameterInfo());
 
         $result = $typeInfo->isCompatible($value);
 
@@ -85,7 +96,7 @@ final class TypeInfoTest extends TestCase
     public function it_converts_types_to_strings(string $expected, string $type): void
     {
         $reflectionType = $this->getReflectionType($type);
-        $typeInfo = new TypeInfo($reflectionType);
+        $typeInfo = new TypeInfo($reflectionType, $this->makeParameterInfo());
 
         $this->assertSame($expected, $typeInfo->toString());
     }
@@ -209,7 +220,7 @@ final class TypeInfoTest extends TestCase
     #[Test]
     public function toString_returns_an_empty_string_with_null_type(): void
     {
-        $typeInfo = new TypeInfo(null);
+        $typeInfo = new TypeInfo(null, $this->makeParameterInfo());
 
         $this->assertSame('', $typeInfo->toString());
     }
@@ -362,6 +373,11 @@ final class TypeInfoTest extends TestCase
             $objectIsCompatibleWithInterface,
             $objectIsNotCompatibleWithInterface,
         );
+    }
+
+    private function makeParameterInfo(): ParameterInfo
+    {
+        return (new ReflectionClass(ParameterInfo::class))->newInstanceWithoutConstructor();
     }
 
     private function getReflectionType(string $type): ReflectionType

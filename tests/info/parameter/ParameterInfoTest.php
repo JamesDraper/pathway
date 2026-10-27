@@ -99,6 +99,16 @@ final class ParameterInfoTest extends TestCase
         $this->assertSame($parameterInfo->getTypeInfo(), $parameterInfo->getTypeInfo());
     }
 
+    #[Test]
+    public function getTypeInfo_passes_itself_to_the_type_info(): void
+    {
+        $reflectionParameter = $this->getReflectionParameter(Fixtures\SimpleParameter::class, 'reverse');
+
+        $parameterInfo = new ParameterInfo($reflectionParameter);
+
+        $this->assertSame($parameterInfo, $parameterInfo->getTypeInfo()->getParameterInfo());
+    }
+
     private function getReflectionParameter(string $class, string $method): ReflectionParameter
     {
         $reflectionClass = new ReflectionClass($class);
