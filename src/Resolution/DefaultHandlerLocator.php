@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Pathway\Resolution;
 
-use Pathway\Internal\TypeFormatter;
 use Pathway\Info\ClassInfo;
 use Pathway\Info\MethodInfo;
+use Pathway\TypeFormatter;
 
 use Throwable;
 
