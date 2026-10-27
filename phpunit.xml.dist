@@ -37,6 +37,10 @@
         <testsuite name="info.method">
             <directory>tests/info/method</directory>
         </testsuite>
+
+        <testsuite name="info.class">
+            <directory>tests/info/class</directory>
+        </testsuite>
     </testsuites>
 
     <source>
