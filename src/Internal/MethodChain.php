@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Pathway\Internal;
 
-use Pathway\Info\ClassInfo;
-use Pathway\Info\MethodInfo;
-use Pathway\Invocation\ArgumentMapper;
 use Pathway\Invocation\ArgumentMapperException;
+use Pathway\Invocation\ArgumentMapper;
+use Pathway\Info\MethodInfo;
+use Pathway\Info\ClassInfo;
 
 use function array_slice;
 use function sprintf;
@@ -29,6 +29,8 @@ use function sprintf;
  */
 final class MethodChain
 {
+    private readonly object $handler;
+
     /**
      * @var non-empty-list<Method>
      */
@@ -38,10 +40,10 @@ final class MethodChain
      * @throws MethodChainException
      * @throws MethodException
      */
-    public function __construct(
-        private readonly object $handler,
-        ArgumentMapper $argumentMapper,
-    ) {
+    public function __construct(object $handler, ArgumentMapper $argumentMapper)
+    {
+        $this->handler = $handler;
+
         $classInfo = new ClassInfo($handler::class);
 
         $prepare = $this->getMethodInfo($classInfo, 'prepare');
@@ -80,9 +82,6 @@ final class MethodChain
         return $result;
     }
 
-    /**
-     * Used for the start of the chain, which is called with [$command, $handler] as it is.
-     */
     private function makeStartArgumentMapper(): ArgumentMapper
     {
         return new class implements ArgumentMapper {

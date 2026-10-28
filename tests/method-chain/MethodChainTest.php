@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\MethodChain;
 
-use Pathway\Info\MethodInfo;
-use Pathway\Internal\MethodChain;
-use Pathway\Internal\MethodChainException;
-use Pathway\Internal\MethodException;
-use Pathway\Invocation\ArgumentMapper;
-use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\DefaultArgumentMapperException;
+use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
+use Pathway\Internal\MethodChainException;
+use Pathway\Invocation\ArgumentMapper;
+use Pathway\Internal\MethodException;
+use Pathway\Internal\MethodChain;
+use Pathway\Info\MethodInfo;
 
 use Tests\MethodChain\Fixtures;
 use Tests\TestCase;

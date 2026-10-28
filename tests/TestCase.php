@@ -14,8 +14,6 @@ use function sprintf;
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
-     * Creates an instance without calling its constructor, for filling a required argument.
-     *
      * @template T of object
      * @param class-string<T> $class
      * @return T

@@ -15,6 +15,11 @@ use function method_exists;
 class ClassInfo
 {
     /**
+     * @var class-string
+     */
+    private readonly string $class;
+
+    /**
      * @var array<string, MethodInfo|null> $methodInfos
      */
     private array $methodInfos = [];
@@ -22,9 +27,10 @@ class ClassInfo
     /**
      * @param class-string $class
      */
-    public function __construct(
-        private readonly string $class,
-    ) {}
+    public function __construct(string $class)
+    {
+        $this->class = $class;
+    }
 
     public function getName(): string
     {

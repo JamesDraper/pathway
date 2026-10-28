@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Defaults\DefaultArgumentMapperTest;
 
-use Pathway\Info\ClassInfo;
-use Pathway\Info\MethodInfo;
-use Pathway\Invocation\ArgumentMapper;
+use Pathway\Invocation\DefaultArgumentMapperException;
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\DefaultArgumentMapper;
-use Pathway\Invocation\DefaultArgumentMapperException;
+use Pathway\Invocation\ArgumentMapper;
+use Pathway\Info\MethodInfo;
+use Pathway\Info\ClassInfo;
 
 use Tests\Defaults\DefaultArgumentMapperTest\Fixtures;
 use Tests\TestCase;

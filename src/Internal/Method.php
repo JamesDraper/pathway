@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Pathway\Internal;
 
-use Pathway\Info\MethodInfo;
-use Pathway\Info\ParameterInfo;
-use Pathway\Invocation\ArgumentMapper;
 use Pathway\Invocation\ArgumentMapperException;
+use Pathway\Invocation\ArgumentMapper;
+use Pathway\Info\ParameterInfo;
+use Pathway\Info\MethodInfo;
 use Pathway\TypeFormatter;
 
 use Throwable;
@@ -18,24 +18,22 @@ use function count;
 use function sprintf;
 
 /**
- * A method that can be invoked with a single value, which the argument mapper turns into the method's arguments.
- * Static methods are not supported.
- *
- * If the method throws, the arguments are checked against the method's parameters. A mismatch is reported as a
- * MethodException, with the original throwable as its previous exception. Otherwise the original throwable is
- * rethrown untouched, so exceptions raised by the method itself pass straight through.
- *
  * @internal
  */
 final class Method
 {
+    private readonly MethodInfo $methodInfo;
+
+    private readonly ArgumentMapper $argumentMapper;
+
     /**
      * @throws MethodException
      */
-    public function __construct(
-        private readonly MethodInfo $methodInfo,
-        private readonly ArgumentMapper $argumentMapper,
-    ) {
+    public function __construct(MethodInfo $methodInfo, ArgumentMapper $argumentMapper)
+    {
+        $this->methodInfo = $methodInfo;
+        $this->argumentMapper = $argumentMapper;
+
         if ($this->methodInfo->isStatic()) {
             throw $this->methodIsStatic();
         }

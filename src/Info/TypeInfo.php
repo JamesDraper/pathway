@@ -35,14 +35,14 @@ use function sort;
  */
 class TypeInfo
 {
-    public function __construct(
-        private readonly ?ReflectionType $type,
-        private readonly ParameterInfo $parameter,
-    ) {}
+    private readonly ?ReflectionType $type;
 
-    public function getParameterInfo(): ParameterInfo
+    private readonly ParameterInfo $parameter;
+
+    public function __construct(?ReflectionType $type, ParameterInfo $parameter)
     {
-        return $this->parameter;
+        $this->type = $type;
+        $this->parameter = $parameter;
     }
 
     public function isCompatible(mixed $value): bool
@@ -65,6 +65,11 @@ class TypeInfo
         return str_starts_with($type, '(')
             ? substr($type, 1, -1)
             : $type;
+    }
+
+    public function getParameterInfo(): ParameterInfo
+    {
+        return $this->parameter;
     }
 
     private function checkType(ReflectionType $type, mixed $value): bool

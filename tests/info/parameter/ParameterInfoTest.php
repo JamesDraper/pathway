@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Info\Parameter;
 
-use Pathway\Info\MethodInfo;
 use Pathway\Info\ParameterInfo;
+use Pathway\Info\MethodInfo;
 use Pathway\Info\TypeInfo;
 
 use Tests\Info\Parameter\Fixtures;

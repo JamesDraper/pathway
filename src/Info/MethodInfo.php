@@ -14,19 +14,19 @@ use function array_map;
  */
 class MethodInfo
 {
+    private readonly ReflectionMethod $method;
+
+    private readonly ClassInfo $class;
+
     /**
      * @var list<ParameterInfo>|null
      */
     private ?array $parameterInfos = null;
 
-    public function __construct(
-        private readonly ReflectionMethod $method,
-        private readonly ClassInfo $class,
-    ) {}
-
-    public function getClassInfo(): ClassInfo
+    public function __construct(ReflectionMethod $method, ClassInfo $class)
     {
-        return $this->class;
+        $this->method = $method;
+        $this->class = $class;
     }
 
     public function isPublic(): bool
@@ -52,6 +52,11 @@ class MethodInfo
     public function getName(): string
     {
         return $this->method->getName();
+    }
+
+    public function getClassInfo(): ClassInfo
+    {
+        return $this->class;
     }
 
     /**

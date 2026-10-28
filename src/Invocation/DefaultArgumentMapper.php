@@ -7,25 +7,19 @@ namespace Pathway\Invocation;
 use Pathway\Info\MethodInfo;
 use Pathway\TypeFormatter;
 
-use function array_diff_key;
-use function array_flip;
-use function array_is_list;
 use function array_key_exists;
+use function array_diff_key;
+use function array_is_list;
+use function array_flip;
 use function array_keys;
-use function array_map;
 use function array_push;
-use function count;
-use function implode;
+use function array_map;
 use function is_array;
+use function implode;
 use function sprintf;
+use function count;
 
 /**
- * Maps a list or an associative array onto the positional arguments of a method.
- *
- * A list is returned untouched. An associative array is matched to the method's parameters by name; any optional
- * parameter that is not supplied is filled with its default value when a later parameter is supplied, and omitted
- * otherwise. A variadic parameter is supplied as a list under the parameter's name.
- *
  * @internal
  */
 final class DefaultArgumentMapper implements ArgumentMapper

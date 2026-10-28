@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Dispatcher;
 
-use Pathway\Dispatcher;
+use Pathway\Internal\MethodChainException;
+use Pathway\Resolution\HandlerIdentifier;
+use Pathway\Invocation\ArgumentMapper;
+use Pathway\Resolution\HandlerLocator;
 use Pathway\DispatcherInterface;
 use Pathway\Info\MethodInfo;
-use Pathway\Internal\MethodChainException;
-use Pathway\Invocation\ArgumentMapper;
-use Pathway\Resolution\HandlerIdentifier;
-use Pathway\Resolution\HandlerLocator;
+use Pathway\Dispatcher;
 
 use Tests\Dispatcher\Fixtures;
 use Tests\TestCase;
