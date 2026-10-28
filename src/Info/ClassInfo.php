@@ -12,7 +12,7 @@ use function method_exists;
 /**
  * @internal
  */
-class ClassInfo
+final class ClassInfo
 {
     /**
      * @var class-string
@@ -52,6 +52,9 @@ class ClassInfo
             return null;
         }
 
-        return new MethodInfo(new ReflectionMethod($this->class, $method), $this);
+        return new MethodInfo(
+            new ReflectionMethod($this->class, $method),
+            $this,
+        );
     }
 }

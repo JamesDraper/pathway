@@ -47,5 +47,8 @@ final class TypeFormatter
         return sprintf('object(%s)', $class);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct() {}
 }

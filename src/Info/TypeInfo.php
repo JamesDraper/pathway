@@ -33,7 +33,7 @@ use function sort;
 /**
  * @internal
  */
-class TypeInfo
+final class TypeInfo
 {
     private readonly ?ReflectionType $type;
 
@@ -131,7 +131,6 @@ class TypeInfo
             'callable' => is_callable($value),
             'iterable' => is_iterable($value),
             'mixed' => true,
-            'null' => $value == null,
             'false' => $value === false,
             'true' => $value === true,
             default => $this->checkNamedClassType($typeName, $value),
@@ -140,10 +139,6 @@ class TypeInfo
 
     private function checkNamedClassType(string $typeName, mixed $value): bool
     {
-        if (!is_object($value)) {
-            return false;
-        }
-
         return $value instanceof $typeName;
     }
 

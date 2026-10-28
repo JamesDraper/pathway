@@ -12,7 +12,7 @@ use function array_map;
 /**
  * @internal
  */
-class MethodInfo
+final class MethodInfo
 {
     private readonly ReflectionMethod $method;
 

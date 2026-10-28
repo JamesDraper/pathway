@@ -9,7 +9,7 @@ use ReflectionParameter;
 /**
  * @internal
  */
-class ParameterInfo
+final class ParameterInfo
 {
     private readonly ReflectionParameter $parameter;
 

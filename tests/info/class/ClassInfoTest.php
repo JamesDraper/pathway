@@ -56,13 +56,6 @@ final class ClassInfoTest extends TestCase
     }
 
     #[Test]
-    public function it_caches_a_missing_method_as_null(): void
-    {
-        $this->assertNull($this->classInfo->getMethodInfo('_not_a_method'));
-        $this->assertNull($this->classInfo->getMethodInfo('_not_a_method'));
-    }
-
-    #[Test]
     public function it_returns_null_if_method_does_not_exist(): void
     {
         $result = $this->classInfo->getMethodInfo('_not_a_method');

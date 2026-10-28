@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Pathway\Resolution;
 
-use Pathway\Info\ClassInfo;
-use Pathway\Info\MethodInfo;
 use Pathway\Internal\TypeFormatter;
+use Pathway\Info\MethodInfo;
+use Pathway\Info\ClassInfo;
 
 use Throwable;
 
@@ -103,8 +103,8 @@ class DefaultHandlerLocator
     private function factoryMethodThrew(string $id, Throwable $throwable): DefaultHandlerLocatorException
     {
         return new DefaultHandlerLocatorException(
-            message: sprintf('Method "%s::%s" threw an exception: %s', $id, self::FACTORY_METHOD, $throwable->getMessage()),
-            previous: $throwable,
+            sprintf('Method "%s::%s" threw an exception: %s', $id, self::FACTORY_METHOD, $throwable->getMessage()),
+            $throwable,
         );
     }
 

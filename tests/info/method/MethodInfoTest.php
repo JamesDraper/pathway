@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Info\Method;
 
 use Pathway\Info\ParameterInfo;
-use Pathway\Info\ClassInfo;
 use Pathway\Info\MethodInfo;
+use Pathway\Info\ClassInfo;
 
 use Tests\Info\Method\Fixtures;
 use Tests\TestCase;
@@ -92,7 +92,10 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_builds_parameter_infos_from_the_method_parameters(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeDummy(ClassInfo::class));
+        $methodInfo = new MethodInfo(
+            new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'),
+            $this->makeDummy(ClassInfo::class),
+        );
 
         $parameterInfos = $methodInfo->getParameterInfos();
 
@@ -107,7 +110,10 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_returns_an_empty_list_when_there_are_no_parameters(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\PublicMethod::class, 'greetPublic'), $this->makeDummy(ClassInfo::class));
+        $methodInfo = new MethodInfo(
+            new ReflectionMethod(Fixtures\PublicMethod::class, 'greetPublic'),
+            $this->makeDummy(ClassInfo::class),
+        );
 
         $this->assertSame([], $methodInfo->getParameterInfos());
     }
@@ -115,13 +121,17 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_caches_the_parameter_infos_after_first_generation(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeDummy(ClassInfo::class));
+        $methodInfo = new MethodInfo(
+            new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'),
+            $this->makeDummy(ClassInfo::class),
+        );
 
         $first = $methodInfo->getParameterInfos();
         $second = $methodInfo->getParameterInfos();
 
         $this->assertSame($first, $second);
         $this->assertSame($first[0], $second[0]);
+        $this->assertSame($first[1], $second[1]);
     }
 
     #[Test]
@@ -137,7 +147,10 @@ final class MethodInfoTest extends TestCase
     #[Test]
     public function getParameterInfos_passes_itself_to_the_parameter_infos(): void
     {
-        $methodInfo = new MethodInfo(new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'), $this->makeDummy(ClassInfo::class));
+        $methodInfo = new MethodInfo(
+            new ReflectionMethod(Fixtures\WithParametersMethod::class, 'greet'),
+            $this->makeDummy(ClassInfo::class),
+        );
 
         foreach ($methodInfo->getParameterInfos() as $parameterInfo) {
             $this->assertSame($methodInfo, $parameterInfo->getMethodInfo());

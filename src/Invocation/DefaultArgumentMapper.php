@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Pathway\Invocation;
 
-use Pathway\Info\MethodInfo;
 use Pathway\Internal\TypeFormatter;
+use Pathway\Info\MethodInfo;
 
 use function array_key_exists;
 use function array_diff_key;

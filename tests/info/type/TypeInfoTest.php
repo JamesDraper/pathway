@@ -15,6 +15,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionFunction;
 use ReflectionType;
+use ArrayIterator;
+use stdClass;
 use Closure;
 
 use function array_values;
@@ -31,7 +33,16 @@ final class TypeInfoTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('providerIsCompatible')]
+    public function getParameterInfo_returns_the_parameter_info_given_to_the_constructor(): void
+    {
+        $parameterInfo = $this->makeDummy(ParameterInfo::class);
+        $typeInfo = new TypeInfo(null, $parameterInfo);
+
+        $this->assertSame($parameterInfo, $typeInfo->getParameterInfo());
+    }
+
+    #[Test]
+    #[DataProvider('isCompatible_checks_that_a_type_is_compatible_with_a_value_provider')]
     public function isCompatible_checks_that_a_type_is_compatible_with_a_value(
         bool $expected,
         string $type,
@@ -45,10 +56,11 @@ final class TypeInfoTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
-    public static function providerIsCompatible(): array
+    public static function isCompatible_checks_that_a_type_is_compatible_with_a_value_provider(): array
     {
         return array_merge(
             self::isCompatibleScenariosSimpleType(),
+            self::isCompatibleScenariosBuiltinTypes(),
             self::isCompatibleScenariosNullable(),
             self::isCompatibleScenariosComplexType(),
             self::isCompatibleScenariosUnionType(),
@@ -57,16 +69,7 @@ final class TypeInfoTest extends TestCase
     }
 
     #[Test]
-    public function getParameterInfo_returns_the_parameter_info_given_to_the_constructor(): void
-    {
-        $parameterInfo = $this->makeDummy(ParameterInfo::class);
-        $typeInfo = new TypeInfo(null, $parameterInfo);
-
-        $this->assertSame($parameterInfo, $typeInfo->getParameterInfo());
-    }
-
-    #[Test]
-    #[DataProvider('providerIsCompatibleNoType')]
+    #[DataProvider('isCompatible_always_returns_true_if_type_is_null_provider')]
     public function isCompatible_always_returns_true_if_type_is_null(mixed $value): void
     {
         $typeInfo = new TypeInfo(null, $this->makeDummy(ParameterInfo::class));
@@ -76,9 +79,9 @@ final class TypeInfoTest extends TestCase
         $this->assertTrue($result);
     }
 
-    public static function providerIsCompatibleNoType(): array
+    public static function isCompatible_always_returns_true_if_type_is_null_provider(): array
     {
-        $scenarios = self::providerIsCompatible();
+        $scenarios = self::isCompatible_checks_that_a_type_is_compatible_with_a_value_provider();
 
         $scenarios = array_map(static function (array $scenario): array {
             unset($scenario['expected']);
@@ -91,7 +94,7 @@ final class TypeInfoTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('providerToString')]
+    #[DataProvider('it_converts_types_to_strings_provider')]
     public function it_converts_types_to_strings(string $expected, string $type): void
     {
         $reflectionType = $this->getReflectionType($type);
@@ -100,7 +103,7 @@ final class TypeInfoTest extends TestCase
         $this->assertSame($expected, $typeInfo->toString());
     }
 
-    public static function providerToString(): array
+    public static function it_converts_types_to_strings_provider(): array
     {
         return [
             [
@@ -250,6 +253,14 @@ final class TypeInfoTest extends TestCase
             ],
         ];
 
+        $floatIsCompatibleWithFloat = [
+            [
+                'expected' => true,
+                'type' => 'float',
+                'value' => 1.5,
+            ],
+        ];
+
         $floatIsNotCompatibleWithInt = [
             [
                 'expected' => false,
@@ -262,8 +273,120 @@ final class TypeInfoTest extends TestCase
             $stringIsCompatibleWithString,
             $intIsNotCompatibleWithString,
             $intIsCompatibleWithFloat,
+            $floatIsCompatibleWithFloat,
             $floatIsNotCompatibleWithInt,
         );
+    }
+
+    private static function isCompatibleScenariosBuiltinTypes(): array
+    {
+        return [
+            [
+                'expected' => true,
+                'type' => 'bool',
+                'value' => true,
+            ],
+            [
+                'expected' => false,
+                'type' => 'bool',
+                'value' => 1,
+            ],
+            [
+                'expected' => true,
+                'type' => 'array',
+                'value' => [],
+            ],
+            [
+                'expected' => false,
+                'type' => 'array',
+                'value' => 'a',
+            ],
+            [
+                'expected' => true,
+                'type' => 'object',
+                'value' => new stdClass,
+            ],
+            [
+                'expected' => false,
+                'type' => 'object',
+                'value' => 'a',
+            ],
+            [
+                'expected' => true,
+                'type' => 'callable',
+                'value' => 'strlen',
+            ],
+            [
+                'expected' => true,
+                'type' => 'callable',
+                'value' => [new ArrayIterator([]), 'count'],
+            ],
+            [
+                'expected' => false,
+                'type' => 'callable',
+                'value' => 'not_a_function',
+            ],
+            [
+                'expected' => true,
+                'type' => 'iterable',
+                'value' => [],
+            ],
+            [
+                'expected' => true,
+                'type' => 'iterable',
+                'value' => new ArrayIterator([]),
+            ],
+            [
+                'expected' => false,
+                'type' => 'iterable',
+                'value' => 1,
+            ],
+            [
+                'expected' => true,
+                'type' => 'mixed',
+                'value' => 'a',
+            ],
+            [
+                'expected' => false,
+                'type' => 'null',
+                'value' => 'a',
+            ],
+            [
+                'expected' => true,
+                'type' => 'false',
+                'value' => false,
+            ],
+            [
+                'expected' => false,
+                'type' => 'false',
+                'value' => true,
+            ],
+            [
+                'expected' => true,
+                'type' => 'true',
+                'value' => true,
+            ],
+            [
+                'expected' => false,
+                'type' => 'true',
+                'value' => false,
+            ],
+            [
+                'expected' => false,
+                'type' => 'int|string|null',
+                'value' => false,
+            ],
+            [
+                'expected' => false,
+                'type' => 'int|string|null',
+                'value' => [],
+            ],
+            [
+                'expected' => true,
+                'type' => 'int|string|null',
+                'value' => null,
+            ],
+        ];
     }
 
     private static function isCompatibleScenariosNullable(): array
@@ -374,25 +497,6 @@ final class TypeInfoTest extends TestCase
         );
     }
 
-    private function getReflectionType(string $type): ReflectionType
-    {
-        $src = vsprintf('return function(%s $a) {};', [$type]);
-
-        /**
-         * @var Closure $function
-         */
-        $function = eval($src);
-
-        $reflectionFunction = new ReflectionFunction($function);
-
-        /**
-         * @var ReflectionType $reflectionType
-         */
-        $reflectionType = $reflectionFunction->getParameters()[0]->getType();
-
-        return $reflectionType;
-    }
-
     private static function isCompatibleScenariosUnionType(): array
     {
         $nonObjectIsCompatibleWithType = [
@@ -477,5 +581,24 @@ final class TypeInfoTest extends TestCase
             $objectIsCompatibleWithInterface,
             $objectIsNotCompatibleWithInterface,
         );
+    }
+
+    private function getReflectionType(string $type): ReflectionType
+    {
+        $src = vsprintf('return function(%s $a) {};', [$type]);
+
+        /**
+         * @var Closure $function
+         */
+        $function = eval($src);
+
+        $reflectionFunction = new ReflectionFunction($function);
+
+        /**
+         * @var ReflectionType $reflectionType
+         */
+        $reflectionType = $reflectionFunction->getParameters()[0]->getType();
+
+        return $reflectionType;
     }
 }
