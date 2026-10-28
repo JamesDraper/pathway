@@ -6,7 +6,7 @@ namespace Pathway\Resolution;
 
 use Pathway\Info\ClassInfo;
 use Pathway\Info\MethodInfo;
-use Pathway\TypeFormatter;
+use Pathway\Internal\TypeFormatter;
 
 use Throwable;
 

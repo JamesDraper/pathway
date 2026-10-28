@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Pathway\Invocation;
 
 use Pathway\Info\MethodInfo;
-use Pathway\TypeFormatter;
+use Pathway\Internal\TypeFormatter;
 
 use function array_key_exists;
 use function array_diff_key;

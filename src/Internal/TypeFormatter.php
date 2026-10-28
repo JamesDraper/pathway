@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pathway;
+namespace Pathway\Internal;
 
 use Closure;
 

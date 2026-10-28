@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\TypeFormatter;
 
-use Pathway\TypeFormatter;
+use Pathway\Internal\TypeFormatter;
 
 use Tests\TypeFormatter\Fixtures\SimpleBackedEnum;
 use Tests\TypeFormatter\Fixtures\SimpleEnum;

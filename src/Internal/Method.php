@@ -8,7 +8,6 @@ use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
-use Pathway\TypeFormatter;
 
 use Throwable;
 
