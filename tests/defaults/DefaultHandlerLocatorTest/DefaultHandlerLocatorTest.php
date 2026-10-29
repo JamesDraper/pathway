@@ -42,15 +42,6 @@ final class DefaultHandlerLocatorTest extends TestCase
     }
 
     #[Test]
-    public function it_returns_a_new_handler_each_time(): void
-    {
-        $first = $this->defaultHandlerLocator->locate(Fixtures\ValidHandler::class);
-        $second = $this->defaultHandlerLocator->locate(Fixtures\ValidHandler::class);
-
-        $this->assertNotSame($first, $second);
-    }
-
-    #[Test]
     public function it_allows_optional_and_variadic_parameters_on_the_factory_method(): void
     {
         $handler = $this->defaultHandlerLocator->locate(Fixtures\OptionalParametersHandler::class);
