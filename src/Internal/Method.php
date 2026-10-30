@@ -48,7 +48,6 @@ final class Method
     public function invoke(object $object, mixed $value): mixed
     {
         $arguments = $this->argumentMapper->resolve($this->methodInfo, $value);
-
         $method = $this->methodInfo->getName();
 
         try {
@@ -124,9 +123,7 @@ final class Method
 
     private function countRequiredParameters(): int
     {
-        return count(array_filter(
-            $this->methodInfo->getParameterInfos(),
-            static fn(ParameterInfo $parameterInfo): bool => !$parameterInfo->hasDefault() && !$parameterInfo->isVariadic(),
-        ));
+        return count(array_filter($this->methodInfo->getParameterInfos(), static fn(ParameterInfo $parameterInfo): bool
+            => !$parameterInfo->hasDefault() && !$parameterInfo->isVariadic()));
     }
 }
