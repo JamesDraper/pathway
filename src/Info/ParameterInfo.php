@@ -6,9 +6,6 @@ namespace Pathway\Info;
 
 use ReflectionParameter;
 
-/**
- * @internal
- */
 final class ParameterInfo
 {
     private readonly ReflectionParameter $parameter;
@@ -17,6 +14,9 @@ final class ParameterInfo
 
     private ?TypeInfo $typeInfo = null;
 
+    /**
+     * @internal
+     */
     public function __construct(ReflectionParameter $parameter, MethodInfo $method)
     {
         $this->parameter = $parameter;

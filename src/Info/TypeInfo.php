@@ -30,15 +30,15 @@ use function is_int;
 use function substr;
 use function sort;
 
-/**
- * @internal
- */
 final class TypeInfo
 {
     private readonly ?ReflectionType $type;
 
     private readonly ParameterInfo $parameter;
 
+    /**
+     * @internal
+     */
     public function __construct(?ReflectionType $type, ParameterInfo $parameter)
     {
         $this->type = $type;

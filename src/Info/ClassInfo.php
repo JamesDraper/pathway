@@ -9,9 +9,6 @@ use ReflectionMethod;
 use function array_key_exists;
 use function method_exists;
 
-/**
- * @internal
- */
 final class ClassInfo
 {
     /**
@@ -25,6 +22,7 @@ final class ClassInfo
     private array $methodInfos = [];
 
     /**
+     * @internal
      * @param class-string $class
      */
     public function __construct(string $class)

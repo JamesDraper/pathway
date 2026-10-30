@@ -9,9 +9,6 @@ use ReflectionMethod;
 
 use function array_map;
 
-/**
- * @internal
- */
 final class MethodInfo
 {
     private readonly ReflectionMethod $method;
@@ -23,6 +20,9 @@ final class MethodInfo
      */
     private ?array $parameterInfos = null;
 
+    /**
+     * @internal
+     */
     public function __construct(ReflectionMethod $method, ClassInfo $class)
     {
         $this->method = $method;
