@@ -7,11 +7,9 @@ namespace Pathway;
 use Pathway\Resolution\HandlerIdentifierException;
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Resolution\HandlerLocatorException;
-use Pathway\Internal\MethodChainException;
 use Pathway\Resolution\HandlerIdentifier;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Resolution\HandlerLocator;
-use Pathway\Internal\MethodException;
 use Pathway\Internal\MethodChain;
 
 final class Dispatcher implements DispatcherInterface
@@ -45,8 +43,7 @@ final class Dispatcher implements DispatcherInterface
     /**
      * @throws HandlerIdentifierException
      * @throws HandlerLocatorException
-     * @throws MethodChainException
-     * @throws MethodException
+     * @throws DispatcherException
      * @throws ArgumentMapperException
      */
     public function dispatch(object $command): mixed

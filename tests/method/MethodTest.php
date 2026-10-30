@@ -8,7 +8,7 @@ use Pathway\Invocation\DefaultArgumentMapperException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\Invocation\ArgumentMapper;
-use Pathway\Internal\MethodException;
+use Pathway\DispatcherException;
 use Pathway\Info\MethodInfo;
 use Pathway\Internal\Method;
 use Pathway\Info\ClassInfo;
@@ -37,7 +37,7 @@ final class MethodTest extends TestCase
     #[Test]
     public function its_exception_implements_the_invocation_exception_interface(): void
     {
-        $this->assertImplementsInterface(MethodException::class, InvocationException::class);
+        $this->assertImplementsInterface(DispatcherException::class, InvocationException::class);
     }
 
     #[Test]
@@ -83,7 +83,7 @@ final class MethodTest extends TestCase
     #[Test]
     public function it_throws_if_the_method_is_static(): void
     {
-        $this->expectException(MethodException::class);
+        $this->expectException(DispatcherException::class);
         $this->expectExceptionMessage(
             'Method "' . Fixtures\StaticMethod::class . '::' . self::METHOD . '" must not be static.',
         );
@@ -132,14 +132,14 @@ final class MethodTest extends TestCase
     ): void {
         try {
             $this->makeMethod($class)->invoke(new $class(), $value);
-        } catch (MethodException $exception) {
+        } catch (DispatcherException $exception) {
             $this->assertSame($expectedMessage, $exception->getMessage());
             $this->assertInstanceOf($expectedPrevious, $exception->getPrevious());
 
             return;
         }
 
-        $this->fail('Expected a MethodException to be thrown.');
+        $this->fail('Expected a DispatcherException to be thrown.');
     }
 
     public static function provider_it_throws_if_the_arguments_do_not_match_the_parameters(): array

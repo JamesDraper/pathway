@@ -7,9 +7,8 @@ namespace Tests\MethodChain;
 use Pathway\Invocation\DefaultArgumentMapperException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
-use Pathway\Internal\MethodChainException;
 use Pathway\Invocation\ArgumentMapper;
-use Pathway\Internal\MethodException;
+use Pathway\DispatcherException;
 use Pathway\Internal\MethodChain;
 use Pathway\Info\MethodInfo;
 
@@ -35,7 +34,7 @@ final class MethodChainTest extends TestCase
     #[Test]
     public function its_exception_implements_the_invocation_exception_interface(): void
     {
-        $this->assertImplementsInterface(MethodChainException::class, InvocationException::class);
+        $this->assertImplementsInterface(DispatcherException::class, InvocationException::class);
     }
 
     #[Test]
@@ -151,7 +150,7 @@ final class MethodChainTest extends TestCase
     #[Test]
     public function it_throws_if_the_handler_does_not_have_a_process_method(): void
     {
-        $this->expectException(MethodChainException::class);
+        $this->expectException(DispatcherException::class);
         $this->expectExceptionMessage(
             'Handler class "' . Fixtures\NoProcessHandler::class . '" does not have a "process" method.',
         );
@@ -163,7 +162,7 @@ final class MethodChainTest extends TestCase
     #[DataProvider('provider_it_throws_if_a_method_is_not_public')]
     public function it_throws_if_a_method_is_not_public(object $handler, string $method): void
     {
-        $this->expectException(MethodChainException::class);
+        $this->expectException(DispatcherException::class);
         $this->expectExceptionMessage('Method "' . $handler::class . '::' . $method . '" must be public.');
 
         new MethodChain($handler, $this->makeArgumentMapper());
@@ -202,7 +201,7 @@ final class MethodChainTest extends TestCase
     #[Test]
     public function it_throws_if_a_method_is_static(): void
     {
-        $this->expectException(MethodException::class);
+        $this->expectException(DispatcherException::class);
         $this->expectExceptionMessage('Method "' . Fixtures\StaticPrepareHandler::class . '::prepare" must not be static.');
 
         new MethodChain(new Fixtures\StaticPrepareHandler(), $this->makeArgumentMapper());

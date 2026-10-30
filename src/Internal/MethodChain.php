@@ -7,6 +7,7 @@ namespace Pathway\Internal;
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\ClassInfoFactory;
+use Pathway\DispatcherException;
 use Pathway\Info\MethodInfo;
 use Pathway\Info\ClassInfo;
 
@@ -38,8 +39,7 @@ final class MethodChain
     private readonly array $methods;
 
     /**
-     * @throws MethodChainException
-     * @throws MethodException
+     * @throws DispatcherException
      */
     public function __construct(object $handler, ArgumentMapper $argumentMapper)
     {
@@ -71,7 +71,7 @@ final class MethodChain
 
     /**
      * @throws ArgumentMapperException
-     * @throws MethodException
+     * @throws DispatcherException
      */
     public function invoke(object $command): mixed
     {
@@ -106,17 +106,17 @@ final class MethodChain
         return $methodInfo;
     }
 
-    private function processDoesNotExist(ClassInfo $classInfo): MethodChainException
+    private function processDoesNotExist(ClassInfo $classInfo): DispatcherException
     {
-        return new MethodChainException(sprintf(
+        return new DispatcherException(sprintf(
             'Handler class "%s" does not have a "process" method.',
             $classInfo->getName(),
         ));
     }
 
-    private function methodNotPublic(ClassInfo $classInfo, string $method): MethodChainException
+    private function methodNotPublic(ClassInfo $classInfo, string $method): DispatcherException
     {
-        return new MethodChainException(sprintf(
+        return new DispatcherException(sprintf(
             'Method "%s::%s" must be public.',
             $classInfo->getName(),
             $method,

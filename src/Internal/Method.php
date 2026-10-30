@@ -6,6 +6,7 @@ namespace Pathway\Internal;
 
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMapper;
+use Pathway\DispatcherException;
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
 
@@ -26,7 +27,7 @@ final class Method
     private readonly ArgumentMapper $argumentMapper;
 
     /**
-     * @throws MethodException
+     * @throws DispatcherException
      */
     public function __construct(MethodInfo $methodInfo, ArgumentMapper $argumentMapper)
     {
@@ -40,7 +41,7 @@ final class Method
 
     /**
      * @throws ArgumentMapperException
-     * @throws MethodException
+     * @throws DispatcherException
      */
     public function invoke(object $object, mixed $value): mixed
     {
@@ -64,7 +65,7 @@ final class Method
     /**
      * @param list<mixed> $arguments
      */
-    private function findMismatch(array $arguments, Throwable $throwable): ?MethodException
+    private function findMismatch(array $arguments, Throwable $throwable): ?DispatcherException
     {
         $given = count($arguments);
 
@@ -100,19 +101,19 @@ final class Method
         return sprintf('%s::%s', $this->methodInfo->getClassInfo()->getName(), $this->methodInfo->getName());
     }
 
-    private function methodIsStatic(): MethodException
+    private function methodIsStatic(): DispatcherException
     {
-        return new MethodException(sprintf('Method "%s" must not be static.', $this->describe()));
+        return new DispatcherException(sprintf('Method "%s" must not be static.', $this->describe()));
     }
 
-    private function tooFewArguments(int $given, Throwable $throwable): MethodException
+    private function tooFewArguments(int $given, Throwable $throwable): DispatcherException
     {
         $required = count(array_filter(
             $this->methodInfo->getParameterInfos(),
             static fn(ParameterInfo $parameterInfo): bool => !$parameterInfo->hasDefault() && !$parameterInfo->isVariadic(),
         ));
 
-        return new MethodException(
+        return new DispatcherException(
             message: sprintf(
                 'Too few arguments for method "%s": %d required, %d given.',
                 $this->describe(),
@@ -128,8 +129,8 @@ final class Method
         int $position,
         mixed $argument,
         Throwable $throwable,
-    ): MethodException {
-        return new MethodException(
+    ): DispatcherException {
+        return new DispatcherException(
             message: sprintf(
                 'Argument #%d ($%s) for method "%s" must be of type %s, %s given.',
                 $position + 1,
