@@ -12,7 +12,6 @@ use Pathway\Info\MethodInfo;
 use Pathway\Info\ClassInfo;
 
 use function array_slice;
-use function sprintf;
 
 /**
  * The chain of methods on a handler that a command is run through:
@@ -53,7 +52,7 @@ final class MethodChain
         $finalise = $this->getMethodInfo($classInfo, 'finalise');
 
         if ($process === null) {
-            throw $this->processDoesNotExist($classInfo);
+            throw DispatcherException::processDoesNotExist($classInfo->getName());
         }
 
         $startArgumentMapper = $this->makeStartArgumentMapper();
@@ -100,26 +99,9 @@ final class MethodChain
         $methodInfo = $classInfo->getMethodInfo($method);
 
         if ($methodInfo !== null && !$methodInfo->isPublic()) {
-            throw $this->methodNotPublic($classInfo, $method);
+            throw DispatcherException::methodNotPublic($classInfo->getName(), $method);
         }
 
         return $methodInfo;
-    }
-
-    private function processDoesNotExist(ClassInfo $classInfo): DispatcherException
-    {
-        return new DispatcherException(sprintf(
-            'Handler class "%s" does not have a "process" method.',
-            $classInfo->getName(),
-        ));
-    }
-
-    private function methodNotPublic(ClassInfo $classInfo, string $method): DispatcherException
-    {
-        return new DispatcherException(sprintf(
-            'Method "%s::%s" must be public.',
-            $classInfo->getName(),
-            $method,
-        ));
     }
 }
