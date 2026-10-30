@@ -304,7 +304,7 @@ final class TypeInfoTest extends TestCase
             [
                 'expected' => true,
                 'type' => 'object',
-                'value' => new stdClass,
+                'value' => new stdClass(),
             ],
             [
                 'expected' => false,
