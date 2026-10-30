@@ -30,6 +30,9 @@ final class ClassInfo
         $this->class = $class;
     }
 
+    /**
+     * @return class-string
+     */
     public function getName(): string
     {
         return $this->class;
