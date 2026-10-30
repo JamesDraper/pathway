@@ -36,6 +36,12 @@ final class DefaultArgumentMapperTest extends TestCase
     }
 
     #[Test]
+    public function its_exception_exists(): void
+    {
+        $this->assertClassExists(DefaultArgumentMapperException::class);
+    }
+
+    #[Test]
     public function its_exception_implements_the_argument_mapper_exception_interface(): void
     {
         $this->assertImplementsInterface(DefaultArgumentMapperException::class, ArgumentMapperException::class);

@@ -28,6 +28,12 @@ final class DefaultHandlerLocatorTest extends TestCase
     }
 
     #[Test]
+    public function its_exception_exists(): void
+    {
+        $this->assertClassExists(DefaultHandlerLocatorException::class);
+    }
+
+    #[Test]
     public function its_exception_implements_the_handler_locator_exception_interface(): void
     {
         $this->assertImplementsInterface(DefaultHandlerLocatorException::class, HandlerLocatorException::class);
