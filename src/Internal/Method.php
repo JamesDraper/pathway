@@ -13,8 +13,8 @@ use Throwable;
 
 use function array_filter;
 use function array_slice;
-use function count;
 use function sprintf;
+use function count;
 
 /**
  * @internal

@@ -9,8 +9,8 @@ use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Internal\MethodException;
-use Pathway\Internal\Method;
 use Pathway\Info\MethodInfo;
+use Pathway\Internal\Method;
 use Pathway\Info\ClassInfo;
 
 use Tests\Method\Fixtures;
@@ -21,8 +21,8 @@ use PHPUnit\Framework\Attributes\Test;
 
 use ArgumentCountError;
 use RuntimeException;
-use stdClass;
 use TypeError;
+use stdClass;
 
 final class MethodTest extends TestCase
 {
