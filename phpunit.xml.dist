@@ -30,6 +30,10 @@
             <directory>tests/info/class</directory>
         </testsuite>
 
+        <testsuite name="info.factory">
+            <directory>tests/info/factory</directory>
+        </testsuite>
+
         <testsuite name="defaults">
             <directory>tests/Defaults</directory>
         </testsuite>
