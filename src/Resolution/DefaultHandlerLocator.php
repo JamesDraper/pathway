@@ -104,8 +104,8 @@ class DefaultHandlerLocator implements HandlerLocator
     private function factoryMethodThrew(string $id, Throwable $throwable): DefaultHandlerLocatorException
     {
         return new DefaultHandlerLocatorException(
-            sprintf('Method "%s::%s" threw an exception: %s', $id, self::FACTORY_METHOD, $throwable->getMessage()),
-            $throwable,
+            message: sprintf('Method "%s::%s" threw an exception: %s', $id, self::FACTORY_METHOD, $throwable->getMessage()),
+            previous: $throwable,
         );
     }
 
