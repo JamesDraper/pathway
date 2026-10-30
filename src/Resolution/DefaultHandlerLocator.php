@@ -16,7 +16,7 @@ use function sprintf;
 /**
  * @internal
  */
-class DefaultHandlerLocator
+class DefaultHandlerLocator implements HandlerLocator
 {
     private const string FACTORY_METHOD = 'make';
 

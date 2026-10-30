@@ -7,6 +7,7 @@ namespace Tests\Defaults\DefaultHandlerLocatorTest;
 use Pathway\Resolution\DefaultHandlerLocatorException;
 use Pathway\Resolution\HandlerLocatorException;
 use Pathway\Resolution\DefaultHandlerLocator;
+use Pathway\Resolution\HandlerLocator;
 
 use Tests\Defaults\DefaultHandlerLocatorTest\Fixtures;
 use Tests\TestCase;
@@ -25,6 +26,12 @@ final class DefaultHandlerLocatorTest extends TestCase
     public function it_exists(): void
     {
         $this->assertClassExists(DefaultHandlerLocator::class);
+    }
+
+    #[Test]
+    public function it_implements_the_handler_locator_interface(): void
+    {
+        $this->assertImplementsInterface(DefaultHandlerLocator::class, HandlerLocator::class);
     }
 
     #[Test]
