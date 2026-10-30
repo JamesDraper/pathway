@@ -6,6 +6,7 @@ namespace Pathway\Internal;
 
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMapper;
+use Pathway\Info\ClassInfoFactory;
 use Pathway\Info\MethodInfo;
 use Pathway\Info\ClassInfo;
 
@@ -44,7 +45,8 @@ final class MethodChain
     {
         $this->handler = $handler;
 
-        $classInfo = new ClassInfo($handler::class);
+        /** @var ClassInfo $classInfo The handler is an instance of the class, so the class exists. */
+        $classInfo = ClassInfoFactory::make($handler::class);
 
         $prepare = $this->getMethodInfo($classInfo, 'prepare');
         $process = $this->getMethodInfo($classInfo, 'process');

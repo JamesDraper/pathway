@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Pathway\Resolution;
 
 use Pathway\Internal\TypeFormatter;
+use Pathway\Info\ClassInfoFactory;
 use Pathway\Info\MethodInfo;
-use Pathway\Info\ClassInfo;
 
 use Throwable;
 
-use function class_exists;
 use function sprintf;
 
 /**
@@ -22,11 +21,13 @@ class DefaultHandlerLocator implements HandlerLocator
 
     public function locate(string $id): object
     {
-        if (!class_exists($id)) {
+        $classInfo = ClassInfoFactory::make($id);
+
+        if ($classInfo === null) {
             throw $this->classDoesNotExist($id);
         }
 
-        $classInfo = new ClassInfo($id);
+        $class = $classInfo->getName();
 
         $methodInfo = $classInfo->getMethodInfo(self::FACTORY_METHOD);
 
@@ -45,12 +46,12 @@ class DefaultHandlerLocator implements HandlerLocator
         $method = $methodInfo->getName();
 
         try {
-            $handler = $id::$method();
+            $handler = $class::$method();
         } catch (Throwable $throwable) {
             throw $this->factoryMethodThrew($id, $throwable);
         }
 
-        if (!$handler instanceof $id) {
+        if (!$handler instanceof $class) {
             throw $this->factoryMethodReturnedInvalidType($id, $handler);
         }
 
