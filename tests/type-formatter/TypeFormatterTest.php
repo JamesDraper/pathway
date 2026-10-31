@@ -18,6 +18,12 @@ use function sprintf;
 use function tmpfile;
 use function fclose;
 
+/**
+ * @phpstan-type Scenario array{
+ *     expected: string,
+ *     value: mixed
+ * }
+ */
 final class TypeFormatterTest extends TestCase
 {
     #[Test]
@@ -33,6 +39,9 @@ final class TypeFormatterTest extends TestCase
         $this->assertSame($expected, TypeFormatter::format($value));
     }
 
+    /**
+     * @return array<string, Scenario>
+     */
     public static function provider_it_formats(): array
     {
         return [
