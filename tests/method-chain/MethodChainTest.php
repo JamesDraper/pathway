@@ -56,7 +56,7 @@ final class MethodChainTest extends TestCase
     }
 
     #[Test]
-    public function it_runs_prepare_process_and_finalise_in_order(): void
+    public function it_runs_prepare_process_and_finalize_in_order(): void
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\AllStagesHandler();
@@ -65,17 +65,17 @@ final class MethodChainTest extends TestCase
 
         $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
 
-        $this->assertSame('finalised', $result);
+        $this->assertSame('finalized', $result);
 
         $this->assertSame([
             ['method' => 'prepare', 'arguments' => [$command, $dispatcher]],
             ['method' => 'process', 'arguments' => ['prepared']],
-            ['method' => 'finalise', 'arguments' => ['processed']],
+            ['method' => 'finalize', 'arguments' => ['processed']],
         ], $handler->calls);
 
         $this->assertSame([
             ['method' => 'process', 'value' => 'prepared'],
-            ['method' => 'finalise', 'value' => 'processed'],
+            ['method' => 'finalize', 'value' => 'processed'],
         ], $argumentMapper->calls);
     }
 
@@ -83,26 +83,26 @@ final class MethodChainTest extends TestCase
     public function it_starts_the_chain_with_process_when_there_is_no_prepare(): void
     {
         $command = new Fixtures\Command();
-        $handler = new Fixtures\ProcessFinaliseHandler();
+        $handler = new Fixtures\ProcessFinalizeHandler();
         $dispatcher = $this->makeDispatcher();
         $argumentMapper = $this->makeArgumentMapper();
 
         $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
 
-        $this->assertSame('finalised', $result);
+        $this->assertSame('finalized', $result);
 
         $this->assertSame([
             ['method' => 'process', 'arguments' => [$command, $dispatcher]],
-            ['method' => 'finalise', 'arguments' => ['processed']],
+            ['method' => 'finalize', 'arguments' => ['processed']],
         ], $handler->calls);
 
         $this->assertSame([
-            ['method' => 'finalise', 'value' => 'processed'],
+            ['method' => 'finalize', 'value' => 'processed'],
         ], $argumentMapper->calls);
     }
 
     #[Test]
-    public function it_ends_the_chain_with_process_when_there_is_no_finalise(): void
+    public function it_ends_the_chain_with_process_when_there_is_no_finalize(): void
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\PrepareProcessHandler();
@@ -124,7 +124,7 @@ final class MethodChainTest extends TestCase
     }
 
     #[Test]
-    public function it_only_runs_process_when_there_is_no_prepare_or_finalise(): void
+    public function it_only_runs_process_when_there_is_no_prepare_or_finalize(): void
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\ProcessOnlyHandler();
@@ -172,7 +172,7 @@ final class MethodChainTest extends TestCase
 
         $result = $methodChain->invoke(new Fixtures\Command('hello'));
 
-        $this->assertSame('finalised hello!', $result);
+        $this->assertSame('finalized hello!', $result);
     }
 
     #[Test]
@@ -218,13 +218,13 @@ final class MethodChainTest extends TestCase
                 'handler' => new Fixtures\PrivateProcessHandler(),
                 'method' => 'process',
             ],
-            'protected finalise' => [
-                'handler' => new Fixtures\ProtectedFinaliseHandler(),
-                'method' => 'finalise',
+            'protected finalize' => [
+                'handler' => new Fixtures\ProtectedFinalizeHandler(),
+                'method' => 'finalize',
             ],
-            'private finalise' => [
-                'handler' => new Fixtures\PrivateFinaliseHandler(),
-                'method' => 'finalise',
+            'private finalize' => [
+                'handler' => new Fixtures\PrivateFinalizeHandler(),
+                'method' => 'finalize',
             ],
         ];
     }

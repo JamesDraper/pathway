@@ -8,7 +8,7 @@ Each handler is split into three steps:
 |--------------|-----------------------------------------------------------|------------------------------------------------|-----------------|
 | `prepare()`  | Gather everything the logic needs                         | Database reads, file reads, API calls, clock   | Integration     |
 | `process()`  | Make the decisions                                        | Pure business logic, no I/O                    | Unit            |
-| `finalise()` | Act on those decisions                                    | Database writes, file writes, events, emails   | Integration     |
+| `finalize()` | Act on those decisions                                    | Database writes, file writes, events, emails   | Integration     |
 
 The result of each step is passed into the next, and the result of the last step is returned from `dispatch()`.
 
@@ -20,9 +20,9 @@ Pathway gives that handler a fixed shape that separates the parts:
 
 - **`prepare()`** reads. It turns the command into the data the logic needs.
 - **`process()`** decides. It receives plain values and returns plain values. If it is pure (no I/O and no hidden state), it can be unit tested by calling it with inputs and checking the output. No mocks needed.
-- **`finalise()`** writes. It takes the decisions made by `process()` and applies them to the outside world.
+- **`finalize()`** writes. It takes the decisions made by `process()` and applies them to the outside world.
 
-`prepare()` and `finalise()` are thin and deal only with real infrastructure. That makes them a natural fit for integration tests against a real database or filesystem, where a mock would prove nothing anyway. `process()` holds the logic and gets fast, simple unit tests.
+`prepare()` and `finalize()` are thin and deal only with real infrastructure. That makes them a natural fit for integration tests against a real database or filesystem, where a mock would prove nothing anyway. `process()` holds the logic and gets fast, simple unit tests.
 
 The result is fewer mocks, or in many cases none at all.
 
@@ -74,7 +74,7 @@ final class RenameUserHandler
     }
 
     // Writes: persist the outcome.
-    public function finalise(User $user): User
+    public function finalize(User $user): User
     {
         $this->users->save($user);
 
@@ -115,11 +115,11 @@ public function testItRejectsAnEmptyName(): void
 
 No repository mock, no expectations about which methods get called. Every edge case of the business rules can be covered this way, quickly.
 
-`prepare()` and `finalise()` are covered by a smaller number of integration tests against a real (test) database: does `prepare()` load the right user, does `finalise()` save it. Those tests check the I/O actually works, which a mock never could.
+`prepare()` and `finalize()` are covered by a smaller number of integration tests against a real (test) database: does `prepare()` load the right user, does `finalize()` save it. Those tests check the I/O actually works, which a mock never could.
 
 ## How values flow between steps
 
-- Only `process()` is required. `prepare()` and `finalise()` are optional, and all three must be public and non-static.
+- Only `process()` is required. `prepare()` and `finalize()` are optional, and all three must be public and non-static.
 - The first step in the chain receives the command as its first argument and the dispatcher as its second. Leave the second parameter off if the step doesn't need the dispatcher. Its first parameter must accept the command, a second parameter must accept the dispatcher, and any further parameters must be optional; otherwise Pathway throws a `HandlerDefinitionException`.
 - Each later step receives the return value of the step before it, which must be an array:
   - a **list** (`[$a, $b]`) is passed as positional arguments;

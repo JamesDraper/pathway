@@ -22,8 +22,8 @@ final class NamedArgumentsHandler
         return [$value . $suffix];
     }
 
-    public function finalise(string $result): string
+    public function finalize(string $result): string
     {
-        return 'finalised ' . $result;
+        return 'finalized ' . $result;
     }
 }

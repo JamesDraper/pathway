@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\MethodChain\Fixtures;
 
-final class ProcessFinaliseHandler
+final class ProcessFinalizeHandler
 {
     /**
      * @var list<array{method: string, arguments: array<int|string, mixed>}>
@@ -18,10 +18,10 @@ final class ProcessFinaliseHandler
         return 'processed';
     }
 
-    public function finalise(mixed ...$arguments): string
+    public function finalize(mixed ...$arguments): string
     {
-        $this->calls[] = ['method' => 'finalise', 'arguments' => $arguments];
+        $this->calls[] = ['method' => 'finalize', 'arguments' => $arguments];
 
-        return 'finalised';
+        return 'finalized';
     }
 }

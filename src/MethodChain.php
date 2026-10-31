@@ -19,11 +19,11 @@ use function array_slice;
  *
  * 1. prepare() - optional.
  * 2. process() - required.
- * 3. finalise() - optional.
+ * 3. finalize() - optional.
  *
  * The first method in the chain is the start: it is called with the command and the dispatcher. Each later method
  * receives the result of the method before it, passed through the argument mapper. The result of the last method in the
- * chain is returned. So without prepare(), process() is the start; without finalise(), process() is the end.
+ * chain is returned. So without prepare(), process() is the start; without finalize(), process() is the end.
  *
  * Methods in the chain must be public and not static. The start method must accept the command as its first parameter;
  * a second parameter is optional and must accept the dispatcher. Any further parameters must be optional.
@@ -65,7 +65,7 @@ final class MethodChain
 
         $prepare = $this->getMethodInfo($classInfo, 'prepare');
         $process = $this->getMethodInfo($classInfo, 'process');
-        $finalise = $this->getMethodInfo($classInfo, 'finalise');
+        $finalize = $this->getMethodInfo($classInfo, 'finalize');
 
         if ($process === null) {
             throw HandlerDefinitionException::processDoesNotExist($classInfo->getName());
@@ -77,8 +77,8 @@ final class MethodChain
             ? [new Method($prepare, $startArgumentMapper), new Method($process, $argumentMapper)]
             : [new Method($process, $startArgumentMapper)];
 
-        if ($finalise !== null) {
-            $methods[] = new Method($finalise, $argumentMapper);
+        if ($finalize !== null) {
+            $methods[] = new Method($finalize, $argumentMapper);
         }
 
         $this->methods = $methods;

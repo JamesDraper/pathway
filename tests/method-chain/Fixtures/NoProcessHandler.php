@@ -8,5 +8,5 @@ final class NoProcessHandler
 {
     public function prepare(): void {}
 
-    public function finalise(): void {}
+    public function finalize(): void {}
 }

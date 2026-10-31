@@ -42,12 +42,12 @@ final class DispatcherTest extends TestCase
 
         $result = $dispatcher->dispatch($command);
 
-        $this->assertSame('finalised', $result);
+        $this->assertSame('finalized', $result);
 
         $this->assertSame([
             ['method' => 'prepare', 'arguments' => [$command, $dispatcher]],
             ['method' => 'process', 'arguments' => ['prepared']],
-            ['method' => 'finalise', 'arguments' => ['processed']],
+            ['method' => 'finalize', 'arguments' => ['processed']],
         ], $handler->calls);
     }
 
@@ -127,7 +127,7 @@ final class DispatcherTest extends TestCase
 
         $this->assertSame([
             ['method' => 'process', 'value' => 'prepared'],
-            ['method' => 'finalise', 'value' => 'processed'],
+            ['method' => 'finalize', 'value' => 'processed'],
         ], $argumentMapper->calls);
     }
 

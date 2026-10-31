@@ -25,10 +25,10 @@ final class Handler
         return 'processed';
     }
 
-    public function finalise(mixed ...$arguments): string
+    public function finalize(mixed ...$arguments): string
     {
-        $this->calls[] = ['method' => 'finalise', 'arguments' => $arguments];
+        $this->calls[] = ['method' => 'finalize', 'arguments' => $arguments];
 
-        return 'finalised';
+        return 'finalized';
     }
 }
