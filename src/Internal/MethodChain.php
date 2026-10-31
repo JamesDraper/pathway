@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pathway\Internal;
 
 use Pathway\Invocation\ArgumentMapperException;
+use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\ClassInfoFactory;
 use Pathway\DispatcherException;
@@ -38,7 +39,7 @@ final class MethodChain
     private readonly array $methods;
 
     /**
-     * @throws DispatcherException
+     * @throws HandlerDefinitionException
      */
     public function __construct(object $handler, ArgumentMapper $argumentMapper)
     {
@@ -52,7 +53,7 @@ final class MethodChain
         $finalise = $this->getMethodInfo($classInfo, 'finalise');
 
         if ($process === null) {
-            throw DispatcherException::processDoesNotExist($classInfo->getName());
+            throw HandlerDefinitionException::processDoesNotExist($classInfo->getName());
         }
 
         $startArgumentMapper = $this->makeStartArgumentMapper();
@@ -94,12 +95,23 @@ final class MethodChain
         };
     }
 
+    /**
+     * @throws HandlerDefinitionException
+     */
     private function getMethodInfo(ClassInfo $classInfo, string $method): ?MethodInfo
     {
         $methodInfo = $classInfo->getMethodInfo($method);
 
-        if ($methodInfo !== null && !$methodInfo->isPublic()) {
-            throw DispatcherException::methodNotPublic($classInfo->getName(), $method);
+        if ($methodInfo === null) {
+            return null;
+        }
+
+        if (!$methodInfo->isPublic()) {
+            throw HandlerDefinitionException::methodNotPublic($classInfo->getName(), $method);
+        }
+
+        if ($methodInfo->isStatic()) {
+            throw HandlerDefinitionException::methodIsStatic($classInfo->getName(), $method);
         }
 
         return $methodInfo;

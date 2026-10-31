@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Dispatcher;
 
 use Pathway\Resolution\HandlerIdentifier;
+use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Resolution\HandlerLocator;
-use Pathway\DispatcherException;
 use Pathway\DispatcherInterface;
 use Pathway\Info\MethodInfo;
 use Pathway\Dispatcher;
@@ -136,7 +136,7 @@ final class DispatcherTest extends TestCase
     #[Test]
     public function it_does_not_wrap_exceptions_thrown_by_the_method_chain(): void
     {
-        $this->expectException(DispatcherException::class);
+        $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage(
             'Handler class "' . Fixtures\NoProcessHandler::class . '" does not have a "process" method.',
         );

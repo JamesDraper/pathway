@@ -25,20 +25,10 @@ final class Method
 
     private readonly ArgumentMapper $argumentMapper;
 
-    /**
-     * @throws DispatcherException
-     */
     public function __construct(MethodInfo $methodInfo, ArgumentMapper $argumentMapper)
     {
         $this->methodInfo = $methodInfo;
         $this->argumentMapper = $argumentMapper;
-
-        if ($this->methodInfo->isStatic()) {
-            throw DispatcherException::methodIsStatic(
-                $this->methodInfo->getClassInfo()->getName(),
-                $this->methodInfo->getName(),
-            );
-        }
     }
 
     /**

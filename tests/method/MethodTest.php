@@ -81,17 +81,6 @@ final class MethodTest extends TestCase
     }
 
     #[Test]
-    public function it_throws_if_the_method_is_static(): void
-    {
-        $this->expectException(DispatcherException::class);
-        $this->expectExceptionMessage(
-            'Method "' . Fixtures\StaticMethod::class . '::' . self::METHOD . '" must not be static.',
-        );
-
-        $this->makeMethod(Fixtures\StaticMethod::class);
-    }
-
-    #[Test]
     public function it_passes_the_method_info_and_value_to_the_argument_mapper(): void
     {
         $methodInfo = $this->methodInfo(Fixtures\TypedMethod::class);
