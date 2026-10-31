@@ -8,7 +8,6 @@ use Pathway\Invocation\DefaultArgumentMapperException;
 use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
-use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\MethodInfo;
 use Pathway\Internal\Method;
 use Pathway\Info\ClassInfo;
@@ -21,9 +20,28 @@ use PHPUnit\Framework\Attributes\Test;
 
 use ArgumentCountError;
 use RuntimeException;
+use Throwable;
 use TypeError;
 use stdClass;
 
+/**
+ * @phpstan-type ResultScenario array{
+ *     class: class-string,
+ *     value: list<mixed>,
+ *     expected: mixed
+ * }
+ * @phpstan-type MismatchScenario array{
+ *     class: class-string,
+ *     value: list<mixed>,
+ *     expectedMessage: string,
+ *     expectedPrevious: class-string<Throwable>
+ * }
+ * @phpstan-type RethrowScenario array{
+ *     class: class-string,
+ *     expectedClass: class-string<Throwable>,
+ *     expectedMessage: string
+ * }
+ */
 final class MethodTest extends TestCase
 {
     private const string METHOD = 'run';
@@ -40,6 +58,10 @@ final class MethodTest extends TestCase
         $this->assertImplementsInterface(ArgumentMismatchException::class, InvocationException::class);
     }
 
+    /**
+     * @param class-string $class
+     * @param list<mixed> $value
+     */
     #[Test]
     #[DataProvider('provider_it_returns_the_result_of_the_method')]
     public function it_returns_the_result_of_the_method(string $class, array $value, mixed $expected): void
@@ -49,6 +71,9 @@ final class MethodTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @return array<string, ResultScenario>
+     */
     public static function provider_it_returns_the_result_of_the_method(): array
     {
         return [
@@ -111,6 +136,11 @@ final class MethodTest extends TestCase
         $method->invoke(new Fixtures\TypedMethod(), 'not an array');
     }
 
+    /**
+     * @param class-string $class
+     * @param list<mixed> $value
+     * @param class-string<Throwable> $expectedPrevious
+     */
     #[Test]
     #[DataProvider('provider_it_throws_if_the_arguments_do_not_match_the_parameters')]
     public function it_throws_if_the_arguments_do_not_match_the_parameters(
@@ -131,6 +161,9 @@ final class MethodTest extends TestCase
         $this->fail('Expected an ArgumentMismatchException to be thrown.');
     }
 
+    /**
+     * @return array<string, MismatchScenario>
+     */
     public static function provider_it_throws_if_the_arguments_do_not_match_the_parameters(): array
     {
         $typed = Fixtures\TypedMethod::class . '::' . self::METHOD;
@@ -177,6 +210,10 @@ final class MethodTest extends TestCase
         ];
     }
 
+    /**
+     * @param class-string $class
+     * @param class-string<Throwable> $expectedClass
+     */
     #[Test]
     #[DataProvider('provider_it_rethrows_exceptions_thrown_by_the_method')]
     public function it_rethrows_exceptions_thrown_by_the_method(string $class, string $expectedClass, string $expectedMessage): void
@@ -187,6 +224,9 @@ final class MethodTest extends TestCase
         $this->makeMethod($class)->invoke(new $class(), [1]);
     }
 
+    /**
+     * @return array<string, RethrowScenario>
+     */
     public static function provider_it_rethrows_exceptions_thrown_by_the_method(): array
     {
         return [
@@ -211,25 +251,9 @@ final class MethodTest extends TestCase
         return new Method($this->methodInfo($class), $this->makeArgumentMapper());
     }
 
-    /**
-     * Records each call and returns the value untouched, so the tests can pass the arguments directly.
-     */
-    private function makeArgumentMapper(): ArgumentMapper
+    private function makeArgumentMapper(): Fixtures\RecordingArgumentMapper
     {
-        return new class implements ArgumentMapper {
-            /**
-             * @var list<array{methodInfo: MethodInfo, value: mixed}>
-             */
-            public array $calls = [];
-
-            public function resolve(MethodInfo $methodInfo, mixed $value): array
-            {
-                $this->calls[] = ['methodInfo' => $methodInfo, 'value' => $value];
-
-                /** @var list<mixed> $value */
-                return $value;
-            }
-        };
+        return new Fixtures\RecordingArgumentMapper();
     }
 
     /**
