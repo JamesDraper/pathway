@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Tests\Method;
 
 use Pathway\Invocation\DefaultArgumentMapperException;
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\Invocation\ArgumentMapper;
-use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Info\MethodInfo;
 use Pathway\Internal\Method;
 use Pathway\Info\ClassInfo;
