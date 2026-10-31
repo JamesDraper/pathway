@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\MethodChain;
 
 use Pathway\Invocation\DefaultArgumentMapperException;
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Internal\MethodChain;
-use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\DispatcherInterface;
 use Pathway\PathwayException;
 use Pathway\Info\MethodInfo;
