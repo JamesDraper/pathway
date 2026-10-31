@@ -42,12 +42,14 @@ final class DispatcherTest extends TestCase
         $command = new Fixtures\Command();
         $handler = new Fixtures\Handler();
 
-        $result = $this->makeDispatcher(['handler' => $handler])->dispatch($command);
+        $dispatcher = $this->makeDispatcher(['handler' => $handler]);
+
+        $result = $dispatcher->dispatch($command);
 
         $this->assertSame('finalised', $result);
 
         $this->assertSame([
-            ['method' => 'prepare', 'arguments' => [$command, $handler]],
+            ['method' => 'prepare', 'arguments' => [$command, $dispatcher]],
             ['method' => 'process', 'arguments' => ['prepared']],
             ['method' => 'finalise', 'arguments' => ['processed']],
         ], $handler->calls);

@@ -11,6 +11,7 @@ use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Internal\MethodChain;
 use Pathway\DispatcherException;
+use Pathway\DispatcherInterface;
 use Pathway\PathwayException;
 use Pathway\Info\MethodInfo;
 
@@ -50,14 +51,15 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\AllStagesHandler();
+        $dispatcher = $this->makeDispatcher();
         $argumentMapper = $this->makeArgumentMapper();
 
-        $result = new MethodChain($handler, $argumentMapper)->invoke($command);
+        $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
 
         $this->assertSame('finalised', $result);
 
         $this->assertSame([
-            ['method' => 'prepare', 'arguments' => [$command, $handler]],
+            ['method' => 'prepare', 'arguments' => [$command, $dispatcher]],
             ['method' => 'process', 'arguments' => ['prepared']],
             ['method' => 'finalise', 'arguments' => ['processed']],
         ], $handler->calls);
@@ -73,14 +75,15 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\ProcessFinaliseHandler();
+        $dispatcher = $this->makeDispatcher();
         $argumentMapper = $this->makeArgumentMapper();
 
-        $result = new MethodChain($handler, $argumentMapper)->invoke($command);
+        $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
 
         $this->assertSame('finalised', $result);
 
         $this->assertSame([
-            ['method' => 'process', 'arguments' => [$command, $handler]],
+            ['method' => 'process', 'arguments' => [$command, $dispatcher]],
             ['method' => 'finalise', 'arguments' => ['processed']],
         ], $handler->calls);
 
@@ -94,14 +97,15 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\PrepareProcessHandler();
+        $dispatcher = $this->makeDispatcher();
         $argumentMapper = $this->makeArgumentMapper();
 
-        $result = new MethodChain($handler, $argumentMapper)->invoke($command);
+        $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
 
         $this->assertSame('processed', $result);
 
         $this->assertSame([
-            ['method' => 'prepare', 'arguments' => [$command, $handler]],
+            ['method' => 'prepare', 'arguments' => [$command, $dispatcher]],
             ['method' => 'process', 'arguments' => ['prepared']],
         ], $handler->calls);
 
@@ -115,14 +119,15 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\ProcessOnlyHandler();
+        $dispatcher = $this->makeDispatcher();
         $argumentMapper = $this->makeArgumentMapper();
 
-        $result = new MethodChain($handler, $argumentMapper)->invoke($command);
+        $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
 
         $this->assertSame('processed', $result);
 
         $this->assertSame([
-            ['method' => 'process', 'arguments' => [$command, $handler]],
+            ['method' => 'process', 'arguments' => [$command, $dispatcher]],
         ], $handler->calls);
 
         $this->assertSame([], $argumentMapper->calls);
@@ -132,7 +137,8 @@ final class MethodChainTest extends TestCase
     public function it_can_be_invoked_more_than_once(): void
     {
         $handler = new Fixtures\ProcessOnlyHandler();
-        $methodChain = new MethodChain($handler, $this->makeArgumentMapper());
+        $dispatcher = $this->makeDispatcher();
+        $methodChain = new MethodChain($handler, $dispatcher, $this->makeArgumentMapper());
 
         $first = new Fixtures\Command('first');
         $second = new Fixtures\Command('second');
@@ -141,16 +147,21 @@ final class MethodChainTest extends TestCase
         $methodChain->invoke($second);
 
         $this->assertSame([
-            ['method' => 'process', 'arguments' => [$first, $handler]],
-            ['method' => 'process', 'arguments' => [$second, $handler]],
+            ['method' => 'process', 'arguments' => [$first, $dispatcher]],
+            ['method' => 'process', 'arguments' => [$second, $dispatcher]],
         ], $handler->calls);
     }
 
     #[Test]
     public function it_maps_results_with_the_argument_mapper(): void
     {
-        $result = new MethodChain(new Fixtures\NamedArgumentsHandler(), new DefaultArgumentMapper())
-            ->invoke(new Fixtures\Command('hello'));
+        $methodChain = new MethodChain(
+            new Fixtures\NamedArgumentsHandler(),
+            $this->makeDispatcher(),
+            new DefaultArgumentMapper(),
+        );
+
+        $result = $methodChain->invoke(new Fixtures\Command('hello'));
 
         $this->assertSame('finalised hello!', $result);
     }
@@ -163,7 +174,7 @@ final class MethodChainTest extends TestCase
             'Handler class "' . Fixtures\NoProcessHandler::class . '" does not have a "process" method.',
         );
 
-        new MethodChain(new Fixtures\NoProcessHandler(), $this->makeArgumentMapper());
+        new MethodChain(new Fixtures\NoProcessHandler(), $this->makeDispatcher(), $this->makeArgumentMapper());
     }
 
     #[Test]
@@ -173,7 +184,7 @@ final class MethodChainTest extends TestCase
         $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage('Method "' . $handler::class . '::' . $method . '" must be public.');
 
-        new MethodChain($handler, $this->makeArgumentMapper());
+        new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
     }
 
     public static function provider_it_throws_if_a_method_is_not_public(): array
@@ -212,7 +223,7 @@ final class MethodChainTest extends TestCase
         $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage('Method "' . Fixtures\StaticPrepareHandler::class . '::prepare" must not be static.');
 
-        new MethodChain(new Fixtures\StaticPrepareHandler(), $this->makeArgumentMapper());
+        new MethodChain(new Fixtures\StaticPrepareHandler(), $this->makeDispatcher(), $this->makeArgumentMapper());
     }
 
     #[Test]
@@ -223,7 +234,7 @@ final class MethodChainTest extends TestCase
             'Argument #1 ($value) for method "' . Fixtures\MismatchedProcessHandler::class . '::process" must be of type int, string given.',
         );
 
-        new MethodChain(new Fixtures\MismatchedProcessHandler(), $this->makeArgumentMapper())
+        new MethodChain(new Fixtures\MismatchedProcessHandler(), $this->makeDispatcher(), $this->makeArgumentMapper())
             ->invoke(new Fixtures\Command());
     }
 
@@ -233,7 +244,7 @@ final class MethodChainTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Something went wrong.');
 
-        new MethodChain(new Fixtures\ThrowingHandler(), $this->makeArgumentMapper())
+        new MethodChain(new Fixtures\ThrowingHandler(), $this->makeDispatcher(), $this->makeArgumentMapper())
             ->invoke(new Fixtures\Command());
     }
 
@@ -243,8 +254,18 @@ final class MethodChainTest extends TestCase
         $this->expectException(DefaultArgumentMapperException::class);
 
         // AllStagesHandler::prepare() returns a string, which the default mapper rejects.
-        new MethodChain(new Fixtures\AllStagesHandler(), new DefaultArgumentMapper())
+        new MethodChain(new Fixtures\AllStagesHandler(), $this->makeDispatcher(), new DefaultArgumentMapper())
             ->invoke(new Fixtures\Command());
+    }
+
+    private function makeDispatcher(): DispatcherInterface
+    {
+        return new class implements DispatcherInterface {
+            public function dispatch(object $command): mixed
+            {
+                return null;
+            }
+        };
     }
 
     /**

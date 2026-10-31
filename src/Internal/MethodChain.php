@@ -9,6 +9,7 @@ use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\ClassInfoFactory;
 use Pathway\DispatcherException;
+use Pathway\DispatcherInterface;
 use Pathway\Info\MethodInfo;
 use Pathway\Info\ClassInfo;
 
@@ -21,9 +22,9 @@ use function array_slice;
  * 2. process() - required.
  * 3. finalise() - optional.
  *
- * The first method in the chain is the start: it is called with the command and the handler. Each later method receives
- * the result of the method before it, passed through the argument mapper. The result of the last method in the chain is
- * returned. So without prepare(), process() is the start; without finalise(), process() is the end.
+ * The first method in the chain is the start: it is called with the command and the dispatcher. Each later method
+ * receives the result of the method before it, passed through the argument mapper. The result of the last method in the
+ * chain is returned. So without prepare(), process() is the start; without finalise(), process() is the end.
  *
  * Methods in the chain must be public and not static.
  *
@@ -33,6 +34,8 @@ final class MethodChain
 {
     private readonly object $handler;
 
+    private readonly DispatcherInterface $dispatcher;
+
     /**
      * @var non-empty-list<Method>
      */
@@ -41,11 +44,11 @@ final class MethodChain
     /**
      * @throws HandlerDefinitionException
      */
-    public function __construct(object $handler, ArgumentMapper $argumentMapper)
+    public function __construct(object $handler, DispatcherInterface $dispatcher, ArgumentMapper $argumentMapper)
     {
         $this->handler = $handler;
+        $this->dispatcher = $dispatcher;
 
-        /** @var ClassInfo $classInfo The handler is an instance of the class, so the class exists. */
         $classInfo = ClassInfoFactory::make($handler::class);
 
         $prepare = $this->getMethodInfo($classInfo, 'prepare');
@@ -75,7 +78,7 @@ final class MethodChain
      */
     public function invoke(object $command): mixed
     {
-        $result = $this->methods[0]->invoke($this->handler, [$command, $this->handler]);
+        $result = $this->methods[0]->invoke($this->handler, [$command, $this->dispatcher]);
 
         foreach (array_slice($this->methods, 1) as $method) {
             $result = $method->invoke($this->handler, $result);
