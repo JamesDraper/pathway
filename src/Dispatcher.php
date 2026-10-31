@@ -11,7 +11,6 @@ use Pathway\Resolution\HandlerLocatorException;
 use Pathway\Resolution\HandlerIdentifier;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Resolution\HandlerLocator;
-use Pathway\Internal\MethodChain;
 
 final class Dispatcher implements DispatcherInterface
 {

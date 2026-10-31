@@ -9,8 +9,8 @@ use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\Info\MethodInfo;
-use Pathway\Internal\Method;
 use Pathway\Info\ClassInfo;
+use Pathway\Method;
 
 use Tests\Method\Fixtures;
 use Tests\TestCase;

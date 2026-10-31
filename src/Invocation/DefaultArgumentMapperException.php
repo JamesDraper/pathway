@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pathway\Invocation;
 
-use Pathway\Internal\TypeFormatter;
+use Pathway\TypeFormatter;
 
 use RuntimeException;
 

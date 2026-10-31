@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pathway\Internal;
+namespace Pathway;
 
 use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\ArgumentMapperException;
-use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\ClassInfoFactory;
-use Pathway\DispatcherInterface;
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
 use Pathway\Info\ClassInfo;

@@ -9,9 +9,9 @@ use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\HandlerDefinitionException;
-use Pathway\Internal\MethodChain;
 use Pathway\DispatcherInterface;
 use Pathway\PathwayException;
+use Pathway\MethodChain;
 
 use Tests\MethodChain\Fixtures;
 use Tests\TestCase;
