@@ -6,9 +6,6 @@ namespace Tests\Dispatcher\Fixtures;
 
 use Pathway\Resolution\HandlerLocator;
 
-/**
- * Records each call and returns the handler for the id from the given map.
- */
 final class RecordingHandlerLocator implements HandlerLocator
 {
     /**
@@ -16,12 +13,15 @@ final class RecordingHandlerLocator implements HandlerLocator
      */
     public array $calls = [];
 
+    private readonly array $handlers;
+
     /**
      * @param array<string, object> $handlers
      */
-    public function __construct(
-        private readonly array $handlers,
-    ) {}
+    public function __construct(array $handlers)
+    {
+        $this->handlers = $handlers;
+    }
 
     public function locate(string $id): object
     {

@@ -9,7 +9,7 @@ use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\HandlerDefinitionException;
-use Pathway\DispatcherInterface;
+use Pathway\Dispatcher;
 use Pathway\PathwayException;
 use Pathway\MethodChain;
 
@@ -60,7 +60,7 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\AllStagesHandler();
-        $dispatcher = $this->makeDispatcher();
+        $dispatcher = $this->makeDummy(Dispatcher::class);
         $argumentMapper = $this->makeArgumentMapper();
 
         $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
@@ -84,7 +84,7 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\ProcessFinalizeHandler();
-        $dispatcher = $this->makeDispatcher();
+        $dispatcher = $this->makeDummy(Dispatcher::class);
         $argumentMapper = $this->makeArgumentMapper();
 
         $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
@@ -106,7 +106,7 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\PrepareProcessHandler();
-        $dispatcher = $this->makeDispatcher();
+        $dispatcher = $this->makeDummy(Dispatcher::class);
         $argumentMapper = $this->makeArgumentMapper();
 
         $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
@@ -128,7 +128,7 @@ final class MethodChainTest extends TestCase
     {
         $command = new Fixtures\Command();
         $handler = new Fixtures\ProcessOnlyHandler();
-        $dispatcher = $this->makeDispatcher();
+        $dispatcher = $this->makeDummy(Dispatcher::class);
         $argumentMapper = $this->makeArgumentMapper();
 
         $result = new MethodChain($handler, $dispatcher, $argumentMapper)->invoke($command);
@@ -146,7 +146,7 @@ final class MethodChainTest extends TestCase
     public function it_can_be_invoked_more_than_once(): void
     {
         $handler = new Fixtures\ProcessOnlyHandler();
-        $dispatcher = $this->makeDispatcher();
+        $dispatcher = $this->makeDummy(Dispatcher::class);
         $methodChain = new MethodChain($handler, $dispatcher, $this->makeArgumentMapper());
 
         $first = new Fixtures\Command('first');
@@ -166,7 +166,7 @@ final class MethodChainTest extends TestCase
     {
         $methodChain = new MethodChain(
             new Fixtures\NamedArgumentsHandler(),
-            $this->makeDispatcher(),
+            $this->makeDummy(Dispatcher::class),
             new DefaultArgumentMapper(),
         );
 
@@ -183,7 +183,7 @@ final class MethodChainTest extends TestCase
             'Handler class "' . Fixtures\NoProcessHandler::class . '" does not have a "process" method.',
         );
 
-        new MethodChain(new Fixtures\NoProcessHandler(), $this->makeDispatcher(), $this->makeArgumentMapper());
+        new MethodChain(new Fixtures\NoProcessHandler(), $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper());
     }
 
     #[Test]
@@ -193,7 +193,7 @@ final class MethodChainTest extends TestCase
         $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage('Method "' . $handler::class . '::' . $method . '" must be public.');
 
-        new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
+        new MethodChain($handler, $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper());
     }
 
     /**
@@ -235,14 +235,14 @@ final class MethodChainTest extends TestCase
         $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage('Method "' . Fixtures\StaticPrepareHandler::class . '::prepare" must not be static.');
 
-        new MethodChain(new Fixtures\StaticPrepareHandler(), $this->makeDispatcher(), $this->makeArgumentMapper());
+        new MethodChain(new Fixtures\StaticPrepareHandler(), $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper());
     }
 
     #[Test]
-    #[DataProvider('provider_it_accepts_a_start_method_with_valid_parameters')]
+    #[DataProvider('it_accepts_a_start_method_with_valid_parameters_provider')]
     public function it_accepts_a_start_method_with_valid_parameters(object $handler, string $expected): void
     {
-        $result = new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper())
+        $result = new MethodChain($handler, $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper())
             ->invoke(new Fixtures\Command('hello'));
 
         $this->assertSame($expected, $result);
@@ -251,7 +251,7 @@ final class MethodChainTest extends TestCase
     /**
      * @return array<string, ExpectedScenario>
      */
-    public static function provider_it_accepts_a_start_method_with_valid_parameters(): array
+    public static function it_accepts_a_start_method_with_valid_parameters_provider(): array
     {
         return [
             'command only' => [
@@ -270,7 +270,7 @@ final class MethodChainTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_start_method_has_no_parameters')]
+    #[DataProvider('it_throws_if_the_start_method_has_no_parameters_provider')]
     public function it_throws_if_the_start_method_has_no_parameters(object $handler, string $method): void
     {
         $this->expectException(HandlerDefinitionException::class);
@@ -278,13 +278,13 @@ final class MethodChainTest extends TestCase
             'Method "' . $handler::class . '::' . $method . '" must accept the command as its first parameter.',
         );
 
-        new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
+        new MethodChain($handler, $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper());
     }
 
     /**
      * @return array<string, MethodScenario>
      */
-    public static function provider_it_throws_if_the_start_method_has_no_parameters(): array
+    public static function it_throws_if_the_start_method_has_no_parameters_provider(): array
     {
         return [
             'process' => [
@@ -299,10 +299,10 @@ final class MethodChainTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_start_method_does_not_accept_the_command')]
+    #[DataProvider('it_throws_if_the_start_method_does_not_accept_the_command_provider')]
     public function it_throws_if_the_start_method_does_not_accept_the_command(object $handler, string $method): void
     {
-        $methodChain = new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
+        $methodChain = new MethodChain($handler, $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper());
 
         $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage(
@@ -316,7 +316,7 @@ final class MethodChainTest extends TestCase
     /**
      * @return array<string, MethodScenario>
      */
-    public static function provider_it_throws_if_the_start_method_does_not_accept_the_command(): array
+    public static function it_throws_if_the_start_method_does_not_accept_the_command_provider(): array
     {
         return [
             'process' => [
@@ -335,7 +335,7 @@ final class MethodChainTest extends TestCase
     {
         $methodChain = new MethodChain(
             new Fixtures\CommandOnlyHandler(),
-            $this->makeDispatcher(),
+            $this->makeDummy(Dispatcher::class),
             $this->makeArgumentMapper(),
         );
 
@@ -351,12 +351,12 @@ final class MethodChainTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_start_method_does_not_accept_the_dispatcher')]
+    #[DataProvider('it_throws_if_the_start_method_does_not_accept_the_dispatcher_provider')]
     public function it_throws_if_the_start_method_does_not_accept_the_dispatcher(
         object $handler,
         string $parameter,
     ): void {
-        $dispatcher = $this->makeDispatcher();
+        $dispatcher = $this->makeDummy(Dispatcher::class);
 
         $this->expectException(HandlerDefinitionException::class);
         $this->expectExceptionMessage(
@@ -370,7 +370,7 @@ final class MethodChainTest extends TestCase
     /**
      * @return array<string, ParameterScenario>
      */
-    public static function provider_it_throws_if_the_start_method_does_not_accept_the_dispatcher(): array
+    public static function it_throws_if_the_start_method_does_not_accept_the_dispatcher_provider(): array
     {
         return [
             'second parameter' => [
@@ -393,7 +393,7 @@ final class MethodChainTest extends TestCase
             . 'parameters: the command and the dispatcher.',
         );
 
-        new MethodChain(new Fixtures\TooManyParametersHandler(), $this->makeDispatcher(), $this->makeArgumentMapper());
+        new MethodChain(new Fixtures\TooManyParametersHandler(), $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper());
     }
 
     #[Test]
@@ -404,7 +404,7 @@ final class MethodChainTest extends TestCase
             'Argument #1 ($value) for method "' . Fixtures\MismatchedProcessHandler::class . '::process" must be of type int, string given.',
         );
 
-        new MethodChain(new Fixtures\MismatchedProcessHandler(), $this->makeDispatcher(), $this->makeArgumentMapper())
+        new MethodChain(new Fixtures\MismatchedProcessHandler(), $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper())
             ->invoke(new Fixtures\Command());
     }
 
@@ -414,7 +414,7 @@ final class MethodChainTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Something went wrong.');
 
-        new MethodChain(new Fixtures\ThrowingHandler(), $this->makeDispatcher(), $this->makeArgumentMapper())
+        new MethodChain(new Fixtures\ThrowingHandler(), $this->makeDummy(Dispatcher::class), $this->makeArgumentMapper())
             ->invoke(new Fixtures\Command());
     }
 
@@ -423,19 +423,8 @@ final class MethodChainTest extends TestCase
     {
         $this->expectException(DefaultArgumentMapperException::class);
 
-        // AllStagesHandler::prepare() returns a string, which the default mapper rejects.
-        new MethodChain(new Fixtures\AllStagesHandler(), $this->makeDispatcher(), new DefaultArgumentMapper())
+        new MethodChain(new Fixtures\AllStagesHandler(), $this->makeDummy(Dispatcher::class), new DefaultArgumentMapper())
             ->invoke(new Fixtures\Command());
-    }
-
-    private function makeDispatcher(): DispatcherInterface
-    {
-        return new class implements DispatcherInterface {
-            public function dispatch(object $command): mixed
-            {
-                return null;
-            }
-        };
     }
 
     private function makeArgumentMapper(): Fixtures\RecordingArgumentMapper

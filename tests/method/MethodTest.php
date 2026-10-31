@@ -142,7 +142,7 @@ final class MethodTest extends TestCase
      * @param class-string<Throwable> $expectedPrevious
      */
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_arguments_do_not_match_the_parameters')]
+    #[DataProvider('it_throws_if_the_arguments_do_not_match_the_parameters_provider')]
     public function it_throws_if_the_arguments_do_not_match_the_parameters(
         string $class,
         array $value,
@@ -164,7 +164,7 @@ final class MethodTest extends TestCase
     /**
      * @return array<string, MismatchScenario>
      */
-    public static function provider_it_throws_if_the_arguments_do_not_match_the_parameters(): array
+    public static function it_throws_if_the_arguments_do_not_match_the_parameters_provider(): array
     {
         $typed = Fixtures\TypedMethod::class . '::' . self::METHOD;
         $optional = Fixtures\OptionalMethod::class . '::' . self::METHOD;
@@ -186,25 +186,29 @@ final class MethodTest extends TestCase
             'first argument wrong type' => [
                 'class' => Fixtures\TypedMethod::class,
                 'value' => ['1', 'a'],
-                'expectedMessage' => 'Argument #1 ($number) for method "' . $typed . '" must be of type int, string given.',
+                'expectedMessage' => 'Argument #1 ($number) for method "'
+                    . $typed . '" must be of type int, string given.',
                 'expectedPrevious' => TypeError::class,
             ],
             'second argument wrong type' => [
                 'class' => Fixtures\TypedMethod::class,
                 'value' => [1, new stdClass()],
-                'expectedMessage' => 'Argument #2 ($text) for method "' . $typed . '" must be of type string, object(stdClass) given.',
+                'expectedMessage' => 'Argument #2 ($text) for method "'
+                    . $typed . '" must be of type string, object(stdClass) given.',
                 'expectedPrevious' => TypeError::class,
             ],
             'optional argument wrong type' => [
                 'class' => Fixtures\OptionalMethod::class,
                 'value' => [1, null],
-                'expectedMessage' => 'Argument #2 ($second) for method "' . $optional . '" must be of type int, null given.',
+                'expectedMessage' => 'Argument #2 ($second) for method "'
+                    . $optional . '" must be of type int, null given.',
                 'expectedPrevious' => TypeError::class,
             ],
             'variadic argument wrong type' => [
                 'class' => Fixtures\VariadicMethod::class,
                 'value' => ['label', 1, 'two'],
-                'expectedMessage' => 'Argument #3 ($numbers) for method "' . $variadic . '" must be of type int, string given.',
+                'expectedMessage' => 'Argument #3 ($numbers) for method "'
+                    . $variadic . '" must be of type int, string given.',
                 'expectedPrevious' => TypeError::class,
             ],
         ];
@@ -215,9 +219,12 @@ final class MethodTest extends TestCase
      * @param class-string<Throwable> $expectedClass
      */
     #[Test]
-    #[DataProvider('provider_it_rethrows_exceptions_thrown_by_the_method')]
-    public function it_rethrows_exceptions_thrown_by_the_method(string $class, string $expectedClass, string $expectedMessage): void
-    {
+    #[DataProvider('it_rethrows_exceptions_thrown_by_the_method_provider')]
+    public function it_rethrows_exceptions_thrown_by_the_method(
+        string $class,
+        string $expectedClass,
+        string $expectedMessage
+    ): void {
         $this->expectException($expectedClass);
         $this->expectExceptionMessage($expectedMessage);
 
@@ -227,7 +234,7 @@ final class MethodTest extends TestCase
     /**
      * @return array<string, RethrowScenario>
      */
-    public static function provider_it_rethrows_exceptions_thrown_by_the_method(): array
+    public static function it_rethrows_exceptions_thrown_by_the_method_provider(): array
     {
         return [
             'runtime exception' => [

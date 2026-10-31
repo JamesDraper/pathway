@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Pathway;
 
 use Pathway\Resolution\HandlerIdentifierException;
-use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMismatchException;
+use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Resolution\HandlerLocatorException;
 use Pathway\Resolution\HandlerIdentifier;
 use Pathway\Invocation\ArgumentMapper;
