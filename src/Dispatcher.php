@@ -43,6 +43,7 @@ final class Dispatcher implements DispatcherInterface
     /**
      * @throws HandlerIdentifierException
      * @throws HandlerLocatorException
+     * @throws HandlerDefinitionException
      * @throws DispatcherException
      * @throws ArgumentMapperException
      */

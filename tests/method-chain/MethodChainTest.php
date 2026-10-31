@@ -227,6 +227,152 @@ final class MethodChainTest extends TestCase
     }
 
     #[Test]
+    #[DataProvider('provider_it_accepts_a_start_method_with_valid_parameters')]
+    public function it_accepts_a_start_method_with_valid_parameters(object $handler, string $expected): void
+    {
+        $result = new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper())
+            ->invoke(new Fixtures\Command('hello'));
+
+        $this->assertSame($expected, $result);
+    }
+
+    public static function provider_it_accepts_a_start_method_with_valid_parameters(): array
+    {
+        return [
+            'command only' => [
+                'handler' => new Fixtures\CommandOnlyHandler(),
+                'expected' => 'hello',
+            ],
+            'parent types' => [
+                'handler' => new Fixtures\ParentTypesHandler(),
+                'expected' => 'processed',
+            ],
+            'optional extra parameters' => [
+                'handler' => new Fixtures\OptionalExtraParametersHandler(),
+                'expected' => 'hello!',
+            ],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('provider_it_throws_if_the_start_method_has_no_parameters')]
+    public function it_throws_if_the_start_method_has_no_parameters(object $handler, string $method): void
+    {
+        $this->expectException(HandlerDefinitionException::class);
+        $this->expectExceptionMessage(
+            'Method "' . $handler::class . '::' . $method . '" must accept the command as its first parameter.',
+        );
+
+        new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
+    }
+
+    public static function provider_it_throws_if_the_start_method_has_no_parameters(): array
+    {
+        return [
+            'process' => [
+                'handler' => new Fixtures\NoParametersHandler(),
+                'method' => 'process',
+            ],
+            'prepare' => [
+                'handler' => new Fixtures\NoParametersPrepareHandler(),
+                'method' => 'prepare',
+            ],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('provider_it_throws_if_the_start_method_does_not_accept_the_command')]
+    public function it_throws_if_the_start_method_does_not_accept_the_command(object $handler, string $method): void
+    {
+        $methodChain = new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
+
+        $this->expectException(HandlerDefinitionException::class);
+        $this->expectExceptionMessage(
+            'Parameter #1 ($command) of method "' . $handler::class . '::' . $method . '" must accept the command "'
+            . Fixtures\Command::class . '", but is of type ' . Fixtures\OtherCommand::class . '.',
+        );
+
+        $methodChain->invoke(new Fixtures\Command());
+    }
+
+    public static function provider_it_throws_if_the_start_method_does_not_accept_the_command(): array
+    {
+        return [
+            'process' => [
+                'handler' => new Fixtures\WrongCommandHandler(),
+                'method' => 'process',
+            ],
+            'prepare' => [
+                'handler' => new Fixtures\WrongCommandPrepareHandler(),
+                'method' => 'prepare',
+            ],
+        ];
+    }
+
+    #[Test]
+    public function it_checks_each_command_class_against_the_start_method(): void
+    {
+        $methodChain = new MethodChain(
+            new Fixtures\CommandOnlyHandler(),
+            $this->makeDispatcher(),
+            $this->makeArgumentMapper(),
+        );
+
+        $methodChain->invoke(new Fixtures\Command());
+
+        $this->expectException(HandlerDefinitionException::class);
+        $this->expectExceptionMessage(
+            'Parameter #1 ($command) of method "' . Fixtures\CommandOnlyHandler::class . '::process" must accept the '
+            . 'command "' . Fixtures\OtherCommand::class . '", but is of type ' . Fixtures\Command::class . '.',
+        );
+
+        $methodChain->invoke(new Fixtures\OtherCommand());
+    }
+
+    #[Test]
+    #[DataProvider('provider_it_throws_if_the_start_method_does_not_accept_the_dispatcher')]
+    public function it_throws_if_the_start_method_does_not_accept_the_dispatcher(
+        object $handler,
+        string $parameter,
+    ): void {
+        $dispatcher = $this->makeDispatcher();
+
+        $this->expectException(HandlerDefinitionException::class);
+        $this->expectExceptionMessage(
+            'Parameter #2 ($' . $parameter . ') of method "' . $handler::class . '::process" must accept the '
+            . 'dispatcher "' . $dispatcher::class . '", but is of type ' . Fixtures\Command::class . '.',
+        );
+
+        new MethodChain($handler, $dispatcher, $this->makeArgumentMapper());
+    }
+
+    public static function provider_it_throws_if_the_start_method_does_not_accept_the_dispatcher(): array
+    {
+        return [
+            'second parameter' => [
+                'handler' => new Fixtures\WrongDispatcherHandler(),
+                'parameter' => 'dispatcher',
+            ],
+            'variadic first parameter' => [
+                'handler' => new Fixtures\WrongVariadicHandler(),
+                'parameter' => 'arguments',
+            ],
+        ];
+    }
+
+    #[Test]
+    public function it_throws_if_the_start_method_has_more_than_two_required_parameters(): void
+    {
+        $this->expectException(HandlerDefinitionException::class);
+        $this->expectExceptionMessage(
+            'Method "' . Fixtures\TooManyParametersHandler::class . '::process" must not have more than two required '
+            . 'parameters: the command and the dispatcher.',
+        );
+
+        new MethodChain(new Fixtures\TooManyParametersHandler(), $this->makeDispatcher(), $this->makeArgumentMapper());
+    }
+
+    #[Test]
     public function it_throws_an_invocation_exception_if_a_method_is_given_mismatched_arguments(): void
     {
         $this->expectException(InvocationException::class);

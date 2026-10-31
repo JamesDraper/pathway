@@ -120,7 +120,7 @@ No repository mock, no expectations about which methods get called. Every edge c
 ## How values flow between steps
 
 - Only `process()` is required. `prepare()` and `finalise()` are optional, and all three must be public and non-static.
-- The first step in the chain receives the command. (It is also passed the handler as a second argument, which it is free to ignore.)
+- The first step in the chain receives the command as its first argument and the dispatcher as its second. Leave the second parameter off if the step doesn't need the dispatcher. Its first parameter must accept the command, a second parameter must accept the dispatcher, and any further parameters must be optional; otherwise Pathway throws a `HandlerDefinitionException`.
 - Each later step receives the return value of the step before it, which must be an array:
   - a **list** (`[$a, $b]`) is passed as positional arguments;
   - an **associative array** (`['user' => $user]`) is matched to parameters by name. Parameters with defaults may be left out; unknown keys are an error.
