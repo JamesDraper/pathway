@@ -9,11 +9,9 @@ use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\HandlerDefinitionException;
-use Pathway\Invocation\ArgumentMapper;
 use Pathway\Internal\MethodChain;
 use Pathway\DispatcherInterface;
 use Pathway\PathwayException;
-use Pathway\Info\MethodInfo;
 
 use Tests\MethodChain\Fixtures;
 use Tests\TestCase;
@@ -23,9 +21,20 @@ use PHPUnit\Framework\Attributes\Test;
 
 use RuntimeException;
 
-use function array_is_list;
-use function is_array;
-
+/**
+ * @phpstan-type MethodScenario array{
+ *     handler: object,
+ *     method: string
+ * }
+ * @phpstan-type ExpectedScenario array{
+ *     handler: object,
+ *     expected: string
+ * }
+ * @phpstan-type ParameterScenario array{
+ *     handler: object,
+ *     parameter: string
+ * }
+ */
 final class MethodChainTest extends TestCase
 {
     #[Test]
@@ -187,6 +196,9 @@ final class MethodChainTest extends TestCase
         new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
     }
 
+    /**
+     * @return array<string, MethodScenario>
+     */
     public static function provider_it_throws_if_a_method_is_not_public(): array
     {
         return [
@@ -236,6 +248,9 @@ final class MethodChainTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @return array<string, ExpectedScenario>
+     */
     public static function provider_it_accepts_a_start_method_with_valid_parameters(): array
     {
         return [
@@ -266,6 +281,9 @@ final class MethodChainTest extends TestCase
         new MethodChain($handler, $this->makeDispatcher(), $this->makeArgumentMapper());
     }
 
+    /**
+     * @return array<string, MethodScenario>
+     */
     public static function provider_it_throws_if_the_start_method_has_no_parameters(): array
     {
         return [
@@ -295,6 +313,9 @@ final class MethodChainTest extends TestCase
         $methodChain->invoke(new Fixtures\Command());
     }
 
+    /**
+     * @return array<string, MethodScenario>
+     */
     public static function provider_it_throws_if_the_start_method_does_not_accept_the_command(): array
     {
         return [
@@ -346,6 +367,9 @@ final class MethodChainTest extends TestCase
         new MethodChain($handler, $dispatcher, $this->makeArgumentMapper());
     }
 
+    /**
+     * @return array<string, ParameterScenario>
+     */
     public static function provider_it_throws_if_the_start_method_does_not_accept_the_dispatcher(): array
     {
         return [
@@ -414,24 +438,8 @@ final class MethodChainTest extends TestCase
         };
     }
 
-    /**
-     * Records each call. A list is returned untouched; anything else is wrapped in a list, so it is passed as the
-     * method's only argument.
-     */
-    private function makeArgumentMapper(): ArgumentMapper
+    private function makeArgumentMapper(): Fixtures\RecordingArgumentMapper
     {
-        return new class implements ArgumentMapper {
-            /**
-             * @var list<array{method: string, value: mixed}>
-             */
-            public array $calls = [];
-
-            public function resolve(MethodInfo $methodInfo, mixed $value): array
-            {
-                $this->calls[] = ['method' => $methodInfo->getName(), 'value' => $value];
-
-                return is_array($value) && array_is_list($value) ? $value : [$value];
-            }
-        };
+        return new Fixtures\RecordingArgumentMapper();
     }
 }
