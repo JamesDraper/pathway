@@ -16,6 +16,16 @@ use PHPUnit\Framework\Attributes\Test;
 
 use ReflectionMethod;
 
+/**
+ * @phpstan-type MethodInfoScenario array{
+ *     expectedIsPublic: bool,
+ *     expectedIsProtected: bool,
+ *     expectedIsPrivate: bool,
+ *     expectedIsStatic: bool,
+ *     class: class-string,
+ *     method: string
+ * }
+ */
 final class MethodInfoTest extends TestCase
 {
     #[Test]
@@ -24,6 +34,9 @@ final class MethodInfoTest extends TestCase
         $this->assertClassExists(MethodInfo::class);
     }
 
+    /**
+     * @param class-string $class
+     */
     #[Test]
     #[DataProvider('provider_it_gets_method_info')]
     public function it_gets_method_info(
@@ -43,6 +56,9 @@ final class MethodInfoTest extends TestCase
         $this->assertSame($method, $methodInfo->getName());
     }
 
+    /**
+     * @return array<string, MethodInfoScenario>
+     */
     public static function provider_it_gets_method_info(): array
     {
         return [

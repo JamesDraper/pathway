@@ -7,7 +7,7 @@ namespace Tests\Dispatcher\Fixtures;
 final class Handler
 {
     /**
-     * @var list<array{method: string, arguments: list<mixed>}>
+     * @var list<array{method: string, arguments: array<int|string, mixed>}>
      */
     public array $calls = [];
 

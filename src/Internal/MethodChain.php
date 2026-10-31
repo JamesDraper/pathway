@@ -75,9 +75,9 @@ final class MethodChain
 
         $startArgumentMapper = $this->makeStartArgumentMapper();
 
-        $methods = $prepare === null
-            ? [new Method($process, $startArgumentMapper)]
-            : [new Method($prepare, $startArgumentMapper), new Method($process, $argumentMapper)];
+        $methods = ($prepare !== null)
+            ? [new Method($prepare, $startArgumentMapper), new Method($process, $argumentMapper)]
+            : [new Method($process, $startArgumentMapper)];
 
         if ($finalise !== null) {
             $methods[] = new Method($finalise, $argumentMapper);

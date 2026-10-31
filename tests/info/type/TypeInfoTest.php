@@ -24,6 +24,20 @@ use function array_merge;
 use function array_map;
 use function vsprintf;
 
+/**
+ * @phpstan-type CompatibilityScenario array{
+ *     expected: bool,
+ *     type: string,
+ *     value: mixed
+ * }
+ * @phpstan-type ValueScenario array{
+ *     value: mixed
+ * }
+ * @phpstan-type ToStringScenario array{
+ *     expected: string,
+ *     type: string
+ * }
+ */
 final class TypeInfoTest extends TestCase
 {
     #[Test]
@@ -56,6 +70,9 @@ final class TypeInfoTest extends TestCase
         $this->assertSame($expected, $result);
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     public static function isCompatible_checks_that_a_type_is_compatible_with_a_value_provider(): array
     {
         return array_merge(
@@ -79,18 +96,23 @@ final class TypeInfoTest extends TestCase
         $this->assertTrue($result);
     }
 
+    /**
+     * @return list<ValueScenario>
+     */
     public static function isCompatible_always_returns_true_if_type_is_null_provider(): array
     {
         $scenarios = self::isCompatible_checks_that_a_type_is_compatible_with_a_value_provider();
 
-        $scenarios = array_map(static function (array $scenario): array {
-            unset($scenario['expected']);
-            unset($scenario['type']);
-
-            return $scenario;
-        }, $scenarios);
-
-        return $scenarios;
+        return array_map(
+            /**
+             * @param CompatibilityScenario $scenario
+             * @return ValueScenario
+             */
+            static function (array $scenario): array {
+                return ['value' => $scenario['value']];
+            },
+            $scenarios,
+        );
     }
 
     #[Test]
@@ -103,6 +125,9 @@ final class TypeInfoTest extends TestCase
         $this->assertSame($expected, $typeInfo->toString());
     }
 
+    /**
+     * @return list<ToStringScenario>
+     */
     public static function it_converts_types_to_strings_provider(): array
     {
         return [
@@ -227,6 +252,9 @@ final class TypeInfoTest extends TestCase
         $this->assertSame('', $typeInfo->toString());
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     private static function isCompatibleScenariosSimpleType(): array
     {
         $stringIsCompatibleWithString = [
@@ -278,6 +306,9 @@ final class TypeInfoTest extends TestCase
         );
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     private static function isCompatibleScenariosBuiltinTypes(): array
     {
         return [
@@ -389,6 +420,9 @@ final class TypeInfoTest extends TestCase
         ];
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     private static function isCompatibleScenariosNullable(): array
     {
         return [
@@ -405,6 +439,9 @@ final class TypeInfoTest extends TestCase
         ];
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     private static function isCompatibleScenariosComplexType(): array
     {
         $objectIsCompatibleWithClass = [
@@ -497,6 +534,9 @@ final class TypeInfoTest extends TestCase
         );
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     private static function isCompatibleScenariosUnionType(): array
     {
         $nonObjectIsCompatibleWithType = [
@@ -549,6 +589,9 @@ final class TypeInfoTest extends TestCase
         );
     }
 
+    /**
+     * @return list<CompatibilityScenario>
+     */
     private static function isCompatibleScenariosIntersectionType(): array
     {
         $objectIsCompatibleWithInterface = [

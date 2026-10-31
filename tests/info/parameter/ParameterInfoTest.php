@@ -6,7 +6,6 @@ namespace Tests\Info\Parameter;
 
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
-use Pathway\Info\TypeInfo;
 
 use Tests\Info\Parameter\Fixtures;
 use Tests\TestCase;
@@ -19,6 +18,16 @@ use ReflectionClass;
 
 use function array_shift;
 
+/**
+ * @phpstan-type ParameterInfoScenario array{
+ *     expectedName: string,
+ *     expectedIsVariadric: bool,
+ *     expectedHasDefault: bool,
+ *     expectedDefault: mixed,
+ *     class: class-string,
+ *     method: string
+ * }
+ */
 final class ParameterInfoTest extends TestCase
 {
     #[Test]
@@ -27,6 +36,9 @@ final class ParameterInfoTest extends TestCase
         $this->assertClassExists(ParameterInfo::class);
     }
 
+    /**
+     * @param class-string $class
+     */
     #[Test]
     #[DataProvider('provider_it_gets_parameter_info')]
     public function it_gets_parameter_info(
@@ -45,9 +57,11 @@ final class ParameterInfoTest extends TestCase
         $this->assertSame($expectedIsVariadric, $parameterInfo->isVariadic());
         $this->assertSame($expectedHasDefault, $parameterInfo->hasDefault());
         $this->assertSame($expectedDefault, $parameterInfo->getDefault());
-        $this->assertInstanceOf(TypeInfo::class, $parameterInfo->getTypeInfo());
     }
 
+    /**
+     * @return list<ParameterInfoScenario>
+     */
     public static function provider_it_gets_parameter_info(): array
     {
         return [
@@ -121,12 +135,20 @@ final class ParameterInfoTest extends TestCase
         $this->assertSame($parameterInfo, $parameterInfo->getTypeInfo()->getParameterInfo());
     }
 
+    /**
+     * @param class-string $class
+     */
     private function getReflectionParameter(string $class, string $method): ReflectionParameter
     {
         $reflectionClass = new ReflectionClass($class);
 
         $reflectionParameters = $reflectionClass->getMethod($method)->getParameters();
 
-        return array_shift($reflectionParameters);
+        /**
+         * @var ReflectionParameter $reflectionParameter
+         */
+        $reflectionParameter = array_shift($reflectionParameters);
+
+        return $reflectionParameter;
     }
 }
