@@ -108,9 +108,7 @@ final class TypeInfoTest extends TestCase
              * @param CompatibilityScenario $scenario
              * @return ValueScenario
              */
-            static function (array $scenario): array {
-                return ['value' => $scenario['value']];
-            },
+            static fn(array $scenario): array => ['value' => $scenario['value']],
             $scenarios,
         );
     }
