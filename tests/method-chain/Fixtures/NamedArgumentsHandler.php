@@ -15,11 +15,11 @@ final class NamedArgumentsHandler
     }
 
     /**
-     * @return list<string>
+     * @return array<string, string>
      */
     public function process(string $value, string $suffix): array
     {
-        return [$value . $suffix];
+        return ['result' => $value . $suffix];
     }
 
     public function finalize(string $result): string

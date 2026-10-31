@@ -121,9 +121,7 @@ No repository mock, no expectations about which methods get called. Every edge c
 
 - Only `process()` is required. `prepare()` and `finalize()` are optional, and all three must be public and non-static.
 - The first step in the chain receives the command as its first argument and the dispatcher as its second. Leave the second parameter off if the step doesn't need the dispatcher. Its first parameter must accept the command, a second parameter must accept the dispatcher, and any further parameters must be optional; otherwise Pathway throws a `HandlerDefinitionException`.
-- Each later step receives the return value of the step before it, which must be an array:
-  - a **list** (`[$a, $b]`) is passed as positional arguments;
-  - an **associative array** (`['user' => $user]`) is matched to parameters by name. Parameters with defaults may be left out; unknown keys are an error.
+- Each later step receives the return value of the step before it, which must be an array keyed by parameter name (`['user' => $user]`). Parameters with defaults may be left out; unknown keys are an error, and so are positional (integer) keys. A variadic parameter takes a list under its own name (`['ids' => [1, 2, 3]]`), which is spread into the call.
 - The return value of the last step is the return value of `dispatch()`.
 
 If a step returns something that doesn't fit the next step's signature, Pathway throws an exception that names the method, the parameter and the types involved.

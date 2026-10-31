@@ -20,10 +20,6 @@ use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 
 /**
- * @phpstan-type ListScenario array{
- *     class: class-string,
- *     value: list<mixed>
- * }
  * @phpstan-type MappingScenario array{
  *     expected: list<mixed>,
  *     class: class-string,
@@ -61,42 +57,6 @@ final class DefaultArgumentMapperTest extends TestCase
     public function its_exception_implements_the_argument_mapper_exception_interface(): void
     {
         $this->assertImplementsInterface(DefaultArgumentMapperException::class, ArgumentMapperException::class);
-    }
-
-    /**
-     * @param class-string $class
-     * @param list<mixed> $value
-     */
-    #[Test]
-    #[DataProvider('provider_it_returns_a_list_immediately')]
-    public function it_returns_a_list_immediately(string $class, array $value): void
-    {
-        $this->assertSame($value, $this->defaultArgumentMapper->resolve($this->methodInfo($class), $value));
-    }
-
-    /**
-     * @return array<string, ListScenario>
-     */
-    public static function provider_it_returns_a_list_immediately(): array
-    {
-        return [
-            'empty list' => [
-                'class' => Fixtures\RequiredParameters::class,
-                'value' => [],
-            ],
-            'matching list' => [
-                'class' => Fixtures\RequiredParameters::class,
-                'value' => ['a', 1],
-            ],
-            'list with more values than parameters' => [
-                'class' => Fixtures\NoParameters::class,
-                'value' => ['a', 'b', 'c'],
-            ],
-            'list with nulls' => [
-                'class' => Fixtures\NullableParameters::class,
-                'value' => [null, null],
-            ],
-        ];
     }
 
     /**
@@ -172,6 +132,21 @@ final class DefaultArgumentMapperTest extends TestCase
                 'class' => Fixtures\OnlyVariadicParameter::class,
                 'value' => ['items' => ['x', 'y']],
             ],
+            'array parameter is passed as a single argument' => [
+                'expected' => [['x', 'y']],
+                'class' => Fixtures\ArrayParameter::class,
+                'value' => ['items' => ['x', 'y']],
+            ],
+            'empty array for a method without parameters' => [
+                'expected' => [],
+                'class' => Fixtures\NoParameters::class,
+                'value' => [],
+            ],
+            'empty array for a method with only a variadic parameter' => [
+                'expected' => [],
+                'class' => Fixtures\OnlyVariadicParameter::class,
+                'value' => [],
+            ],
         ];
     }
 
@@ -239,10 +214,30 @@ final class DefaultArgumentMapperTest extends TestCase
                 'value' => ['nope' => 'a'],
                 'expectedMessage' => 'Method "' . Fixtures\RequiredParameters::class . '::handle" does not have a parameter named "nope".',
             ],
+            'list' => [
+                'class' => Fixtures\RequiredParameters::class,
+                'value' => ['a', 1],
+                'expectedMessage' => 'Arguments for method "' . Fixtures\RequiredParameters::class . '::handle" must be keyed by parameter name, positional arguments are not supported.',
+            ],
+            'list for a method without parameters' => [
+                'class' => Fixtures\NoParameters::class,
+                'value' => ['a'],
+                'expectedMessage' => 'Arguments for method "' . Fixtures\NoParameters::class . '::handle" must be keyed by parameter name, positional arguments are not supported.',
+            ],
+            'list for an array parameter' => [
+                'class' => Fixtures\ArrayParameter::class,
+                'value' => ['x', 'y'],
+                'expectedMessage' => 'Arguments for method "' . Fixtures\ArrayParameter::class . '::handle" must be keyed by parameter name, positional arguments are not supported.',
+            ],
             'list index mixed with names' => [
                 'class' => Fixtures\RequiredParameters::class,
                 'value' => ['a', 'second' => 1],
-                'expectedMessage' => 'Method "' . Fixtures\RequiredParameters::class . '::handle" does not have a parameter named "0".',
+                'expectedMessage' => 'Arguments for method "' . Fixtures\RequiredParameters::class . '::handle" must be keyed by parameter name, positional arguments are not supported.',
+            ],
+            'empty array when arguments are required' => [
+                'class' => Fixtures\RequiredParameters::class,
+                'value' => [],
+                'expectedMessage' => 'Missing required argument "first" for method "' . Fixtures\RequiredParameters::class . '::handle".',
             ],
             'associative array for a method without parameters' => [
                 'class' => Fixtures\NoParameters::class,

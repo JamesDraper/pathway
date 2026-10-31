@@ -14,6 +14,7 @@ use function array_keys;
 use function array_push;
 use function array_map;
 use function is_array;
+use function is_int;
 
 /**
  * @internal
@@ -30,8 +31,13 @@ final class DefaultArgumentMapper implements ArgumentMapper
             );
         }
 
-        if (array_is_list($value)) {
-            return $value;
+        foreach ($value as $key => $_) {
+            if (is_int($key)) {
+                throw DefaultArgumentMapperException::notKeyedByName(
+                    $methodInfo->getClassInfo()->getName(),
+                    $methodInfo->getName(),
+                );
+            }
         }
 
         return $this->mapByName($methodInfo, $value);

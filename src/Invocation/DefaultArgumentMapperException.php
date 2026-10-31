@@ -30,6 +30,18 @@ final class DefaultArgumentMapperException extends RuntimeException implements A
 
     /**
      * @internal
+     */
+    public static function notKeyedByName(string $class, string $method): self
+    {
+        return new self(sprintf(
+            'Arguments for method "%s::%s" must be keyed by parameter name, positional arguments are not supported.',
+            $class,
+            $method,
+        ));
+    }
+
+    /**
+     * @internal
      * @param list<array-key> $names
      */
     public static function unknownParameters(string $class, string $method, array $names): self
