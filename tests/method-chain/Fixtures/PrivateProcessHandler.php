@@ -6,5 +6,5 @@ namespace Tests\MethodChain\Fixtures;
 
 final class PrivateProcessHandler
 {
-    private function process(): void {}
+    private function process(): void {} // @phpstan-ignore method.unused
 }
