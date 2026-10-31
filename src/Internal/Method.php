@@ -6,7 +6,7 @@ namespace Pathway\Internal;
 
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMapper;
-use Pathway\DispatcherException;
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
 
@@ -33,7 +33,7 @@ final class Method
 
     /**
      * @throws ArgumentMapperException
-     * @throws DispatcherException
+     * @throws ArgumentMismatchException
      */
     public function invoke(object $object, mixed $value): mixed
     {
@@ -56,7 +56,7 @@ final class Method
     /**
      * @param list<mixed> $arguments
      */
-    private function findMismatch(array $arguments, Throwable $throwable): ?DispatcherException
+    private function findMismatch(array $arguments, Throwable $throwable): ?ArgumentMismatchException
     {
         $class = $this->methodInfo->getClassInfo()->getName();
         $method = $this->methodInfo->getName();
@@ -66,7 +66,7 @@ final class Method
             if ($parameterInfo->isVariadic()) {
                 foreach (array_slice($arguments, $position) as $offset => $argument) {
                     if (!$parameterInfo->getTypeInfo()->isCompatible($argument)) {
-                        return DispatcherException::typeMismatch(
+                        return ArgumentMismatchException::typeMismatch(
                             $class,
                             $method,
                             $position + $offset + 1,
@@ -86,7 +86,7 @@ final class Method
                     continue;
                 }
 
-                return DispatcherException::tooFewArguments(
+                return ArgumentMismatchException::tooFewArguments(
                     $class,
                     $method,
                     $this->countRequiredParameters(),
@@ -96,7 +96,7 @@ final class Method
             }
 
             if (!$parameterInfo->getTypeInfo()->isCompatible($arguments[$position])) {
-                return DispatcherException::typeMismatch(
+                return ArgumentMismatchException::typeMismatch(
                     $class,
                     $method,
                     $position + 1,

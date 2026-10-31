@@ -8,7 +8,7 @@ use Pathway\Invocation\ArgumentMapperException;
 use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Info\ClassInfoFactory;
-use Pathway\DispatcherException;
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\DispatcherInterface;
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
@@ -91,7 +91,7 @@ final class MethodChain
     /**
      * @throws HandlerDefinitionException
      * @throws ArgumentMapperException
-     * @throws DispatcherException
+     * @throws ArgumentMismatchException
      */
     public function invoke(object $command): mixed
     {

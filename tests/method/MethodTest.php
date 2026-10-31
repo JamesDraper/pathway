@@ -8,7 +8,7 @@ use Pathway\Invocation\DefaultArgumentMapperException;
 use Pathway\Invocation\DefaultArgumentMapper;
 use Pathway\Invocation\InvocationException;
 use Pathway\Invocation\ArgumentMapper;
-use Pathway\DispatcherException;
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Info\MethodInfo;
 use Pathway\Internal\Method;
 use Pathway\Info\ClassInfo;
@@ -37,7 +37,7 @@ final class MethodTest extends TestCase
     #[Test]
     public function its_exception_implements_the_invocation_exception_interface(): void
     {
-        $this->assertImplementsInterface(DispatcherException::class, InvocationException::class);
+        $this->assertImplementsInterface(ArgumentMismatchException::class, InvocationException::class);
     }
 
     #[Test]
@@ -121,14 +121,14 @@ final class MethodTest extends TestCase
     ): void {
         try {
             $this->makeMethod($class)->invoke(new $class(), $value);
-        } catch (DispatcherException $exception) {
+        } catch (ArgumentMismatchException $exception) {
             $this->assertSame($expectedMessage, $exception->getMessage());
             $this->assertInstanceOf($expectedPrevious, $exception->getPrevious());
 
             return;
         }
 
-        $this->fail('Expected a DispatcherException to be thrown.');
+        $this->fail('Expected an ArgumentMismatchException to be thrown.');
     }
 
     public static function provider_it_throws_if_the_arguments_do_not_match_the_parameters(): array

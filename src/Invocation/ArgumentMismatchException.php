@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Pathway;
+namespace Pathway\Invocation;
 
-use Pathway\Invocation\InvocationException;
 use Pathway\Internal\TypeFormatter;
 
 use LogicException;
@@ -12,7 +11,7 @@ use Throwable;
 
 use function sprintf;
 
-final class DispatcherException extends LogicException implements InvocationException
+final class ArgumentMismatchException extends LogicException implements InvocationException
 {
     /**
      * @internal

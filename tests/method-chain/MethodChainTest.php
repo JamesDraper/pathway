@@ -10,7 +10,7 @@ use Pathway\Invocation\InvocationException;
 use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Internal\MethodChain;
-use Pathway\DispatcherException;
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\DispatcherInterface;
 use Pathway\PathwayException;
 use Pathway\Info\MethodInfo;
@@ -37,7 +37,7 @@ final class MethodChainTest extends TestCase
     #[Test]
     public function its_exception_implements_the_invocation_exception_interface(): void
     {
-        $this->assertImplementsInterface(DispatcherException::class, InvocationException::class);
+        $this->assertImplementsInterface(ArgumentMismatchException::class, InvocationException::class);
     }
 
     #[Test]
