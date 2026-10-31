@@ -9,6 +9,8 @@ use Pathway\Info\MethodInfo;
 
 use Throwable;
 
+use function is_subclass_of;
+
 /**
  * @internal
  */
@@ -48,7 +50,7 @@ class DefaultHandlerLocator implements HandlerLocator
             throw DefaultHandlerLocatorException::factoryMethodThrew($id, $method, $throwable);
         }
 
-        if (!$handler instanceof $class) {
+        if (!$handler instanceof $class || is_subclass_of($handler, $class)) {
             throw DefaultHandlerLocatorException::factoryMethodReturnedInvalidType($id, $method, $handler);
         }
 

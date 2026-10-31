@@ -25,5 +25,8 @@ final class ClassInfoFactory
         return self::$classInfos[$class];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function __construct() {}
 }

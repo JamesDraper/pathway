@@ -38,7 +38,7 @@ final class MethodInfoTest extends TestCase
      * @param class-string $class
      */
     #[Test]
-    #[DataProvider('provider_it_gets_method_info')]
+    #[DataProvider('it_gets_method_info_provider')]
     public function it_gets_method_info(
         bool $expectedIsPublic,
         bool $expectedIsProtected,
@@ -47,7 +47,10 @@ final class MethodInfoTest extends TestCase
         string $class,
         string $method,
     ): void {
-        $methodInfo = new MethodInfo(new ReflectionMethod($class, $method), $this->makeDummy(ClassInfo::class));
+        $methodInfo = new MethodInfo(
+            new ReflectionMethod($class, $method),
+            $this->makeDummy(ClassInfo::class),
+        );
 
         $this->assertSame($expectedIsPublic, $methodInfo->isPublic());
         $this->assertSame($expectedIsProtected, $methodInfo->isProtected());
@@ -59,7 +62,7 @@ final class MethodInfoTest extends TestCase
     /**
      * @return array<string, MethodInfoScenario>
      */
-    public static function provider_it_gets_method_info(): array
+    public static function it_gets_method_info_provider(): array
     {
         return [
             'public method' => [

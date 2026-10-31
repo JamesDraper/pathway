@@ -75,15 +75,19 @@ final class DefaultHandlerLocatorTest extends TestCase
     }
 
     #[Test]
-    public function it_allows_the_factory_method_to_return_a_subclass(): void
+    public function it_throws_if_the_factory_method_returns_a_subclass(): void
     {
-        $handler = $this->defaultHandlerLocator->locate(Fixtures\ParentHandler::class);
+        $this->expectException(DefaultHandlerLocatorException::class);
+        $this->expectExceptionMessage(
+            'Method "' . Fixtures\ParentHandler::class . '::make" must return an instance of "'
+            . Fixtures\ParentHandler::class . '", "object(' . Fixtures\ChildHandler::class . ')" returned.',
+        );
 
-        $this->assertInstanceOf(Fixtures\ChildHandler::class, $handler);
+        $this->defaultHandlerLocator->locate(Fixtures\ParentHandler::class);
     }
 
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_handler_cannot_be_located')]
+    #[DataProvider('it_throws_if_the_handler_cannot_be_located_provider')]
     public function it_throws_if_the_handler_cannot_be_located(string $id, string $expectedMessage): void
     {
         $this->expectException(DefaultHandlerLocatorException::class);
@@ -95,7 +99,7 @@ final class DefaultHandlerLocatorTest extends TestCase
     /**
      * @return array<string, CannotLocateScenario>
      */
-    public static function provider_it_throws_if_the_handler_cannot_be_located(): array
+    public static function it_throws_if_the_handler_cannot_be_located_provider(): array
     {
         return [
             'class does not exist' => [
@@ -152,7 +156,7 @@ final class DefaultHandlerLocatorTest extends TestCase
     }
 
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_factory_method_returns_an_invalid_type')]
+    #[DataProvider('it_throws_if_the_factory_method_returns_an_invalid_type_provider')]
     public function it_throws_if_the_factory_method_returns_an_invalid_type(mixed $returnValue, string $expectedType): void
     {
         Fixtures\InvalidReturnHandler::$returnValue = $returnValue;
@@ -169,7 +173,7 @@ final class DefaultHandlerLocatorTest extends TestCase
     /**
      * @return array<string, InvalidReturnScenario>
      */
-    public static function provider_it_throws_if_the_factory_method_returns_an_invalid_type(): array
+    public static function it_throws_if_the_factory_method_returns_an_invalid_type_provider(): array
     {
         return [
             'null' => [

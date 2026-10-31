@@ -48,7 +48,10 @@ final class DefaultArgumentMapper implements ArgumentMapper
         $method = $methodInfo->getName();
         $parameterInfos = $methodInfo->getParameterInfos();
 
-        $names = array_map(static fn($parameterInfo): string => $parameterInfo->getName(), $parameterInfos);
+        $names = array_map(
+            static fn($parameterInfo): string => $parameterInfo->getName(),
+            $parameterInfos,
+        );
 
         $unknown = array_diff_key($value, array_flip($names));
 
@@ -57,8 +60,6 @@ final class DefaultArgumentMapper implements ArgumentMapper
         }
 
         $arguments = [];
-
-        // Defaults of skipped optional parameters, only needed if a later parameter is supplied.
         $pendingDefaults = [];
 
         foreach ($parameterInfos as $parameterInfo) {
@@ -72,7 +73,6 @@ final class DefaultArgumentMapper implements ArgumentMapper
                         throw DefaultArgumentMapperException::variadicNotAList($class, $method, $name, $variadic);
                     }
 
-                    // Defaults are only needed to reach the variadic values, so an empty list adds nothing.
                     if ($variadic !== []) {
                         array_push($arguments, ...$pendingDefaults, ...$variadic);
                     }

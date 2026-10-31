@@ -105,7 +105,7 @@ final class DefaultArgumentMapperTest extends TestCase
      * @param array<string, mixed> $value
      */
     #[Test]
-    #[DataProvider('provider_it_maps_an_associative_array_onto_the_parameters')]
+    #[DataProvider('it_maps_an_associative_array_onto_the_parameters_provider')]
     public function it_maps_an_associative_array_onto_the_parameters(array $expected, string $class, array $value): void
     {
         $this->assertSame($expected, $this->defaultArgumentMapper->resolve($this->methodInfo($class), $value));
@@ -114,7 +114,7 @@ final class DefaultArgumentMapperTest extends TestCase
     /**
      * @return array<string, MappingScenario>
      */
-    public static function provider_it_maps_an_associative_array_onto_the_parameters(): array
+    public static function it_maps_an_associative_array_onto_the_parameters_provider(): array
     {
         return [
             'in parameter order' => [
@@ -179,7 +179,7 @@ final class DefaultArgumentMapperTest extends TestCase
      * @param class-string $class
      */
     #[Test]
-    #[DataProvider('provider_it_throws_if_the_arguments_cannot_be_mapped')]
+    #[DataProvider('it_throws_if_the_arguments_cannot_be_mapped_provider')]
     public function it_throws_if_the_arguments_cannot_be_mapped(string $class, mixed $value, string $expectedMessage): void
     {
         $this->expectException(DefaultArgumentMapperException::class);
@@ -191,7 +191,7 @@ final class DefaultArgumentMapperTest extends TestCase
     /**
      * @return array<string, FailureScenario>
      */
-    public static function provider_it_throws_if_the_arguments_cannot_be_mapped(): array
+    public static function it_throws_if_the_arguments_cannot_be_mapped_provider(): array
     {
         return [
             'null' => [

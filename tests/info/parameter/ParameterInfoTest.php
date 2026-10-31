@@ -40,7 +40,7 @@ final class ParameterInfoTest extends TestCase
      * @param class-string $class
      */
     #[Test]
-    #[DataProvider('provider_it_gets_parameter_info')]
+    #[DataProvider('it_gets_parameter_info_provider')]
     public function it_gets_parameter_info(
         string $expectedName,
         bool $expectedIsVariadric,
@@ -62,7 +62,7 @@ final class ParameterInfoTest extends TestCase
     /**
      * @return list<ParameterInfoScenario>
      */
-    public static function provider_it_gets_parameter_info(): array
+    public static function it_gets_parameter_info_provider(): array
     {
         return [
             [
