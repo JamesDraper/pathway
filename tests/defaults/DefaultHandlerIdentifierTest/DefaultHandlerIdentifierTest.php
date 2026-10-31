@@ -7,6 +7,7 @@ namespace Tests\Defaults\DefaultHandlerIdentifierTest;
 use Pathway\Resolution\DefaultHandlerIdentifier;
 use Pathway\Resolution\HandlerIdentifier;
 
+use Tests\Defaults\DefaultHandlerIdentifierTest\Fixtures;
 use Tests\TestCase;
 
 use PHPUnit\Framework\Attributes\Test;
@@ -30,8 +31,8 @@ final class DefaultHandlerIdentifierTest extends TestCase
     {
         $defaultCommandHandlerIdentifier = new DefaultHandlerIdentifier();
 
-        $result = $defaultCommandHandlerIdentifier->identify('Some\\Command');
+        $result = $defaultCommandHandlerIdentifier->identify(Fixtures\Command::class);
 
-        $this->assertSame('Some\\CommandHandler', $result);
+        $this->assertSame(Fixtures\Command::class . 'Handler', $result);
     }
 }

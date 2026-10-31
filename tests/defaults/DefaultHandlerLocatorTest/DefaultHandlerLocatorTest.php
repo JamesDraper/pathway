@@ -18,6 +18,16 @@ use PHPUnit\Framework\Attributes\Test;
 use RuntimeException;
 use stdClass;
 
+/**
+ * @phpstan-type CannotLocateScenario array{
+ *     id: string,
+ *     expectedMessage: string
+ * }
+ * @phpstan-type InvalidReturnScenario array{
+ *     returnValue: mixed,
+ *     expectedType: string
+ * }
+ */
 final class DefaultHandlerLocatorTest extends TestCase
 {
     private readonly DefaultHandlerLocator $defaultHandlerLocator;
@@ -82,6 +92,9 @@ final class DefaultHandlerLocatorTest extends TestCase
         $this->defaultHandlerLocator->locate($id);
     }
 
+    /**
+     * @return array<string, CannotLocateScenario>
+     */
     public static function provider_it_throws_if_the_handler_cannot_be_located(): array
     {
         return [
@@ -153,6 +166,9 @@ final class DefaultHandlerLocatorTest extends TestCase
         $this->defaultHandlerLocator->locate(Fixtures\InvalidReturnHandler::class);
     }
 
+    /**
+     * @return array<string, InvalidReturnScenario>
+     */
     public static function provider_it_throws_if_the_factory_method_returns_an_invalid_type(): array
     {
         return [

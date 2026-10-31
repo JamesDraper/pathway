@@ -19,6 +19,22 @@ use PHPUnit\Framework\Attributes\Test;
 
 use stdClass;
 
+/**
+ * @phpstan-type ListScenario array{
+ *     class: class-string,
+ *     value: list<mixed>
+ * }
+ * @phpstan-type MappingScenario array{
+ *     expected: list<mixed>,
+ *     class: class-string,
+ *     value: array<string, mixed>
+ * }
+ * @phpstan-type FailureScenario array{
+ *     class: class-string,
+ *     value: mixed,
+ *     expectedMessage: string
+ * }
+ */
 final class DefaultArgumentMapperTest extends TestCase
 {
     private readonly DefaultArgumentMapper $defaultArgumentMapper;
@@ -47,6 +63,10 @@ final class DefaultArgumentMapperTest extends TestCase
         $this->assertImplementsInterface(DefaultArgumentMapperException::class, ArgumentMapperException::class);
     }
 
+    /**
+     * @param class-string $class
+     * @param list<mixed> $value
+     */
     #[Test]
     #[DataProvider('provider_it_returns_a_list_immediately')]
     public function it_returns_a_list_immediately(string $class, array $value): void
@@ -54,6 +74,9 @@ final class DefaultArgumentMapperTest extends TestCase
         $this->assertSame($value, $this->defaultArgumentMapper->resolve($this->methodInfo($class), $value));
     }
 
+    /**
+     * @return array<string, ListScenario>
+     */
     public static function provider_it_returns_a_list_immediately(): array
     {
         return [
@@ -76,6 +99,11 @@ final class DefaultArgumentMapperTest extends TestCase
         ];
     }
 
+    /**
+     * @param list<mixed> $expected
+     * @param class-string $class
+     * @param array<string, mixed> $value
+     */
     #[Test]
     #[DataProvider('provider_it_maps_an_associative_array_onto_the_parameters')]
     public function it_maps_an_associative_array_onto_the_parameters(array $expected, string $class, array $value): void
@@ -83,6 +111,9 @@ final class DefaultArgumentMapperTest extends TestCase
         $this->assertSame($expected, $this->defaultArgumentMapper->resolve($this->methodInfo($class), $value));
     }
 
+    /**
+     * @return array<string, MappingScenario>
+     */
     public static function provider_it_maps_an_associative_array_onto_the_parameters(): array
     {
         return [
@@ -144,6 +175,9 @@ final class DefaultArgumentMapperTest extends TestCase
         ];
     }
 
+    /**
+     * @param class-string $class
+     */
     #[Test]
     #[DataProvider('provider_it_throws_if_the_arguments_cannot_be_mapped')]
     public function it_throws_if_the_arguments_cannot_be_mapped(string $class, mixed $value, string $expectedMessage): void
@@ -154,6 +188,9 @@ final class DefaultArgumentMapperTest extends TestCase
         $this->defaultArgumentMapper->resolve($this->methodInfo($class), $value);
     }
 
+    /**
+     * @return array<string, FailureScenario>
+     */
     public static function provider_it_throws_if_the_arguments_cannot_be_mapped(): array
     {
         return [

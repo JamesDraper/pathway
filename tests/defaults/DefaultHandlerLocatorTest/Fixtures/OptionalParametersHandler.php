@@ -7,7 +7,7 @@ namespace Tests\Defaults\DefaultHandlerLocatorTest\Fixtures;
 final class OptionalParametersHandler
 {
     /**
-     * @param list<string> $rest
+     * @param array<int|string, string> $rest
      */
     private function __construct(
         public readonly string $optional,

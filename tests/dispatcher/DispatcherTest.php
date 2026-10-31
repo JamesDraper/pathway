@@ -9,7 +9,6 @@ use Pathway\HandlerDefinitionException;
 use Pathway\Invocation\ArgumentMapper;
 use Pathway\Resolution\HandlerLocator;
 use Pathway\DispatcherInterface;
-use Pathway\Info\MethodInfo;
 use Pathway\Dispatcher;
 
 use Tests\Dispatcher\Fixtures;
@@ -18,9 +17,6 @@ use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 use RuntimeException;
-
-use function array_is_list;
-use function is_array;
 
 final class DispatcherTest extends TestCase
 {
@@ -58,12 +54,12 @@ final class DispatcherTest extends TestCase
     #[Test]
     public function it_identifies_the_handler_from_the_command_class(): void
     {
-        $handlerIdentifier = $this->makeHandlerIdentifier([Fixtures\Command::class => 'handler']);
+        $handlerIdentifier = new Fixtures\RecordingHandlerIdentifier([Fixtures\Command::class => 'handler']);
 
         $dispatcher = new Dispatcher(
             $handlerIdentifier,
-            $this->makeHandlerLocator(['handler' => new Fixtures\Handler()]),
-            $this->makeArgumentMapper(),
+            new Fixtures\RecordingHandlerLocator(['handler' => new Fixtures\Handler()]),
+            new Fixtures\RecordingArgumentMapper(),
         );
 
         $dispatcher->dispatch(new Fixtures\Command());
@@ -74,18 +70,18 @@ final class DispatcherTest extends TestCase
     #[Test]
     public function it_caches_the_handler_id_for_each_command_class(): void
     {
-        $handlerIdentifier = $this->makeHandlerIdentifier([
+        $handlerIdentifier = new Fixtures\RecordingHandlerIdentifier([
             Fixtures\Command::class => 'handler',
             Fixtures\OtherCommand::class => 'other',
         ]);
 
         $dispatcher = new Dispatcher(
             $handlerIdentifier,
-            $this->makeHandlerLocator([
+            new Fixtures\RecordingHandlerLocator([
                 'handler' => new Fixtures\Handler(),
                 'other' => new Fixtures\Handler(),
             ]),
-            $this->makeArgumentMapper(),
+            new Fixtures\RecordingArgumentMapper(),
         );
 
         $dispatcher->dispatch(new Fixtures\Command());
@@ -100,15 +96,15 @@ final class DispatcherTest extends TestCase
     public function it_locates_each_handler_once(): void
     {
         $handler = new Fixtures\Handler();
-        $handlerLocator = $this->makeHandlerLocator(['handler' => $handler]);
+        $handlerLocator = new Fixtures\RecordingHandlerLocator(['handler' => $handler]);
 
         $dispatcher = new Dispatcher(
-            $this->makeHandlerIdentifier([
+            new Fixtures\RecordingHandlerIdentifier([
                 Fixtures\Command::class => 'handler',
                 Fixtures\OtherCommand::class => 'handler',
             ]),
             $handlerLocator,
-            $this->makeArgumentMapper(),
+            new Fixtures\RecordingArgumentMapper(),
         );
 
         $first = new Fixtures\Command();
@@ -125,7 +121,7 @@ final class DispatcherTest extends TestCase
     #[Test]
     public function it_passes_the_argument_mapper_to_the_method_chain(): void
     {
-        $argumentMapper = $this->makeArgumentMapper();
+        $argumentMapper = new Fixtures\RecordingArgumentMapper();
 
         $this->makeDispatcher(['handler' => new Fixtures\Handler()], $argumentMapper)->dispatch(new Fixtures\Command());
 
@@ -156,7 +152,11 @@ final class DispatcherTest extends TestCase
             }
         };
 
-        $dispatcher = new Dispatcher($handlerIdentifier, $this->makeHandlerLocator([]), $this->makeArgumentMapper());
+        $dispatcher = new Dispatcher(
+            $handlerIdentifier,
+            new Fixtures\RecordingHandlerLocator([]),
+            new Fixtures\RecordingArgumentMapper(),
+        );
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot identify.');
@@ -175,9 +175,9 @@ final class DispatcherTest extends TestCase
         };
 
         $dispatcher = new Dispatcher(
-            $this->makeHandlerIdentifier([Fixtures\Command::class => 'handler']),
+            new Fixtures\RecordingHandlerIdentifier([Fixtures\Command::class => 'handler']),
             $handlerLocator,
-            $this->makeArgumentMapper(),
+            new Fixtures\RecordingArgumentMapper(),
         );
 
         $this->expectException(RuntimeException::class);
@@ -192,88 +192,9 @@ final class DispatcherTest extends TestCase
     private function makeDispatcher(array $handlers, ?ArgumentMapper $argumentMapper = null): Dispatcher
     {
         return new Dispatcher(
-            $this->makeHandlerIdentifier([Fixtures\Command::class => 'handler']),
-            $this->makeHandlerLocator($handlers),
-            $argumentMapper ?? $this->makeArgumentMapper(),
+            new Fixtures\RecordingHandlerIdentifier([Fixtures\Command::class => 'handler']),
+            new Fixtures\RecordingHandlerLocator($handlers),
+            $argumentMapper ?? new Fixtures\RecordingArgumentMapper(),
         );
-    }
-
-    /**
-     * Records each call and returns the class's id from the given map.
-     *
-     * @param array<class-string, string> $ids
-     */
-    private function makeHandlerIdentifier(array $ids): HandlerIdentifier
-    {
-        return new class ($ids) implements HandlerIdentifier {
-            /**
-             * @var list<string>
-             */
-            public array $calls = [];
-
-            /**
-             * @param array<class-string, string> $ids
-             */
-            public function __construct(
-                private readonly array $ids,
-            ) {}
-
-            public function identify(string $class): string
-            {
-                $this->calls[] = $class;
-
-                return $this->ids[$class];
-            }
-        };
-    }
-
-    /**
-     * Records each call and returns the handler for the id from the given map.
-     *
-     * @param array<string, object> $handlers
-     */
-    private function makeHandlerLocator(array $handlers): HandlerLocator
-    {
-        return new class ($handlers) implements HandlerLocator {
-            /**
-             * @var list<string>
-             */
-            public array $calls = [];
-
-            /**
-             * @param array<string, object> $handlers
-             */
-            public function __construct(
-                private readonly array $handlers,
-            ) {}
-
-            public function locate(string $id): object
-            {
-                $this->calls[] = $id;
-
-                return $this->handlers[$id];
-            }
-        };
-    }
-
-    /**
-     * Records each call. A list is returned untouched; anything else is wrapped in a list, so it is passed as the
-     * method's only argument.
-     */
-    private function makeArgumentMapper(): ArgumentMapper
-    {
-        return new class implements ArgumentMapper {
-            /**
-             * @var list<array{method: string, value: mixed}>
-             */
-            public array $calls = [];
-
-            public function resolve(MethodInfo $methodInfo, mixed $value): array
-            {
-                $this->calls[] = ['method' => $methodInfo->getName(), 'value' => $value];
-
-                return is_array($value) && array_is_list($value) ? $value : [$value];
-            }
-        };
     }
 }
