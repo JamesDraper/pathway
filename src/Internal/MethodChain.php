@@ -60,6 +60,9 @@ final class MethodChain
         $this->handler = $handler;
         $this->dispatcher = $dispatcher;
 
+        /**
+         * @var ClassInfo
+         */
         $classInfo = ClassInfoFactory::make($handler::class);
 
         $prepare = $this->getMethodInfo($classInfo, 'prepare');
