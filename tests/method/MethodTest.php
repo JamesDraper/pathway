@@ -240,6 +240,16 @@ final class MethodTest extends TestCase
                 'expectedClass' => TypeError::class,
                 'expectedMessage' => 'Something inside went wrong.',
             ],
+            'runtime exception with omitted optional argument' => [
+                'class' => Fixtures\OptionalRuntimeExceptionMethod::class,
+                'expectedClass' => RuntimeException::class,
+                'expectedMessage' => 'Something optional went wrong.',
+            ],
+            'runtime exception with matching variadic arguments' => [
+                'class' => Fixtures\VariadicRuntimeExceptionMethod::class,
+                'expectedClass' => RuntimeException::class,
+                'expectedMessage' => 'Something variadic went wrong.',
+            ],
         ];
     }
 
