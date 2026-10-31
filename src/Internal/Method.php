@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Pathway\Internal;
 
+use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Invocation\ArgumentMapperException;
 use Pathway\Invocation\ArgumentMapper;
-use Pathway\Invocation\ArgumentMismatchException;
 use Pathway\Info\ParameterInfo;
 use Pathway\Info\MethodInfo;
 
