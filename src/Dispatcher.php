@@ -57,6 +57,9 @@ final class Dispatcher implements DispatcherInterface
 
         $id = $this->handlerIds[$class] ??= $this->handlerIdentifier->identify($class);
 
-        return $this->methodChains[$id] ??= new MethodChain($this->handlerLocator->locate($id), $this->argumentMapper);
+        return $this->methodChains[$id] ??= new MethodChain(
+            $this->handlerLocator->locate($id),
+            $this->argumentMapper,
+        );
     }
 }
